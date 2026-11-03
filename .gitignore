@@ -1,1 +1,7 @@
 node_modules
+
+# TWO ROADS build artefacts
+.venv/
+build/
+__pycache__/
+assets/voices/
