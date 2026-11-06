@@ -40,10 +40,12 @@ export const Lockup: React.FC = () => {
   const zCx = width / 2 + rowW / 2 - Z_VISIBLE / 2;
 
   const tiles = (i: number) => {
-    const start = 4 + Math.round(i * 1.5);
-    const s = spring({frame: frame - start, fps, config: {damping: 17, stiffness: 120, mass: 0.8}, durationInFrames: 26});
+    const start = 3 + i;
+    const s = spring({frame: frame - start, fps, config: {damping: 18, stiffness: 140, mass: 0.7}, durationInFrames: 20});
     const [row, col] = TILE_ORDER[i];
-    const ang = Math.atan2(row - 1, col - 1) + (random(`fa${i}`) - 0.5) * 0.5;
+    // right-hand tiles arrive steeply from above/below so they never cross the Zama mark
+    const base = col === 2 ? (row === 2 ? 1 : -1) * (Math.PI * 0.42) : Math.atan2(row - 1, col - 1);
+    const ang = base + (random(`fa${i}`) - 0.5) * (col === 2 ? 0.15 : 0.5);
     const dist = 1150;
     return {
       dx: Math.cos(ang) * dist * (1 - s),

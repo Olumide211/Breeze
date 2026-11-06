@@ -49,7 +49,7 @@ export const HEADLINES = {
   privateTraits: {text: 'PRIVATE TRAITS.', in: 0.9, out: 2.7, size: 92, y: 930},
   encryptedBids: {text: 'ENCRYPTED BIDS.', in: 0.6, out: 2.55, size: 92, y: 930},
   lookingWrong: {text: "MAYBE WE'VE BEEN LOOKING AT NFTs ALL WRONG.", in: 0.05, out: null, size: 72, y: 540},
-  logo: {text: 'FUNGO LABS × ZAMA', in: 0.55, out: null, size: 64, y: 800},
+  logo: {text: 'FUNGO LABS × ZAMA', in: 0.7, out: null, size: 64, y: 800},
 } as const;
 
 /** Small signature on the final frame. `in` = seconds after the yellow flood. */
