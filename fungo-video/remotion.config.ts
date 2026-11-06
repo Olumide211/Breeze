@@ -8,6 +8,7 @@ Config.setJpegQuality(95);
 Config.setCodec('h264');
 Config.setCrf(16);
 Config.setPixelFormat('yuv420p');
+Config.setColorSpace('bt709');
 // Use the pre-installed headless Chromium (no download needed)
 Config.setBrowserExecutable(
   process.env.REMOTION_BROWSER ??

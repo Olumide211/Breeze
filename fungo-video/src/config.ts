@@ -52,6 +52,12 @@ export const HEADLINES = {
   logo: {text: 'FUNGO LABS × ZAMA', in: 0.55, out: null, size: 64, y: 800},
 } as const;
 
+/** Small signature on the final frame. `in` = seconds after the yellow flood. */
+export const CREDIT = {text: 'MADE BY TIFE', in: 1.0};
+
+/** Slow cinematic push-in across scenes 1–3 (1 = none). */
+export const CAMERA = {pushIn: 1.04};
+
 /** Word-by-word animation timing (seconds). */
 export const HEADLINE_STYLE = {
   wordStagger: 0.09,

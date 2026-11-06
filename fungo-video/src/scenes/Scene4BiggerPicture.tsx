@@ -1,6 +1,7 @@
 import React from 'react';
 import {AbsoluteFill, Easing, Img, random, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
-import {COLORS, HEADLINES, sceneFrames} from '../config';
+import {COLORS, CREDIT, FONTS, HEADLINES, sceneFrames, sec} from '../config';
+import {TILE_RADIUS} from '../components/TileGrid';
 import {mix, prog} from '../anim';
 import {Headline} from '../components/Headline';
 import {gridSize, TILE_ORDER, TileGrid} from '../components/TileGrid';
@@ -27,9 +28,11 @@ export const Lockup: React.FC = () => {
   const {fps, width, height} = useVideoConfig();
   const h = HEADLINES.logo;
 
-  // flood: circle from the centre, punchy ease
-  const flood = prog(frame, 0, 14, Easing.bezier(0.55, 0, 0.1, 1));
-  const r = flood * Math.hypot(width, height) * 0.55;
+  // flood: one giant rounded tile that spins open from the centre (the 9th tile)
+  const flood = prog(frame, 0, 16, Easing.bezier(0.55, 0, 0.1, 1));
+  const floodSize = mix(0, 3000, flood);
+  const floodRot = mix(45, 0, flood);
+  const credit = prog(frame, sec(CREDIT.in), 14);
 
   const logoW = gridSize(LOGO_TILE);
   const rowW = logoW + LOGO_GAP + Z_VISIBLE;
@@ -54,7 +57,19 @@ export const Lockup: React.FC = () => {
 
   return (
     <AbsoluteFill>
-      <AbsoluteFill style={{background: COLORS.yellow, clipPath: `circle(${r}px at 50% 50%)`}} />
+      <div
+        style={{
+          position: 'absolute',
+          left: width / 2 - floodSize / 2,
+          top: height / 2 - floodSize / 2,
+          width: floodSize,
+          height: floodSize,
+          borderRadius: floodSize * TILE_RADIUS,
+          background: COLORS.yellow,
+          transform: `rotate(${floodRot}deg)`,
+          boxShadow: flood < 1 ? `0 0 ${80 * (1 - flood)}px rgba(255,231,131,${0.6 * (1 - flood)})` : undefined,
+        }}
+      />
       {flood > 0.3 && (
         <>
           {/* official Zama mark (brand-kit file, its square is #FFD207 = the flood colour) */}
@@ -81,6 +96,24 @@ export const Lockup: React.FC = () => {
             glow={false}
             letterSpacing="0.04em"
           />
+          <div
+            style={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              bottom: 64,
+              textAlign: 'center',
+              fontFamily: FONTS.mono,
+              fontWeight: 500,
+              fontSize: 20,
+              letterSpacing: '0.32em',
+              color: COLORS.black,
+              opacity: 0.75 * credit,
+              transform: `translateY(${(1 - credit) * 8}px)`,
+            }}
+          >
+            {CREDIT.text}
+          </div>
         </>
       )}
     </AbsoluteFill>
