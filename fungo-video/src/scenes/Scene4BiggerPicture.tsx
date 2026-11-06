@@ -5,6 +5,7 @@ import {TILE_RADIUS} from '../components/TileGrid';
 import {mix, prog} from '../anim';
 import {Headline} from '../components/Headline';
 import {gridSize, TILE_ORDER, TileGrid} from '../components/TileGrid';
+import {Sfx} from '../components/Sfx';
 
 // ───────────────────────── 4a: LOOKING WRONG ─────────────────────────
 const LookingWrong: React.FC = () => {
@@ -18,6 +19,7 @@ const LookingWrong: React.FC = () => {
 
 // ───────────────────────── 4b: FLOOD + LOCKUP ─────────────────────────
 const LOGO_TILE = 92;
+const RISER_FRAMES = 78; // riser.wav peaks 2.6s in
 const MARK_SQUARE = 440; // the Z occupies ~50% of the brand-kit square
 const Z_VISIBLE = MARK_SQUARE * 0.507;
 const LOGO_GAP = 110;
@@ -97,6 +99,7 @@ export const Lockup: React.FC = () => {
             color={COLORS.black}
             glow={false}
             letterSpacing="0.04em"
+            sound={false}
           />
           <div
             style={{
@@ -118,6 +121,13 @@ export const Lockup: React.FC = () => {
           </div>
         </>
       )}
+
+      {/* sound: the hit, each tile landing, then a soft bell as the lockup resolves */}
+      <Sfx at={0} name="impact" />
+      {TILE_ORDER.map((_, i) => (
+        <Sfx key={i} at={3 + i + 9} name="land" volume={0.7 + 0.04 * i} />
+      ))}
+      <Sfx at={18} name="chime" />
     </AbsoluteFill>
   );
 };
@@ -131,6 +141,8 @@ export const Scene4BiggerPicture: React.FC = () => {
       <Sequence durationInFrames={a.duration + 14} layout="none">
         <LookingWrong />
       </Sequence>
+      {/* riser peaks exactly on the flood */}
+      <Sfx at={b.from - a.from - RISER_FRAMES} name="riser" />
       <Sequence from={b.from - a.from} durationInFrames={b.duration} layout="none">
         <Lockup />
       </Sequence>

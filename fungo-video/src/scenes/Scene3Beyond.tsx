@@ -1,31 +1,35 @@
 import React from 'react';
 import {AbsoluteFill, Easing, interpolate, random, Sequence, useCurrentFrame} from 'remotion';
-import {AUCTION, COLORS, FONTS, HEADLINES, NFT, sceneFrames} from '../config';
+import {AUCTION, COLORS, FONTS, HEADLINES, NFT, sceneFrames, TRAITS} from '../config';
 import {EASE_IN_OUT, mix, prog} from '../anim';
 import {NftStage, STAGE} from '../components/NftStage';
 import {Headline} from '../components/Headline';
 import {Lock, Redacted, Toggle} from '../components/Bits';
 import {RollingNumber} from '../components/RollingNumber';
+import {Sfx} from '../components/Sfx';
 
 // ───────────────────────── 3a: PRIVATE TRAITS ─────────────────────────
+const TOGGLE = 26;
+const UNSEAL = 34;
+const ROWS = 70;
 const PrivateTraits: React.FC = () => {
   const frame = useCurrentFrame();
   const h = HEADLINES.privateTraits;
-  const out = 1 - prog(frame, 76, 14, EASE_IN_OUT); // hand-off to the auction
+  const out = 1 - prog(frame, 92, 13, EASE_IN_OUT); // hand-off to the auction
 
   const tiles = (i: number) => {
-    const p = prog(frame, 26 + i * 3, 14, EASE_IN_OUT);
+    const p = prog(frame, UNSEAL + i * 3, 14, EASE_IN_OUT);
     return {seal: 1 - p, edge: 0.8 * (1 - p), flash: Math.sin(Math.PI * p) * 0.5};
   };
-  const labels = () => ({appear: 1, count: 1, cipher: 1, lock: 1, redact: prog(frame, 2, 14)});
-  const eyes = {open: prog(frame, 54, 10, Easing.out(Easing.back(1.6))), opacity: prog(frame, 50, 6)};
+  const labels = (i: number) => ({appear: prog(frame, i * 2, 14), count: 1, cipher: 1, lock: 1, redact: prog(frame, 4 + i * 2, 14)});
+  const eyes = {open: prog(frame, 62, 10, Easing.out(Easing.back(1.6))), opacity: prog(frame, 58, 6)};
 
-  const tIn = prog(frame, 2, 14);
-  const on = prog(frame, 18, 9, EASE_IN_OUT);
+  const tIn = prog(frame, 8, 14);
+  const on = prog(frame, TOGGLE, 9, EASE_IN_OUT);
 
   return (
     <AbsoluteFill>
-      <NftStage tiles={tiles} eyes={eyes} labels={labels} labelsOpacity={out} haze={mix(0.07, 0.15, prog(frame, 26, 30))} />
+      <NftStage tiles={tiles} eyes={eyes} labels={labels} labelsOpacity={out} haze={mix(0.07, 0.15, prog(frame, UNSEAL, 30))} />
       <div
         style={{
           position: 'absolute',
@@ -42,6 +46,16 @@ const PrivateTraits: React.FC = () => {
         <Toggle on={on} label={NFT.toggleLabel} />
       </div>
       <Headline text={h.text} inAt={h.in} outAt={h.out} size={h.size} y={h.y} />
+
+      {/* sound */}
+      {TRAITS.map((_, i) => (
+        <Sfx key={i} at={i * 2 + 2} name="tick" volume={0.6} />
+      ))}
+      <Sfx at={TOGGLE} name="toggle" />
+      <Sfx at={UNSEAL + 2} name="shimmer" />
+      {new Array(8).fill(0).map((_, i) => (
+        <Sfx key={`u${i}`} at={UNSEAL + i * 3 + 7} name="tick" volume={0.5 + i * 0.05} />
+      ))}
     </AbsoluteFill>
   );
 };
@@ -128,26 +142,26 @@ const EncryptedBids: React.FC = () => {
   const frame = useCurrentFrame();
   const h = HEADLINES.encryptedBids;
 
-  const move = prog(frame, 0, 22, EASE_IN_OUT);
+  const move = prog(frame, 0, 24, EASE_IN_OUT);
   const grid = {
     cx: mix(STAGE.cx, AUCTION_GRID.cx, move),
     cy: mix(STAGE.cy, AUCTION_GRID.cy, move),
     tile: mix(STAGE.tile, AUCTION_GRID.tile, move),
   };
   const cardIn = prog(frame, 6, 20);
-  const fadeAll = 1 - prog(frame, 78, 12, EASE_IN_OUT);
+  const fadeAll = 1 - prog(frame, 106, 14, EASE_IN_OUT);
 
   // count-up
-  const cStart = 18;
-  const cDur = 26;
+  const cStart = 24;
+  const cDur = 30;
   const priceAt = (f: number) => AUCTION.price * prog(f, cStart, cDur, Easing.out(Easing.cubic));
   const qtyAt = (f: number) => AUCTION.qty * prog(f, cStart, cDur - 6, Easing.out(Easing.cubic));
-  const pressAt = 44;
-  const glitchAt = 47;
+  const pressAt = 58;
+  const glitchAt = 61;
   const press = interpolate(frame, [pressAt, pressAt + 3, pressAt + 8], [1, 0.96, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
   const sealed = frame >= glitchAt + 6;
 
-  const rowIn = (k: number) => prog(frame, 54 + k * 6, 16);
+  const rowIn = (k: number) => prog(frame, ROWS + k * 8, 16);
 
   return (
     <AbsoluteFill style={{opacity: fadeAll}}>
@@ -292,6 +306,19 @@ const EncryptedBids: React.FC = () => {
       </div>
 
       <Headline text={h.text} inAt={h.in} outAt={h.out} size={h.size} y={h.y} />
+
+      {/* sound */}
+      <Sfx at={0} name="whoosh" />
+      <Sfx at={cStart} name="odometer" />
+      <Sfx at={pressAt} name="press" />
+      <Sfx at={glitchAt} name="glitch" />
+      <Sfx at={glitchAt + 7} name="lock" />
+      {AUCTION.otherBidders.map((_, k) => (
+        <Sfx key={k} at={ROWS + k * 8} name="whoosh" volume={0.45} />
+      ))}
+      {AUCTION.otherBidders.map((_, k) => (
+        <Sfx key={`l${k}`} at={ROWS + k * 8 + 12} name="tick" volume={0.6} />
+      ))}
     </AbsoluteFill>
   );
 };

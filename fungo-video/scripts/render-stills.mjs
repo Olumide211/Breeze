@@ -9,12 +9,13 @@ const browserExecutable =
   '/opt/pw-browsers/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell';
 
 const STILLS = [
-  ['scene1-old-way', 2.0],
-  ['scene2-shift', 7.6],
-  ['scene3a-private-traits', 11.0],
-  ['scene3b-encrypted-bids', 14.2],
-  ['scene4a-looking-wrong', 16.6],
-  ['scene4b-final-frame', 19.97],
+  ['scene1-old-way', 3.6],
+  ['scene2-shift', 9.6],
+  ['scene2b-compute', 15.0],
+  ['scene3a-private-traits', 19.0],
+  ['scene3b-encrypted-bids', 23.0],
+  ['scene4a-looking-wrong', 26.0],
+  ['scene4b-final-frame', 29.97],
 ];
 const only = process.argv.length > 2 ? process.argv.slice(2).map(Number) : null;
 

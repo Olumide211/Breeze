@@ -5,6 +5,7 @@ import {CAMERA, COLORS, MUSIC, SCENES, sceneFrames, sec, VIDEO} from './config';
 import {Particles} from './components/Particles';
 import {Scene1OldWay} from './scenes/Scene1OldWay';
 import {Scene2Shift} from './scenes/Scene2Shift';
+import {Scene2bCompute} from './scenes/Scene2bCompute';
 import {Scene3Beyond} from './scenes/Scene3Beyond';
 import {Scene4BiggerPicture} from './scenes/Scene4BiggerPicture';
 
@@ -30,6 +31,7 @@ export const FungoVideo: React.FC = () => {
   const frame = useCurrentFrame();
   const s1 = sceneFrames('oldWay');
   const s2 = sceneFrames('shift');
+  const s2b = sceneFrames('compute');
   const s3a = sceneFrames('privateTraits');
   const s3b = sceneFrames('encryptedBids');
   const s4a = sceneFrames('lookingWrong');
@@ -56,6 +58,9 @@ export const FungoVideo: React.FC = () => {
       </Sequence>
       <Sequence from={s2.from} durationInFrames={s2.duration} name="2 · The shift">
         <Scene2Shift />
+      </Sequence>
+      <Sequence from={s2b.from} durationInFrames={s2b.duration} name="2b · Computed, never revealed">
+        <Scene2bCompute />
       </Sequence>
       <Sequence from={s3a.from} durationInFrames={s3a.duration + s3b.duration} name="3 · Beyond the artwork">
         <Scene3Beyond />

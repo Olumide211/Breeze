@@ -2,6 +2,7 @@ import React from 'react';
 import {interpolate, useCurrentFrame} from 'remotion';
 import {COLORS, FONTS, HEADLINE_STYLE, sec} from '../config';
 import {EASE_OUT, prog} from '../anim';
+import {Sfx} from './Sfx';
 
 type Props = {
   text: string;
@@ -13,6 +14,8 @@ type Props = {
   color?: string;
   glow?: boolean;
   letterSpacing?: string;
+  /** soft whoosh under the entrance */
+  sound?: boolean;
 };
 
 const SLATS = 11;
@@ -31,6 +34,7 @@ export const Headline: React.FC<Props> = ({
   color = COLORS.white,
   glow = true,
   letterSpacing = '-0.01em',
+  sound = true,
 }) => {
   const frame = useCurrentFrame();
   const words = text.split(' ');
@@ -44,9 +48,12 @@ export const Headline: React.FC<Props> = ({
   const overall = prog(frame, start, total, (t) => t);
   const settle = prog(frame, start, total + 12);
 
-  if (frame < start || exit <= 0) return null;
+  const whoosh = sound ? <Sfx at={start - 6} name="whoosh" volume={0.5} /> : null;
+  if (frame < start || exit <= 0) return whoosh;
 
   return (
+    <>
+    {whoosh}
     <div
       style={{
         position: 'absolute',
@@ -129,5 +136,6 @@ export const Headline: React.FC<Props> = ({
         </div>
       </div>
     </div>
+    </>
   );
 };

@@ -2,12 +2,13 @@
   "name": "fungo-video",
   "version": "1.0.0",
   "private": true,
-  "description": "Fungo Labs x Zama — 20s motion graphics (Remotion)",
+  "description": "Fungo Labs x Zama \u2014 20s motion graphics (Remotion)",
   "scripts": {
     "studio": "remotion studio",
     "stills": "node scripts/render-stills.mjs",
-    "render": "remotion render FungoVideo out/fungo-20s.mp4 --codec=h264",
-    "find-hit": "node scripts/find-hit.mjs"
+    "render": "remotion render FungoVideo out/fungo-30s.mp4 --codec=h264",
+    "find-hit": "node scripts/find-hit.mjs",
+    "sfx": "node scripts/make-sfx.mjs"
   },
   "dependencies": {
     "@fontsource/jetbrains-mono": "^5.3.0",

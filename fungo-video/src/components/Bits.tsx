@@ -24,7 +24,7 @@ export const Redacted: React.FC<{
   const w = height * 0.62;
   const gap = dither ? height * 0.08 : 0;
   const total = count * w + (count - 1) * gap;
-  const pid = `dither-${id}`;
+  const pid = `dither-${id.replace(/[^a-zA-Z0-9_-]/g, "_")}`;
   return (
     <svg width={total} height={height} style={{display: 'block'}}>
       {dither && (
