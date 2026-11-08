@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "yt-dlp": {
+      "command": "npx",
+      "args": ["-y", "@kevinwatt/yt-dlp-mcp@0.10.2"],
+      "env": {
+        "YTDLP_IGNORE_CONFIG": "1",
+        "YTDLP_DOWNLOADS_DIR": "/tmp"
+      }
+    }
+  }
+}
