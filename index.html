@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#101114" />
+    <meta name="description" content="Easel by BreezeOg — paint in the browser, or let auto-paint repaint any photo stroke by stroke and export a timelapse." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Easel by BreezeOg</title>
+  </head>
+  <body>
+    <div id="app">
+      <header id="topbar">
+        <div class="brand">
+          <span id="logo"></span>
+          <span class="brand-name">Easel</span>
+          <span class="brand-by">by BreezeOg</span>
+        </div>
+        <div id="sliders">
+          <label class="slider"><span class="s-head"><span>Size</span><output id="o-size"></output></span><input id="s-size" type="range" min="0" max="1000" /></label>
+          <label class="slider"><span class="s-head"><span>Flow</span><output id="o-flow"></output></span><input id="s-flow" type="range" min="1" max="100" /></label>
+          <label class="slider"><span class="s-head"><span>Hardness</span><output id="o-hardness"></output></span><input id="s-hardness" type="range" min="0" max="100" /></label>
+          <label class="slider"><span class="s-head"><span>Opacity</span><output id="o-opacity"></output></span><input id="s-opacity" type="range" min="1" max="100" /></label>
+        </div>
+        <div id="actions">
+          <button id="btn-open" class="btn" title="Open image (O)">Open</button>
+          <button id="btn-save" class="btn" title="Save as PNG (Ctrl+S)">Save PNG</button>
+          <span class="sep"></span>
+          <button id="btn-undo" class="btn icon" title="Undo (Ctrl+Z)" aria-label="Undo" disabled></button>
+          <button id="btn-redo" class="btn icon" title="Redo (Ctrl+Shift+Z)" aria-label="Redo" disabled></button>
+          <span class="sep"></span>
+          <button id="btn-zoom-out" class="btn icon" title="Zoom out (-)" aria-label="Zoom out">−</button>
+          <button id="btn-fit" class="btn" title="Fit to screen (0)"><span id="zoom-label">100%</span></button>
+          <button id="btn-zoom-in" class="btn icon" title="Zoom in (+)" aria-label="Zoom in">+</button>
+          <button id="btn-panel" class="btn accent" aria-label="Toggle panels">Panels</button>
+        </div>
+      </header>
+
+      <nav id="tools" aria-label="Tools"></nav>
+
+      <main id="stage">
+        <div id="viewport">
+          <div id="doc">
+            <canvas id="ref"></canvas>
+            <canvas id="paint"></canvas>
+          </div>
+          <div id="cursor"></div>
+          <div id="hint">Drop a photo here, or press <b>Open</b> — then hit <b>Start</b> to watch it get painted.</div>
+          <div id="drop">Drop image to open</div>
+        </div>
+        <footer id="status">
+          <span id="status-text">Ready</span>
+          <span class="bar"><i id="status-bar"></i></span>
+          <span id="status-right"></span>
+        </footer>
+      </main>
+
+      <aside id="side">
+        <section>
+          <h2>Color</h2>
+          <canvas id="sv" width="248" height="150"></canvas>
+          <canvas id="hue" width="248" height="16"></canvas>
+          <div class="row">
+            <span id="swatch"></span>
+            <input id="hex" type="text" maxlength="7" spellcheck="false" aria-label="Hex color" />
+          </div>
+        </section>
+        <section>
+          <h2>Recent colors</h2>
+          <div id="recents"></div>
+        </section>
+        <section>
+          <h2>Brush preview</h2>
+          <canvas id="preview" width="248" height="76"></canvas>
+        </section>
+        <section>
+          <h2>Navigator</h2>
+          <canvas id="nav" width="248" height="160"></canvas>
+        </section>
+        <section>
+          <h2>Layers</h2>
+          <label class="layer"><input id="vis-paint" type="checkbox" checked /><span>Paint</span></label>
+          <label class="layer"><input id="vis-ref" type="checkbox" /><span>Reference</span><input id="ref-opacity" type="range" min="10" max="100" value="100" aria-label="Reference opacity" /></label>
+        </section>
+        <section id="auto">
+          <h2>Auto-paint</h2>
+          <div class="field"><span>Detail</span>
+            <div class="seg" id="seg-detail"><button data-v="low">Low</button><button data-v="med">Med</button><button data-v="high" class="on">High</button></div>
+          </div>
+          <div class="field"><span>Style</span>
+            <div class="seg" id="seg-style"><button data-v="realistic" class="on">Realistic</button><button data-v="painterly">Painterly</button><button data-v="sketch">Sketch</button></div>
+          </div>
+          <label class="slider"><span class="s-head"><span>Speed</span><output id="o-speed">10x</output></span><input id="s-speed" type="range" min="1" max="50" value="10" /></label>
+          <div class="row">
+            <button id="btn-start" class="btn accent grow" disabled>Start</button>
+            <button id="btn-pause" class="btn grow" disabled>Pause</button>
+            <button id="btn-stop" class="btn" disabled>Stop</button>
+          </div>
+          <p id="auto-info" class="info">Open a photo to use auto-paint.</p>
+        </section>
+        <section id="timelapse">
+          <h2>Timelapse</h2>
+          <div class="field"><span>Size</span>
+            <div class="seg" id="seg-res"><button data-v="1080x1080" class="on">1080×1080</button><button data-v="1920x1080">1920×1080</button></div>
+          </div>
+          <div class="field"><span>Length</span>
+            <div class="seg" id="seg-len"><button data-v="15">15 s</button><button data-v="30" class="on">30 s</button><button data-v="60">60 s</button></div>
+          </div>
+          <div class="row">
+            <button id="btn-export" class="btn accent grow" disabled>Export timelapse</button>
+            <button id="btn-export-cancel" class="btn" hidden>Cancel</button>
+          </div>
+          <p id="tl-info" class="info">Paint something (or run auto-paint) first.</p>
+          <a id="tl-link" class="btn" hidden>Download again</a>
+        </section>
+      </aside>
+    </div>
+    <input id="file" type="file" accept="image/*" hidden />
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
