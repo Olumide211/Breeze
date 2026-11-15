@@ -1,0 +1,22 @@
+Lagos 2090 — starter pack
+=========================
+
+5 short steps:
+
+1. Unzip this folder to C:\lagos-2090
+   (the folder you open should contain PROMPT.md, assets-manifest.json, models, textures, hdri and fonts).
+
+2. Open that folder in VS Code: File → Open Folder → C:\lagos-2090
+
+3. Open Claude Code (click the Claude icon in the left sidebar).
+   If it is not there: Extensions (Ctrl+Shift+X), search "Claude Code", install it, then sign in.
+
+4. Pick Fable 5.2 as the model (/model).
+
+5. Open PROMPT.md, copy the whole prompt, paste it into Claude Code, and press Enter.
+   When it asks for permission, choose "Yes, don't ask again". Let it run until it writes ./output/lagos-2090.mp4.
+
+You also need Node.js installed first: https://nodejs.org
+(Blender is not required. This project is built in code with Vite + TypeScript + Three.js.)
+
+Optional: drop any extra .glb models into models\ before you paste the prompt. The prompt already tells Claude to use everything in this pack.

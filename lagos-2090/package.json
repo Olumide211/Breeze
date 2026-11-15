@@ -1,0 +1,24 @@
+{
+  "name": "lagos-2090-by-breezeog",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Lagos 2090 by BreezeOg — a 30 s anime-style solarpunk montage rendered in code with Three.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --port 4173 --strictPort",
+    "render": "node scripts/render.mjs",
+    "stills": "node scripts/stills.mjs"
+  },
+  "dependencies": {
+    "three": "^0.170.0"
+  },
+  "devDependencies": {
+    "@types/three": "^0.170.0",
+    "ffmpeg-static": "^5.3.0",
+    "playwright": "^1.63.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8"
+  }
+}

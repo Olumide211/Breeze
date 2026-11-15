@@ -1,0 +1,3019 @@
+{
+  "project": "Lagos 2090 by BreezeOg",
+  "description": "Starter asset pack for a 30-second anime-style Three.js montage. All assets are CC0 1.0, CC-BY 3.0, or SIL Open Font License 1.1.",
+  "note": "Restyle models with toon/cel shaders. Recolor the van or school bus as a yellow danfo with black stripes; recolor the motorcycle as a glowing electric okada. Build anything missing procedurally.",
+  "assets": [
+    {
+      "path": "models/vehicles/van.glb",
+      "name": "Van",
+      "category": "vehicles",
+      "description": "Box van \u2014 restyle as a yellow hover-danfo with black stripes (hero vehicle for shots 1 and 7).",
+      "shots": [
+        1,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/car-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney car-kit",
+      "bytes": 185736
+    },
+    {
+      "path": "models/vehicles/delivery-van.glb",
+      "name": "Delivery van",
+      "category": "vehicles",
+      "description": "Shorter delivery van, useful as a second danfo or city traffic.",
+      "shots": [
+        1,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/car-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney car-kit",
+      "bytes": 250220
+    },
+    {
+      "path": "models/vehicles/delivery-flat.glb",
+      "name": "Flat delivery van",
+      "category": "vehicles",
+      "description": "Open-back delivery van for street traffic.",
+      "shots": [
+        3,
+        6,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/car-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney car-kit",
+      "bytes": 224900
+    },
+    {
+      "path": "models/vehicles/sedan.glb",
+      "name": "Sedan",
+      "category": "vehicles",
+      "description": "Everyday passenger car for street and traffic shots.",
+      "shots": [
+        3,
+        6,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/car-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney car-kit",
+      "bytes": 182288
+    },
+    {
+      "path": "models/vehicles/taxi.glb",
+      "name": "Taxi",
+      "category": "vehicles",
+      "description": "Taxi \u2014 recolor to Lagos yellow if useful in street shots.",
+      "shots": [
+        3,
+        6,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/car-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney car-kit",
+      "bytes": 185680
+    },
+    {
+      "path": "models/vehicles/suv.glb",
+      "name": "SUV",
+      "category": "vehicles",
+      "description": "SUV for background city traffic.",
+      "shots": [
+        3,
+        6,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/car-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney car-kit",
+      "bytes": 217060
+    },
+    {
+      "path": "models/vehicles/hatchback-sports.glb",
+      "name": "Sports hatchback",
+      "category": "vehicles",
+      "description": "Small hatchback for background traffic.",
+      "shots": [
+        3,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/car-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney car-kit",
+      "bytes": 207860
+    },
+    {
+      "path": "models/vehicles/truck.glb",
+      "name": "Truck",
+      "category": "vehicles",
+      "description": "Box truck for streets and the market area.",
+      "shots": [
+        3,
+        6,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/car-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney car-kit",
+      "bytes": 186396
+    },
+    {
+      "path": "models/vehicles/truck-flat.glb",
+      "name": "Flatbed truck",
+      "category": "vehicles",
+      "description": "Flatbed truck for roadside and market loading.",
+      "shots": [
+        3,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/car-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney car-kit",
+      "bytes": 217876
+    },
+    {
+      "path": "models/city/commercial-building-a.glb",
+      "name": "Commercial building A",
+      "category": "city",
+      "description": "Mid-rise commercial building for the Lagos skyline and streets.",
+      "shots": [
+        2,
+        3,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-commercial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-commercial",
+      "bytes": 119584
+    },
+    {
+      "path": "models/city/commercial-building-b.glb",
+      "name": "Commercial building B",
+      "category": "city",
+      "description": "Mid-rise commercial building.",
+      "shots": [
+        2,
+        3,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-commercial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-commercial",
+      "bytes": 117040
+    },
+    {
+      "path": "models/city/commercial-building-c.glb",
+      "name": "Commercial building C",
+      "category": "city",
+      "description": "Mid-rise commercial building.",
+      "shots": [
+        2,
+        3,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-commercial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-commercial",
+      "bytes": 113432
+    },
+    {
+      "path": "models/city/commercial-building-d.glb",
+      "name": "Commercial building D",
+      "category": "city",
+      "description": "Mid-rise commercial building.",
+      "shots": [
+        2,
+        3,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-commercial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-commercial",
+      "bytes": 105804
+    },
+    {
+      "path": "models/city/commercial-building-e.glb",
+      "name": "Commercial building E",
+      "category": "city",
+      "description": "Mid-rise commercial building.",
+      "shots": [
+        2,
+        3,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-commercial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-commercial",
+      "bytes": 138840
+    },
+    {
+      "path": "models/city/commercial-building-f.glb",
+      "name": "Commercial building F",
+      "category": "city",
+      "description": "Mid-rise commercial building.",
+      "shots": [
+        2,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-commercial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-commercial",
+      "bytes": 159696
+    },
+    {
+      "path": "models/city/commercial-building-g.glb",
+      "name": "Commercial building G",
+      "category": "city",
+      "description": "Mid-rise commercial building.",
+      "shots": [
+        2,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-commercial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-commercial",
+      "bytes": 177000
+    },
+    {
+      "path": "models/city/commercial-building-h.glb",
+      "name": "Commercial building H",
+      "category": "city",
+      "description": "Mid-rise commercial building.",
+      "shots": [
+        2,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-commercial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-commercial",
+      "bytes": 138136
+    },
+    {
+      "path": "models/city/skyscraper-a.glb",
+      "name": "Skyscraper A",
+      "category": "city",
+      "description": "Tall skyscraper for the skyline behind rooftops and the danfo window.",
+      "shots": [
+        2,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-commercial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-commercial",
+      "bytes": 121968
+    },
+    {
+      "path": "models/city/skyscraper-c.glb",
+      "name": "Skyscraper C",
+      "category": "city",
+      "description": "Tall skyscraper for the skyline.",
+      "shots": [
+        2,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-commercial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-commercial",
+      "bytes": 160152
+    },
+    {
+      "path": "models/city/skyscraper-e.glb",
+      "name": "Skyscraper E",
+      "category": "city",
+      "description": "Tall skyscraper for the skyline.",
+      "shots": [
+        2,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-commercial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-commercial",
+      "bytes": 112508
+    },
+    {
+      "path": "models/city/low-detail-building-a.glb",
+      "name": "Low-detail building A",
+      "category": "city",
+      "description": "Cheap background building for distant city blocks.",
+      "shots": [
+        2,
+        5,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-commercial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-commercial",
+      "bytes": 25124
+    },
+    {
+      "path": "models/city/low-detail-building-d.glb",
+      "name": "Low-detail building D",
+      "category": "city",
+      "description": "Cheap background building.",
+      "shots": [
+        2,
+        5,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-commercial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-commercial",
+      "bytes": 19508
+    },
+    {
+      "path": "models/city/low-detail-building-g.glb",
+      "name": "Low-detail building G",
+      "category": "city",
+      "description": "Cheap background building.",
+      "shots": [
+        2,
+        5,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-commercial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-commercial",
+      "bytes": 27112
+    },
+    {
+      "path": "models/city/low-detail-building-wide-a.glb",
+      "name": "Wide low-detail building",
+      "category": "city",
+      "description": "Wide background apartment or office block.",
+      "shots": [
+        2,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-commercial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-commercial",
+      "bytes": 23524
+    },
+    {
+      "path": "models/city/awning.glb",
+      "name": "Shop awning",
+      "category": "city",
+      "description": "Storefront awning for kiosks and market shops.",
+      "shots": [
+        3,
+        4,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-commercial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-commercial",
+      "bytes": 16304
+    },
+    {
+      "path": "models/city/awning-wide.glb",
+      "name": "Wide shop awning",
+      "category": "city",
+      "description": "Wide storefront awning.",
+      "shots": [
+        3,
+        4,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-commercial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-commercial",
+      "bytes": 16316
+    },
+    {
+      "path": "models/city/parasol-a.glb",
+      "name": "Market parasol A",
+      "category": "city",
+      "description": "Market / cafe umbrella \u2014 recolor in bright fabrics for the market street.",
+      "shots": [
+        3,
+        4
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-commercial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-commercial",
+      "bytes": 21072
+    },
+    {
+      "path": "models/city/parasol-b.glb",
+      "name": "Market parasol B",
+      "category": "city",
+      "description": "Second market umbrella style.",
+      "shots": [
+        3,
+        4
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-commercial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-commercial",
+      "bytes": 22876
+    },
+    {
+      "path": "models/city/overhang.glb",
+      "name": "Building overhang",
+      "category": "city",
+      "description": "Overhang / canopy, useful on shopfronts or a vine-covered overpass.",
+      "shots": [
+        1,
+        3
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-commercial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-commercial",
+      "bytes": 17492
+    },
+    {
+      "path": "models/city/overhang-wide.glb",
+      "name": "Wide building overhang",
+      "category": "city",
+      "description": "Wider overhang / canopy piece.",
+      "shots": [
+        1,
+        3
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-commercial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-commercial",
+      "bytes": 17504
+    },
+    {
+      "path": "models/city/suburban-building-a.glb",
+      "name": "Suburban / apartment building A",
+      "category": "city",
+      "description": "Low-rise apartment or house \u2014 good rooftop-garden host.",
+      "shots": [
+        2,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-suburban",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-suburban",
+      "bytes": 110132
+    },
+    {
+      "path": "models/city/suburban-building-c.glb",
+      "name": "Suburban / apartment building C",
+      "category": "city",
+      "description": "Low-rise residential building.",
+      "shots": [
+        2,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-suburban",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-suburban",
+      "bytes": 111028
+    },
+    {
+      "path": "models/city/suburban-building-e.glb",
+      "name": "Suburban / apartment building E",
+      "category": "city",
+      "description": "Low-rise residential building.",
+      "shots": [
+        2,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-suburban",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-suburban",
+      "bytes": 157036
+    },
+    {
+      "path": "models/city/suburban-building-g.glb",
+      "name": "Suburban / apartment building G",
+      "category": "city",
+      "description": "Low-rise residential building, useful as a rooftop-garden block.",
+      "shots": [
+        2,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-suburban",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-suburban",
+      "bytes": 105124
+    },
+    {
+      "path": "models/city/suburban-building-i.glb",
+      "name": "Suburban / apartment building I",
+      "category": "city",
+      "description": "Low-rise residential building.",
+      "shots": [
+        2,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-suburban",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-suburban",
+      "bytes": 81292
+    },
+    {
+      "path": "models/city/suburban-building-k.glb",
+      "name": "Suburban / apartment building K",
+      "category": "city",
+      "description": "Low-rise residential building.",
+      "shots": [
+        2,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-suburban",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-suburban",
+      "bytes": 100588
+    },
+    {
+      "path": "models/city/suburban-building-m.glb",
+      "name": "Suburban / apartment building M",
+      "category": "city",
+      "description": "Low-rise residential building.",
+      "shots": [
+        2,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-suburban",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-suburban",
+      "bytes": 108412
+    },
+    {
+      "path": "models/city/suburban-building-o.glb",
+      "name": "Suburban / apartment building O",
+      "category": "city",
+      "description": "Low-rise residential building.",
+      "shots": [
+        2,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-suburban",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-suburban",
+      "bytes": 125832
+    },
+    {
+      "path": "models/city/fence-1x3.glb",
+      "name": "Fence 1x3",
+      "category": "city",
+      "description": "Residential fence section for the roadside corner.",
+      "shots": [
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-suburban",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-suburban",
+      "bytes": 32596
+    },
+    {
+      "path": "models/city/fence-2x2.glb",
+      "name": "Fence 2x2",
+      "category": "city",
+      "description": "Residential fence section.",
+      "shots": [
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-suburban",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-suburban",
+      "bytes": 35436
+    },
+    {
+      "path": "models/city/fence-3x3.glb",
+      "name": "Fence 3x3",
+      "category": "city",
+      "description": "Longer residential fence section.",
+      "shots": [
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-suburban",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-suburban",
+      "bytes": 47380
+    },
+    {
+      "path": "models/city/fence-low.glb",
+      "name": "Low fence",
+      "category": "city",
+      "description": "Low fence / wall.",
+      "shots": [
+        6,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-suburban",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-suburban",
+      "bytes": 30112
+    },
+    {
+      "path": "models/city/suburban-tree-large.glb",
+      "name": "Suburban large tree",
+      "category": "city",
+      "description": "Street tree for roadside shade and dappled shadows.",
+      "shots": [
+        6,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-suburban",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-suburban",
+      "bytes": 17268
+    },
+    {
+      "path": "models/city/suburban-tree-small.glb",
+      "name": "Suburban small tree",
+      "category": "city",
+      "description": "Small street tree.",
+      "shots": [
+        6,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-suburban",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-suburban",
+      "bytes": 17268
+    },
+    {
+      "path": "models/city/planter.glb",
+      "name": "Planter",
+      "category": "city",
+      "description": "Street or rooftop planter box.",
+      "shots": [
+        2,
+        6,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-suburban",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-suburban",
+      "bytes": 31804
+    },
+    {
+      "path": "models/city/industrial-building-a.glb",
+      "name": "Industrial building A",
+      "category": "city",
+      "description": "Blocky industrial or warehouse volume; can be restyled as a kiosk or workshop.",
+      "shots": [
+        1,
+        4,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-industrial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-industrial",
+      "bytes": 188860
+    },
+    {
+      "path": "models/city/industrial-building-d.glb",
+      "name": "Industrial building D",
+      "category": "city",
+      "description": "Industrial / warehouse volume.",
+      "shots": [
+        1,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-industrial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-industrial",
+      "bytes": 112316
+    },
+    {
+      "path": "models/city/industrial-building-g.glb",
+      "name": "Industrial building G",
+      "category": "city",
+      "description": "Industrial / warehouse volume.",
+      "shots": [
+        1,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-industrial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-industrial",
+      "bytes": 118480
+    },
+    {
+      "path": "models/city/industrial-building-j.glb",
+      "name": "Industrial building J",
+      "category": "city",
+      "description": "Industrial / warehouse volume.",
+      "shots": [
+        1,
+        5
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-industrial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-industrial",
+      "bytes": 92348
+    },
+    {
+      "path": "models/city/industrial-building-m.glb",
+      "name": "Industrial building M",
+      "category": "city",
+      "description": "Industrial / warehouse volume.",
+      "shots": [
+        1,
+        5
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-industrial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-industrial",
+      "bytes": 150460
+    },
+    {
+      "path": "models/city/industrial-building-p.glb",
+      "name": "Industrial building P",
+      "category": "city",
+      "description": "Industrial / warehouse volume.",
+      "shots": [
+        5
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-industrial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-industrial",
+      "bytes": 115296
+    },
+    {
+      "path": "models/city/solar-panel-flat.glb",
+      "name": "Flat solar panel",
+      "category": "city",
+      "description": "Rooftop solar panel for the apartment garden.",
+      "shots": [
+        2
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-industrial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-industrial",
+      "bytes": 25512
+    },
+    {
+      "path": "models/city/solar-panel-landscape.glb",
+      "name": "Landscape solar panel",
+      "category": "city",
+      "description": "Angled solar panel.",
+      "shots": [
+        2
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-industrial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-industrial",
+      "bytes": 33440
+    },
+    {
+      "path": "models/city/solar-panel-landscape-group.glb",
+      "name": "Landscape solar panel group",
+      "category": "city",
+      "description": "Group of angled solar panels.",
+      "shots": [
+        2
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-industrial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-industrial",
+      "bytes": 93520
+    },
+    {
+      "path": "models/city/solar-panel-portrait.glb",
+      "name": "Portrait solar panel",
+      "category": "city",
+      "description": "Upright solar panel.",
+      "shots": [
+        2
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-industrial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-industrial",
+      "bytes": 33440
+    },
+    {
+      "path": "models/city/shipping-container-a.glb",
+      "name": "Shipping container A",
+      "category": "city",
+      "description": "Shipping container \u2014 useful as a converted kiosk or waterfront prop.",
+      "shots": [
+        4,
+        5,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-industrial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-industrial",
+      "bytes": 48236
+    },
+    {
+      "path": "models/city/shipping-container-b.glb",
+      "name": "Shipping container B",
+      "category": "city",
+      "description": "Shipping container variant.",
+      "shots": [
+        4,
+        5,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-industrial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-industrial",
+      "bytes": 48596
+    },
+    {
+      "path": "models/city/water-tower.glb",
+      "name": "Water tower",
+      "category": "city",
+      "description": "Water tower for the skyline / rooftops.",
+      "shots": [
+        2,
+        5
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-industrial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-industrial",
+      "bytes": 105568
+    },
+    {
+      "path": "models/city/windmill.glb",
+      "name": "Wind turbine",
+      "category": "city",
+      "description": "Small wind turbine for the solarpunk skyline.",
+      "shots": [
+        2,
+        5
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-industrial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-industrial",
+      "bytes": 57396
+    },
+    {
+      "path": "models/city/chimney-medium.glb",
+      "name": "Medium chimney",
+      "category": "city",
+      "description": "Chimney / stack for industrial background.",
+      "shots": [
+        1,
+        5
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-industrial",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-industrial",
+      "bytes": 26756
+    },
+    {
+      "path": "models/city/road-straight.glb",
+      "name": "Straight road",
+      "category": "city",
+      "description": "Straight road tile.",
+      "shots": [
+        1,
+        4,
+        6,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-roads",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-roads",
+      "bytes": 16460
+    },
+    {
+      "path": "models/city/road-straight-half.glb",
+      "name": "Half straight road",
+      "category": "city",
+      "description": "Shorter straight road tile.",
+      "shots": [
+        1,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-roads",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-roads",
+      "bytes": 16480
+    },
+    {
+      "path": "models/city/road-curve.glb",
+      "name": "Curved road",
+      "category": "city",
+      "description": "Curved road tile.",
+      "shots": [
+        1,
+        6,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-roads",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-roads",
+      "bytes": 35068
+    },
+    {
+      "path": "models/city/road-crossroad.glb",
+      "name": "Crossroad",
+      "category": "city",
+      "description": "Four-way intersection.",
+      "shots": [
+        3,
+        6,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-roads",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-roads",
+      "bytes": 21292
+    },
+    {
+      "path": "models/city/road-intersection.glb",
+      "name": "T-intersection",
+      "category": "city",
+      "description": "T-intersection road tile.",
+      "shots": [
+        3,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-roads",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-roads",
+      "bytes": 19108
+    },
+    {
+      "path": "models/city/road-bridge.glb",
+      "name": "Road bridge deck",
+      "category": "city",
+      "description": "Bridge deck \u2014 use for the overpass (shot 1) and Third Mainland Bridge (shot 5).",
+      "shots": [
+        1,
+        5
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-roads",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-roads",
+      "bytes": 35880
+    },
+    {
+      "path": "models/city/road-slant.glb",
+      "name": "Slanted road / ramp",
+      "category": "city",
+      "description": "Inclined road, useful as a bridge approach or overpass ramp.",
+      "shots": [
+        1,
+        5
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-roads",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-roads",
+      "bytes": 16452
+    },
+    {
+      "path": "models/city/road-crossing.glb",
+      "name": "Pedestrian crossing",
+      "category": "city",
+      "description": "Zebra crossing tile.",
+      "shots": [
+        3,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-roads",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-roads",
+      "bytes": 19912
+    },
+    {
+      "path": "models/city/road-bend.glb",
+      "name": "Road bend",
+      "category": "city",
+      "description": "Bent road tile.",
+      "shots": [
+        6,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-roads",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-roads",
+      "bytes": 31328
+    },
+    {
+      "path": "models/city/road-end.glb",
+      "name": "Road end",
+      "category": "city",
+      "description": "Dead-end road tile.",
+      "shots": [
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-roads",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-roads",
+      "bytes": 16160
+    },
+    {
+      "path": "models/city/bridge-pillar.glb",
+      "name": "Bridge pillar",
+      "category": "city",
+      "description": "Bridge support pillar for the overpass and lagoon bridge.",
+      "shots": [
+        1,
+        5
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-roads",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-roads",
+      "bytes": 16684
+    },
+    {
+      "path": "models/city/bridge-pillar-wide.glb",
+      "name": "Wide bridge pillar",
+      "category": "city",
+      "description": "Wider bridge support.",
+      "shots": [
+        1,
+        5
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-roads",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-roads",
+      "bytes": 16700
+    },
+    {
+      "path": "models/city/traffic-light.glb",
+      "name": "Traffic light",
+      "category": "city",
+      "description": "Traffic light on a pole.",
+      "shots": [
+        3,
+        6,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-roads",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-roads",
+      "bytes": 31524
+    },
+    {
+      "path": "models/city/traffic-light-hanging.glb",
+      "name": "Hanging traffic light",
+      "category": "city",
+      "description": "Overhead hanging traffic light.",
+      "shots": [
+        3,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-roads",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-roads",
+      "bytes": 33260
+    },
+    {
+      "path": "models/city/traffic-light-vertical.glb",
+      "name": "Vertical traffic light head",
+      "category": "city",
+      "description": "Traffic light head only (vertical).",
+      "shots": [
+        3,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-roads",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-roads",
+      "bytes": 23584
+    },
+    {
+      "path": "models/city/electricity-pole.glb",
+      "name": "Electricity pole",
+      "category": "city",
+      "description": "Power pole with lines hardware.",
+      "shots": [
+        1,
+        4,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-roads",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-roads",
+      "bytes": 54832
+    },
+    {
+      "path": "models/city/electricity-pole-wide.glb",
+      "name": "Wide electricity pole",
+      "category": "city",
+      "description": "Wider power pole / gantry.",
+      "shots": [
+        1,
+        5,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-roads",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-roads",
+      "bytes": 67908
+    },
+    {
+      "path": "models/city/electricity-pole-single.glb",
+      "name": "Single electricity pole",
+      "category": "city",
+      "description": "Simple single power pole.",
+      "shots": [
+        4,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-roads",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-roads",
+      "bytes": 30664
+    },
+    {
+      "path": "models/city/street-light-curved.glb",
+      "name": "Curved street light",
+      "category": "city",
+      "description": "Curved-arm street lamp.",
+      "shots": [
+        3,
+        4,
+        6,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-roads",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-roads",
+      "bytes": 20700
+    },
+    {
+      "path": "models/city/street-light-square.glb",
+      "name": "Square street light",
+      "category": "city",
+      "description": "Square-head street lamp.",
+      "shots": [
+        3,
+        6,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-roads",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-roads",
+      "bytes": 18204
+    },
+    {
+      "path": "models/city/street-light-curved-double.glb",
+      "name": "Double curved street light",
+      "category": "city",
+      "description": "Double-arm curved street lamp.",
+      "shots": [
+        5,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-roads",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-roads",
+      "bytes": 25420
+    },
+    {
+      "path": "models/city/construction-fence.glb",
+      "name": "Construction fence",
+      "category": "city",
+      "description": "Temporary / construction fence.",
+      "shots": [
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-roads",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-roads",
+      "bytes": 26068
+    },
+    {
+      "path": "models/city/road-sign-stop.glb",
+      "name": "Stop sign",
+      "category": "city",
+      "description": "Stop sign on a post.",
+      "shots": [
+        6,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-roads",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-roads",
+      "bytes": 21900
+    },
+    {
+      "path": "models/city/road-sign-street.glb",
+      "name": "Street name sign",
+      "category": "city",
+      "description": "Street-name sign; recolor / relabel if needed.",
+      "shots": [
+        3,
+        6,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-roads",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-roads",
+      "bytes": 27124
+    },
+    {
+      "path": "models/city/sign-highway.glb",
+      "name": "Highway sign",
+      "category": "city",
+      "description": "Overhead / highway sign panel.",
+      "shots": [
+        1,
+        5,
+        7
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-roads",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-roads",
+      "bytes": 28424
+    },
+    {
+      "path": "models/city/road-straight-barrier.glb",
+      "name": "Straight road with barrier",
+      "category": "city",
+      "description": "Road with side barrier, useful on the bridge.",
+      "shots": [
+        1,
+        5
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-roads",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-roads",
+      "bytes": 15320
+    },
+    {
+      "path": "models/city/road-side.glb",
+      "name": "Road side / curb",
+      "category": "city",
+      "description": "Roadside or curb piece.",
+      "shots": [
+        4,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/city-kit-roads",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney city-kit-roads",
+      "bytes": 16484
+    },
+    {
+      "path": "models/props/lantern.glb",
+      "name": "Lantern",
+      "category": "props",
+      "description": "Standing lantern \u2014 hang or place in the market street.",
+      "shots": [
+        3
+      ],
+      "source_url": "https://kenney.nl/assets/holiday-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney holiday-kit",
+      "bytes": 30016
+    },
+    {
+      "path": "models/props/lantern-hanging.glb",
+      "name": "Hanging lantern",
+      "category": "props",
+      "description": "Hanging lantern for market stalls.",
+      "shots": [
+        3
+      ],
+      "source_url": "https://kenney.nl/assets/holiday-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney holiday-kit",
+      "bytes": 28480
+    },
+    {
+      "path": "models/props/string-lights-colored.glb",
+      "name": "Colored string lights",
+      "category": "props",
+      "description": "String lights \u2014 useful as hanging market lights (ignore any holiday association).",
+      "shots": [
+        3
+      ],
+      "source_url": "https://kenney.nl/assets/holiday-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney holiday-kit",
+      "bytes": 90692
+    },
+    {
+      "path": "models/props/bench-park.glb",
+      "name": "Park bench",
+      "category": "props",
+      "description": "Outdoor bench for the park and roadside.",
+      "shots": [
+        6,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/holiday-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney holiday-kit",
+      "bytes": 28496
+    },
+    {
+      "path": "models/props/bench-short.glb",
+      "name": "Short bench",
+      "category": "props",
+      "description": "Shorter outdoor bench.",
+      "shots": [
+        6,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/holiday-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney holiday-kit",
+      "bytes": 28516
+    },
+    {
+      "path": "models/props/bench-cushion.glb",
+      "name": "Cushioned bench",
+      "category": "props",
+      "description": "Cushioned bench, useful on rooftops or courtyards.",
+      "shots": [
+        2,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/furniture-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney furniture-kit",
+      "bytes": 12056
+    },
+    {
+      "path": "models/props/furniture-bench.glb",
+      "name": "Simple bench",
+      "category": "props",
+      "description": "Simple bench.",
+      "shots": [
+        2,
+        6,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/furniture-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney furniture-kit",
+      "bytes": 10480
+    },
+    {
+      "path": "models/props/cardboard-box-closed.glb",
+      "name": "Closed cardboard box",
+      "category": "props",
+      "description": "Closed cardboard box for stacked market / roadside crates.",
+      "shots": [
+        3,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/furniture-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney furniture-kit",
+      "bytes": 4948
+    },
+    {
+      "path": "models/props/cardboard-box-open.glb",
+      "name": "Open cardboard box",
+      "category": "props",
+      "description": "Open cardboard box.",
+      "shots": [
+        3,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/furniture-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney furniture-kit",
+      "bytes": 4964
+    },
+    {
+      "path": "models/props/potted-plant.glb",
+      "name": "Potted plant",
+      "category": "props",
+      "description": "Potted plant for rooftop gardens and kiosks.",
+      "shots": [
+        2,
+        4,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/furniture-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney furniture-kit",
+      "bytes": 6832
+    },
+    {
+      "path": "models/props/plant-small-1.glb",
+      "name": "Small potted plant 1",
+      "category": "props",
+      "description": "Small potted plant.",
+      "shots": [
+        2,
+        4
+      ],
+      "source_url": "https://kenney.nl/assets/furniture-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney furniture-kit",
+      "bytes": 7824
+    },
+    {
+      "path": "models/props/plant-small-2.glb",
+      "name": "Small potted plant 2",
+      "category": "props",
+      "description": "Small potted plant variant.",
+      "shots": [
+        2,
+        4
+      ],
+      "source_url": "https://kenney.nl/assets/furniture-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney furniture-kit",
+      "bytes": 12596
+    },
+    {
+      "path": "models/props/trashcan.glb",
+      "name": "Trash can",
+      "category": "props",
+      "description": "Street trash can.",
+      "shots": [
+        3,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/furniture-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney furniture-kit",
+      "bytes": 6052
+    },
+    {
+      "path": "models/props/table.glb",
+      "name": "Table",
+      "category": "props",
+      "description": "Table for market stalls or rooftop.",
+      "shots": [
+        2,
+        3
+      ],
+      "source_url": "https://kenney.nl/assets/furniture-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney furniture-kit",
+      "bytes": 7896
+    },
+    {
+      "path": "models/props/chair.glb",
+      "name": "Chair",
+      "category": "props",
+      "description": "Simple chair.",
+      "shots": [
+        3,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/furniture-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney furniture-kit",
+      "bytes": 10480
+    },
+    {
+      "path": "models/props/ceiling-fan.glb",
+      "name": "Ceiling fan",
+      "category": "props",
+      "description": "Ceiling fan, useful if a kiosk interior is glimpsed.",
+      "shots": [
+        4,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/furniture-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney furniture-kit",
+      "bytes": 14672
+    },
+    {
+      "path": "models/props/dryer.glb",
+      "name": "Dryer",
+      "category": "props",
+      "description": "Laundry dryer \u2014 rooftop laundry / washing-line context.",
+      "shots": [
+        2
+      ],
+      "source_url": "https://kenney.nl/assets/furniture-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney furniture-kit",
+      "bytes": 16920
+    },
+    {
+      "path": "models/props/washer.glb",
+      "name": "Washing machine",
+      "category": "props",
+      "description": "Washing machine \u2014 rooftop laundry context.",
+      "shots": [
+        2
+      ],
+      "source_url": "https://kenney.nl/assets/furniture-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney furniture-kit",
+      "bytes": 46852
+    },
+    {
+      "path": "models/props/radio.glb",
+      "name": "Radio",
+      "category": "props",
+      "description": "Radio, a nice kiosk / stall prop.",
+      "shots": [
+        3,
+        4,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/furniture-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney furniture-kit",
+      "bytes": 24388
+    },
+    {
+      "path": "models/props/display-fruit.glb",
+      "name": "Fruit display",
+      "category": "props",
+      "description": "Fruit stall display for the market street.",
+      "shots": [
+        3
+      ],
+      "source_url": "https://kenney.nl/assets/mini-shop",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney mini-shop",
+      "bytes": 99896
+    },
+    {
+      "path": "models/props/display-flowers.glb",
+      "name": "Flower display",
+      "category": "props",
+      "description": "Flower stall display.",
+      "shots": [
+        3
+      ],
+      "source_url": "https://kenney.nl/assets/mini-shop",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney mini-shop",
+      "bytes": 196484
+    },
+    {
+      "path": "models/props/display-cans.glb",
+      "name": "Can display",
+      "category": "props",
+      "description": "Canned-goods stall display.",
+      "shots": [
+        3,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/mini-shop",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney mini-shop",
+      "bytes": 154112
+    },
+    {
+      "path": "models/props/display-bread.glb",
+      "name": "Bread display",
+      "category": "props",
+      "description": "Bread / bakery stall display.",
+      "shots": [
+        3
+      ],
+      "source_url": "https://kenney.nl/assets/mini-shop",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney mini-shop",
+      "bytes": 82160
+    },
+    {
+      "path": "models/props/display-small.glb",
+      "name": "Small display stand",
+      "category": "props",
+      "description": "Small market display stand / kiosk counter.",
+      "shots": [
+        3,
+        4,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/mini-shop",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney mini-shop",
+      "bytes": 63100
+    },
+    {
+      "path": "models/props/shelf-boxes.glb",
+      "name": "Shelf with boxes",
+      "category": "props",
+      "description": "Shelf stacked with boxes \u2014 kiosk / stall shelving.",
+      "shots": [
+        3,
+        4,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/mini-shop",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney mini-shop",
+      "bytes": 111512
+    },
+    {
+      "path": "models/props/shelf-bags.glb",
+      "name": "Shelf with bags",
+      "category": "props",
+      "description": "Shelf with bags.",
+      "shots": [
+        3,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/mini-shop",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney mini-shop",
+      "bytes": 131452
+    },
+    {
+      "path": "models/props/cash-register.glb",
+      "name": "Cash register",
+      "category": "props",
+      "description": "Cash register for a stall or kiosk.",
+      "shots": [
+        3,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/mini-shop",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney mini-shop",
+      "bytes": 69224
+    },
+    {
+      "path": "models/props/vending-machine.glb",
+      "name": "Vending machine",
+      "category": "props",
+      "description": "Vending machine for the roadside kiosk corner (shot 6). Recolor if you want it more Lagos/solarpunk.",
+      "shots": [
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/mini-arcade",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney mini-arcade",
+      "bytes": 24688
+    },
+    {
+      "path": "models/props/barrel.glb",
+      "name": "Barrel",
+      "category": "props",
+      "description": "Wooden/metal barrel for market and roadside stacks.",
+      "shots": [
+        3,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/survival-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney survival-kit",
+      "bytes": 41376
+    },
+    {
+      "path": "models/props/barrel-open.glb",
+      "name": "Open barrel",
+      "category": "props",
+      "description": "Open barrel.",
+      "shots": [
+        3,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/survival-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney survival-kit",
+      "bytes": 38896
+    },
+    {
+      "path": "models/props/box.glb",
+      "name": "Crate / box",
+      "category": "props",
+      "description": "Wooden crate for stacked roadside and market goods.",
+      "shots": [
+        3,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/survival-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney survival-kit",
+      "bytes": 21152
+    },
+    {
+      "path": "models/props/box-large.glb",
+      "name": "Large crate",
+      "category": "props",
+      "description": "Large crate.",
+      "shots": [
+        3,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/survival-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney survival-kit",
+      "bytes": 21168
+    },
+    {
+      "path": "models/props/box-open.glb",
+      "name": "Open crate",
+      "category": "props",
+      "description": "Open crate.",
+      "shots": [
+        3,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/survival-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney survival-kit",
+      "bytes": 24236
+    },
+    {
+      "path": "models/props/signpost.glb",
+      "name": "Signpost",
+      "category": "props",
+      "description": "Wooden signpost; swap in glowing market signage.",
+      "shots": [
+        3,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/survival-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney survival-kit",
+      "bytes": 13120
+    },
+    {
+      "path": "models/props/signpost-single.glb",
+      "name": "Single signpost",
+      "category": "props",
+      "description": "Single-board signpost.",
+      "shots": [
+        3,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/survival-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney survival-kit",
+      "bytes": 11648
+    },
+    {
+      "path": "models/props/tent.glb",
+      "name": "Canvas tent / stall",
+      "category": "props",
+      "description": "Canvas tent \u2014 usable as a market stall canopy.",
+      "shots": [
+        3
+      ],
+      "source_url": "https://kenney.nl/assets/survival-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney survival-kit",
+      "bytes": 21240
+    },
+    {
+      "path": "models/props/tent-canvas.glb",
+      "name": "Canvas stall cover",
+      "category": "props",
+      "description": "Canvas cover piece for a stall.",
+      "shots": [
+        3
+      ],
+      "source_url": "https://kenney.nl/assets/survival-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney survival-kit",
+      "bytes": 24080
+    },
+    {
+      "path": "models/props/fruit-banana.glb",
+      "name": "Banana",
+      "category": "props",
+      "description": "Banana for fruit stalls.",
+      "shots": [
+        3
+      ],
+      "source_url": "https://kenney.nl/assets/food-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney food-kit",
+      "bytes": 22716
+    },
+    {
+      "path": "models/props/fruit-apple.glb",
+      "name": "Apple",
+      "category": "props",
+      "description": "Apple for fruit stalls.",
+      "shots": [
+        3
+      ],
+      "source_url": "https://kenney.nl/assets/food-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney food-kit",
+      "bytes": 24732
+    },
+    {
+      "path": "models/props/fruit-orange.glb",
+      "name": "Orange",
+      "category": "props",
+      "description": "Orange for fruit stalls.",
+      "shots": [
+        3
+      ],
+      "source_url": "https://kenney.nl/assets/food-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney food-kit",
+      "bytes": 23536
+    },
+    {
+      "path": "models/props/fruit-pineapple.glb",
+      "name": "Pineapple",
+      "category": "props",
+      "description": "Pineapple for fruit stalls.",
+      "shots": [
+        3
+      ],
+      "source_url": "https://kenney.nl/assets/food-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney food-kit",
+      "bytes": 30696
+    },
+    {
+      "path": "models/props/fruit-watermelon.glb",
+      "name": "Watermelon",
+      "category": "props",
+      "description": "Watermelon for fruit stalls.",
+      "shots": [
+        3
+      ],
+      "source_url": "https://kenney.nl/assets/food-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney food-kit",
+      "bytes": 100596
+    },
+    {
+      "path": "models/props/fruit-grapes.glb",
+      "name": "Grapes",
+      "category": "props",
+      "description": "Grapes for fruit stalls.",
+      "shots": [
+        3
+      ],
+      "source_url": "https://kenney.nl/assets/food-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney food-kit",
+      "bytes": 69452
+    },
+    {
+      "path": "models/props/fruit-coconut.glb",
+      "name": "Coconut",
+      "category": "props",
+      "description": "Coconut for fruit stalls.",
+      "shots": [
+        3
+      ],
+      "source_url": "https://kenney.nl/assets/food-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney food-kit",
+      "bytes": 19412
+    },
+    {
+      "path": "models/props/fruit-tomato.glb",
+      "name": "Tomato",
+      "category": "props",
+      "description": "Tomato for produce stalls.",
+      "shots": [
+        3
+      ],
+      "source_url": "https://kenney.nl/assets/food-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney food-kit",
+      "bytes": 24528
+    },
+    {
+      "path": "models/props/bag.glb",
+      "name": "Bag",
+      "category": "props",
+      "description": "Shopping / produce bag.",
+      "shots": [
+        3,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/food-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney food-kit",
+      "bytes": 16788
+    },
+    {
+      "path": "models/props/soda-bottle.glb",
+      "name": "Soda bottle",
+      "category": "props",
+      "description": "Soda bottle for kiosk shelves.",
+      "shots": [
+        3,
+        4,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/food-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney food-kit",
+      "bytes": 21756
+    },
+    {
+      "path": "models/props/soda-can.glb",
+      "name": "Soda can",
+      "category": "props",
+      "description": "Soda can.",
+      "shots": [
+        3,
+        6
+      ],
+      "source_url": "https://kenney.nl/assets/food-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney food-kit",
+      "bytes": 26852
+    },
+    {
+      "path": "models/props/food-barrel.glb",
+      "name": "Food barrel",
+      "category": "props",
+      "description": "Barrel from the food kit, useful at stalls.",
+      "shots": [
+        3
+      ],
+      "source_url": "https://kenney.nl/assets/food-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney food-kit",
+      "bytes": 37308
+    },
+    {
+      "path": "models/nature/palm.glb",
+      "name": "Palm tree",
+      "category": "nature",
+      "description": "Palm tree \u2014 hero foliage for shots 4, 5 and 8.",
+      "shots": [
+        4,
+        5,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 13128
+    },
+    {
+      "path": "models/nature/palm-tall.glb",
+      "name": "Tall palm tree",
+      "category": "nature",
+      "description": "Tall palm tree.",
+      "shots": [
+        4,
+        5,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 15104
+    },
+    {
+      "path": "models/nature/palm-short.glb",
+      "name": "Short palm tree",
+      "category": "nature",
+      "description": "Short palm tree, good as a blurred foreground element in shot 4.",
+      "shots": [
+        4,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 15108
+    },
+    {
+      "path": "models/nature/palm-bend.glb",
+      "name": "Bending palm tree",
+      "category": "nature",
+      "description": "Leaning palm tree.",
+      "shots": [
+        4,
+        5,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 14332
+    },
+    {
+      "path": "models/nature/palm-detailed-tall.glb",
+      "name": "Detailed tall palm",
+      "category": "nature",
+      "description": "More detailed tall palm.",
+      "shots": [
+        4,
+        5,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 27348
+    },
+    {
+      "path": "models/nature/palm-detailed-short.glb",
+      "name": "Detailed short palm",
+      "category": "nature",
+      "description": "More detailed short palm.",
+      "shots": [
+        4,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 27352
+    },
+    {
+      "path": "models/nature/tree-oak.glb",
+      "name": "Oak tree",
+      "category": "nature",
+      "description": "Broad tree for parks and roadside shade.",
+      "shots": [
+        6,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 14168
+    },
+    {
+      "path": "models/nature/tree-detailed.glb",
+      "name": "Detailed tree",
+      "category": "nature",
+      "description": "Detailed deciduous tree.",
+      "shots": [
+        6,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 30736
+    },
+    {
+      "path": "models/nature/tree-tall.glb",
+      "name": "Tall tree",
+      "category": "nature",
+      "description": "Tall tree.",
+      "shots": [
+        6,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 6512
+    },
+    {
+      "path": "models/nature/tree-default.glb",
+      "name": "Default tree",
+      "category": "nature",
+      "description": "General-purpose tree.",
+      "shots": [
+        2,
+        6,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 8944
+    },
+    {
+      "path": "models/nature/tree-simple.glb",
+      "name": "Simple tree",
+      "category": "nature",
+      "description": "Simple stylized tree.",
+      "shots": [
+        2,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 6012
+    },
+    {
+      "path": "models/nature/tree-fat.glb",
+      "name": "Full / fat tree",
+      "category": "nature",
+      "description": "Full-canopy tree.",
+      "shots": [
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 5092
+    },
+    {
+      "path": "models/nature/tree-cone.glb",
+      "name": "Conical tree",
+      "category": "nature",
+      "description": "Conical / pine-like tree.",
+      "shots": [
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 10432
+    },
+    {
+      "path": "models/nature/tree-small.glb",
+      "name": "Small tree",
+      "category": "nature",
+      "description": "Small tree or sapling.",
+      "shots": [
+        2,
+        6,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 6008
+    },
+    {
+      "path": "models/nature/bush.glb",
+      "name": "Bush",
+      "category": "nature",
+      "description": "Bush / shrub.",
+      "shots": [
+        2,
+        6,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 4092
+    },
+    {
+      "path": "models/nature/bush-large.glb",
+      "name": "Large bush",
+      "category": "nature",
+      "description": "Large bush.",
+      "shots": [
+        6,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 6128
+    },
+    {
+      "path": "models/nature/bush-detailed.glb",
+      "name": "Detailed bush",
+      "category": "nature",
+      "description": "Detailed bush.",
+      "shots": [
+        2,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 9844
+    },
+    {
+      "path": "models/nature/bush-small.glb",
+      "name": "Small bush",
+      "category": "nature",
+      "description": "Small bush.",
+      "shots": [
+        2,
+        6,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 2884
+    },
+    {
+      "path": "models/nature/bush-triangle.glb",
+      "name": "Triangle bush",
+      "category": "nature",
+      "description": "Stylized triangular bush.",
+      "shots": [
+        2,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 3636
+    },
+    {
+      "path": "models/nature/plant-flat-tall.glb",
+      "name": "Tall flat plant",
+      "category": "nature",
+      "description": "Tall leafy plant, useful as vines / foliage clusters.",
+      "shots": [
+        1,
+        2,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 3168
+    },
+    {
+      "path": "models/nature/plant-flat-short.glb",
+      "name": "Short flat plant",
+      "category": "nature",
+      "description": "Short leafy plant.",
+      "shots": [
+        2,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 3604
+    },
+    {
+      "path": "models/nature/flower-red.glb",
+      "name": "Red flower",
+      "category": "nature",
+      "description": "Red flower clump.",
+      "shots": [
+        2,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 6628
+    },
+    {
+      "path": "models/nature/flower-yellow.glb",
+      "name": "Yellow flower",
+      "category": "nature",
+      "description": "Yellow flower clump.",
+      "shots": [
+        2,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 6640
+    },
+    {
+      "path": "models/nature/flower-purple.glb",
+      "name": "Purple flower",
+      "category": "nature",
+      "description": "Purple flower clump.",
+      "shots": [
+        2,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 6632
+    },
+    {
+      "path": "models/nature/flower-red-b.glb",
+      "name": "Red flower B",
+      "category": "nature",
+      "description": "Red flower variant.",
+      "shots": [
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 7596
+    },
+    {
+      "path": "models/nature/flower-yellow-b.glb",
+      "name": "Yellow flower B",
+      "category": "nature",
+      "description": "Yellow flower variant.",
+      "shots": [
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 10776
+    },
+    {
+      "path": "models/nature/grass-large.glb",
+      "name": "Large grass clump",
+      "category": "nature",
+      "description": "Large stylized grass clump for parks and roadsides.",
+      "shots": [
+        2,
+        6,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 18180
+    },
+    {
+      "path": "models/nature/grass-leafs.glb",
+      "name": "Leafy grass",
+      "category": "nature",
+      "description": "Leafy grass clump.",
+      "shots": [
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 4296
+    },
+    {
+      "path": "models/nature/grass-leafs-large.glb",
+      "name": "Large leafy grass",
+      "category": "nature",
+      "description": "Larger leafy grass clump.",
+      "shots": [
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 13672
+    },
+    {
+      "path": "models/nature/ground-grass.glb",
+      "name": "Grass ground patch",
+      "category": "nature",
+      "description": "Ground plane patch of grass.",
+      "shots": [
+        6,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 1216
+    },
+    {
+      "path": "models/nature/platform-grass.glb",
+      "name": "Grass platform",
+      "category": "nature",
+      "description": "Raised grass platform / mound.",
+      "shots": [
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 12076
+    },
+    {
+      "path": "models/nature/patch-grass.glb",
+      "name": "Grass patch",
+      "category": "nature",
+      "description": "Small grass patch.",
+      "shots": [
+        6,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/survival-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney survival-kit",
+      "bytes": 10720
+    },
+    {
+      "path": "models/nature/patch-grass-large.glb",
+      "name": "Large grass patch",
+      "category": "nature",
+      "description": "Larger grass patch.",
+      "shots": [
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/survival-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney survival-kit",
+      "bytes": 10736
+    },
+    {
+      "path": "models/nature/rock-large-a.glb",
+      "name": "Large rock A",
+      "category": "nature",
+      "description": "Large rock.",
+      "shots": [
+        5,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 7072
+    },
+    {
+      "path": "models/nature/rock-large-c.glb",
+      "name": "Large rock C",
+      "category": "nature",
+      "description": "Large rock variant.",
+      "shots": [
+        5,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 6528
+    },
+    {
+      "path": "models/nature/rock-small-a.glb",
+      "name": "Small rock A",
+      "category": "nature",
+      "description": "Small rock.",
+      "shots": [
+        6,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 2588
+    },
+    {
+      "path": "models/nature/rock-small-c.glb",
+      "name": "Small rock C",
+      "category": "nature",
+      "description": "Small rock variant.",
+      "shots": [
+        6,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 2588
+    },
+    {
+      "path": "models/nature/rock-tall-a.glb",
+      "name": "Tall rock A",
+      "category": "nature",
+      "description": "Tall rock / boulder.",
+      "shots": [
+        5,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 11404
+    },
+    {
+      "path": "models/nature/rock-tall-c.glb",
+      "name": "Tall rock C",
+      "category": "nature",
+      "description": "Tall rock variant.",
+      "shots": [
+        5,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 4512
+    },
+    {
+      "path": "models/boats/boat-row-small.glb",
+      "name": "Small rowboat",
+      "category": "boats",
+      "description": "Small rowboat for the lagoon under the bridge.",
+      "shots": [
+        5,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/watercraft-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney watercraft-kit",
+      "bytes": 25716
+    },
+    {
+      "path": "models/boats/boat-row-large.glb",
+      "name": "Large rowboat",
+      "category": "boats",
+      "description": "Larger rowboat.",
+      "shots": [
+        5
+      ],
+      "source_url": "https://kenney.nl/assets/watercraft-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney watercraft-kit",
+      "bytes": 24108
+    },
+    {
+      "path": "models/boats/boat-fishing-small.glb",
+      "name": "Small fishing boat",
+      "category": "boats",
+      "description": "Small fishing boat for the lagoon.",
+      "shots": [
+        5
+      ],
+      "source_url": "https://kenney.nl/assets/watercraft-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney watercraft-kit",
+      "bytes": 31508
+    },
+    {
+      "path": "models/boats/boat-sail-a.glb",
+      "name": "Sailboat A",
+      "category": "boats",
+      "description": "Small sailboat.",
+      "shots": [
+        5
+      ],
+      "source_url": "https://kenney.nl/assets/watercraft-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney watercraft-kit",
+      "bytes": 43432
+    },
+    {
+      "path": "models/boats/boat-sail-b.glb",
+      "name": "Sailboat B",
+      "category": "boats",
+      "description": "Small sailboat variant.",
+      "shots": [
+        5
+      ],
+      "source_url": "https://kenney.nl/assets/watercraft-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney watercraft-kit",
+      "bytes": 46312
+    },
+    {
+      "path": "models/boats/boat-tug-a.glb",
+      "name": "Tugboat",
+      "category": "boats",
+      "description": "Small tug / work boat.",
+      "shots": [
+        5
+      ],
+      "source_url": "https://kenney.nl/assets/watercraft-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney watercraft-kit",
+      "bytes": 49600
+    },
+    {
+      "path": "models/boats/boat-house-a.glb",
+      "name": "Houseboat",
+      "category": "boats",
+      "description": "Small houseboat for the lagoon.",
+      "shots": [
+        5
+      ],
+      "source_url": "https://kenney.nl/assets/watercraft-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney watercraft-kit",
+      "bytes": 46868
+    },
+    {
+      "path": "models/boats/ship-small.glb",
+      "name": "Small ship",
+      "category": "boats",
+      "description": "Small ship, useful in the far lagoon background.",
+      "shots": [
+        5
+      ],
+      "source_url": "https://kenney.nl/assets/watercraft-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney watercraft-kit",
+      "bytes": 151108
+    },
+    {
+      "path": "models/boats/canoe.glb",
+      "name": "Canoe",
+      "category": "boats",
+      "description": "Canoe for the lagoon.",
+      "shots": [
+        5,
+        8
+      ],
+      "source_url": "https://kenney.nl/assets/nature-kit",
+      "author": "Kenney",
+      "license": "CC0 1.0",
+      "pack": "Kenney nature-kit",
+      "bytes": 15320
+    },
+    {
+      "path": "models/vehicles/motorcycle.glb",
+      "name": "Cartoony motorcycle",
+      "category": "vehicles",
+      "description": "Stylized motorcycle \u2014 restyle as a glowing electric okada for shot 4.",
+      "shots": [
+        4
+      ],
+      "source_url": "https://poly.pizza/m/j20srJUjpB",
+      "author": "AliceCassie",
+      "license": "CC0 1.0",
+      "notes": "via Poly Pizza",
+      "bytes": 91144
+    },
+    {
+      "path": "models/vehicles/bicycle.glb",
+      "name": "Bicycle",
+      "category": "vehicles",
+      "description": "Bicycle to lean against a fence in shot 6.",
+      "shots": [
+        6
+      ],
+      "source_url": "https://poly.pizza/m/axc03j3xKfz",
+      "author": "jeremy",
+      "license": "CC-BY 3.0",
+      "notes": "via Poly Pizza. Attribution required.",
+      "bytes": 122472
+    },
+    {
+      "path": "models/vehicles/school-bus.glb",
+      "name": "School bus",
+      "category": "vehicles",
+      "description": "Bus silhouette \u2014 restyle as a yellow Lagos danfo (or use the Kenney van if you prefer a cleaner low-poly look).",
+      "shots": [
+        1,
+        7
+      ],
+      "source_url": "https://poly.pizza/m/2_1dZHNPJqJ",
+      "author": "Kyle Li",
+      "license": "CC-BY 3.0",
+      "notes": "via Poly Pizza (made in Tinkercad). Attribution required.",
+      "bytes": 327036
+    },
+    {
+      "path": "models/animals/bird.glb",
+      "name": "Bird",
+      "category": "animals",
+      "description": "Low-poly bird (jay). Duplicate, recolor and pose as egrets flying across shot 8, and as smaller birds elsewhere.",
+      "shots": [
+        1,
+        8
+      ],
+      "source_url": "https://poly.pizza/m/gYYC0gYMnw",
+      "author": "Quaternius",
+      "license": "CC0 1.0",
+      "notes": "via Poly Pizza; original pack at https://quaternius.com/",
+      "bytes": 48544
+    },
+    {
+      "path": "models/animals/butterfly.glb",
+      "name": "Butterfly",
+      "category": "animals",
+      "description": "Butterfly for the roadside corner (shot 6). Recolor freely.",
+      "shots": [
+        6,
+        8
+      ],
+      "source_url": "https://poly.pizza/m/2ZwYwkTVnfG",
+      "author": "Poly by Google",
+      "license": "CC-BY 3.0",
+      "notes": "via Poly Pizza (Google Poly archive). Attribution required.",
+      "bytes": 110020
+    },
+    {
+      "path": "textures/concrete/",
+      "files": [
+        "textures/concrete/Concrete034_1K-JPG_Color.jpg",
+        "textures/concrete/Concrete034_1K-JPG_NormalGL.jpg",
+        "textures/concrete/Concrete034_1K-JPG_Roughness.jpg"
+      ],
+      "name": "Concrete034 (1K)",
+      "category": "textures",
+      "description": "Worn concrete \u2014 roadsides, overpasses, building bases.",
+      "shots": [
+        1,
+        5,
+        6,
+        7
+      ],
+      "source_url": "https://ambientcg.com/a/Concrete034",
+      "author": "ambientCG (Lennart Demes)",
+      "license": "CC0 1.0",
+      "bytes": 1308890
+    },
+    {
+      "path": "textures/plaster-wall/",
+      "files": [
+        "textures/plaster-wall/Plaster001_1K-JPG_Color.jpg",
+        "textures/plaster-wall/Plaster001_1K-JPG_NormalGL.jpg",
+        "textures/plaster-wall/Plaster001_1K-JPG_Roughness.jpg"
+      ],
+      "name": "Plaster001 (1K)",
+      "category": "textures",
+      "description": "Plaster wall \u2014 painterly building facades and kiosks.",
+      "shots": [
+        2,
+        3,
+        4,
+        6,
+        7
+      ],
+      "source_url": "https://ambientcg.com/a/Plaster001",
+      "author": "ambientCG (Lennart Demes)",
+      "license": "CC0 1.0",
+      "bytes": 3287672
+    },
+    {
+      "path": "textures/asphalt/",
+      "files": [
+        "textures/asphalt/Asphalt033_1K-JPG_AmbientOcclusion.jpg",
+        "textures/asphalt/Asphalt033_1K-JPG_Color.jpg",
+        "textures/asphalt/Asphalt033_1K-JPG_NormalGL.jpg",
+        "textures/asphalt/Asphalt033_1K-JPG_Roughness.jpg"
+      ],
+      "name": "Asphalt033 (1K)",
+      "category": "textures",
+      "description": "Asphalt \u2014 streets and the bridge deck.",
+      "shots": [
+        1,
+        4,
+        5,
+        6,
+        7
+      ],
+      "source_url": "https://ambientcg.com/a/Asphalt033",
+      "author": "ambientCG (Lennart Demes)",
+      "license": "CC0 1.0",
+      "bytes": 5088983
+    },
+    {
+      "path": "textures/grass/",
+      "files": [
+        "textures/grass/Grass001_1K-JPG_AmbientOcclusion.jpg",
+        "textures/grass/Grass001_1K-JPG_Color.jpg",
+        "textures/grass/Grass001_1K-JPG_NormalGL.jpg",
+        "textures/grass/Grass001_1K-JPG_Roughness.jpg"
+      ],
+      "name": "Grass001 (1K)",
+      "category": "textures",
+      "description": "Grass ground \u2014 parks, rooftop soil, roadsides.",
+      "shots": [
+        2,
+        6,
+        8
+      ],
+      "source_url": "https://ambientcg.com/a/Grass001",
+      "author": "ambientCG (Lennart Demes)",
+      "license": "CC0 1.0",
+      "bytes": 5828654
+    },
+    {
+      "path": "textures/wood/",
+      "files": [
+        "textures/wood/Wood051_1K-JPG_Color.jpg",
+        "textures/wood/Wood051_1K-JPG_NormalGL.jpg",
+        "textures/wood/Wood051_1K-JPG_Roughness.jpg"
+      ],
+      "name": "Wood051 (1K)",
+      "category": "textures",
+      "description": "Wood boards \u2014 stalls, crates, fences, boats.",
+      "shots": [
+        3,
+        5,
+        6
+      ],
+      "source_url": "https://ambientcg.com/a/Wood051",
+      "author": "ambientCG (Lennart Demes)",
+      "license": "CC0 1.0",
+      "bytes": 3135731
+    },
+    {
+      "path": "textures/corrugated-metal/",
+      "files": [
+        "textures/corrugated-metal/CorrugatedSteel007A_1K-JPG_AmbientOcclusion.jpg",
+        "textures/corrugated-metal/CorrugatedSteel007A_1K-JPG_Color.jpg",
+        "textures/corrugated-metal/CorrugatedSteel007A_1K-JPG_Metalness.jpg",
+        "textures/corrugated-metal/CorrugatedSteel007A_1K-JPG_NormalGL.jpg",
+        "textures/corrugated-metal/CorrugatedSteel007A_1K-JPG_Roughness.jpg"
+      ],
+      "name": "CorrugatedSteel007A (1K)",
+      "category": "textures",
+      "description": "Corrugated metal \u2014 zinc roofs, kiosks, stalls.",
+      "shots": [
+        2,
+        3,
+        4,
+        6
+      ],
+      "source_url": "https://ambientcg.com/a/CorrugatedSteel007A",
+      "author": "ambientCG (Lennart Demes)",
+      "license": "CC0 1.0",
+      "bytes": 2237260
+    },
+    {
+      "path": "hdri/the_sky_is_on_fire_2k.hdr",
+      "name": "The Sky Is On Fire (2K)",
+      "category": "hdri",
+      "description": "Dramatic sunset / golden-hour sky. Use for shots 1, 5 and other warm evening looks.",
+      "shots": [
+        1,
+        5,
+        7
+      ],
+      "source_url": "https://polyhaven.com/a/the_sky_is_on_fire",
+      "author": "Greg Zaal (HDRI); Rico Cilliers (backplates, not included)",
+      "license": "CC0 1.0",
+      "bytes": 5996454
+    },
+    {
+      "path": "hdri/spruit_sunrise_2k.hdr",
+      "name": "Spruit Sunrise (2K)",
+      "category": "hdri",
+      "description": "Clear sunrise over a park / field. Use for brighter morning and the lagoon-side park (shot 8).",
+      "shots": [
+        2,
+        8
+      ],
+      "source_url": "https://polyhaven.com/a/spruit_sunrise",
+      "author": "Greg Zaal",
+      "license": "CC0 1.0",
+      "bytes": 5934209
+    },
+    {
+      "path": "fonts/Montserrat-Light.ttf",
+      "name": "Montserrat Light",
+      "category": "fonts",
+      "description": "Thin, clean sans-serif for credit titles and the end card. Use this OFL font for all on-screen text.",
+      "shots": [
+        1,
+        2,
+        4,
+        7,
+        8
+      ],
+      "source_url": "https://github.com/JulietaUla/Montserrat",
+      "author": "Julieta Ulanovsky, Sol Matas, Juan Pablo del Peral, Jacques Le Bailly and contributors",
+      "license": "OFL 1.1",
+      "notes": "License file at fonts/OFL.txt. Also listed at https://fonts.google.com/specimen/Montserrat",
+      "bytes": 444356
+    }
+  ]
+}
