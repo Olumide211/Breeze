@@ -1,6 +1,6 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
-import { BUBBLES, COLORS, DOOR_MOUTH, VIDEO } from "./scenes";
+import { ANIMATE_ON_TWOS, BUBBLES, COLORS, DOOR_MOUTH, VIDEO } from "./scenes";
 import { FilmInk, sceneAt } from "./lib/ink";
 import { kf, type Pt } from "./lib/util";
 import { direct, END_CARD_START } from "./direction";
@@ -15,7 +15,7 @@ import { EndCard } from "./EndCard";
 
 const Bubbles: React.FC<{ frame: number }> = ({ frame }) => {
   const sc = sceneAt(frame);
-  const f = sc.ones ? frame : frame - (frame % 2);
+  const f = sc.ones || !ANIMATE_ON_TWOS ? frame : frame - (frame % 2);
   return (
     <g>
       {BUBBLES.map((b) => {

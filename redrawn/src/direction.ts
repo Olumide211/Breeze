@@ -2,7 +2,7 @@
  * Direction: turns a frame number into everything the renderer needs (camera, poses, props).
  * Timings and boil come from scenes.ts; this file holds the acting.
  */
-import { CAM, LINE_WEIGHT_KEYS, MONTAGE_POSTURE, SCENES, T } from "./scenes";
+import { ANIMATE_ON_TWOS, CAM, LINE_WEIGHT_KEYS, MONTAGE_POSTURE, SCENES, T } from "./scenes";
 import { sceneAt } from "./lib/ink";
 import { srnd } from "./lib/rand";
 import { add, bump, clamp, dir, easeOut, kf, kfPt, lerp, linear, mul, pointAt, prog, rot, sub, type Pt } from "./lib/util";
@@ -79,7 +79,7 @@ const drawing = (f: number, doodle: number, wobble = 1) => {
 
 export const direct = (frame: number): Shot => {
   const sc = sceneAt(frame);
-  const f = sc.ones ? frame : frame - (frame % 2); // animate on twos unless the scene says ones
+  const f = sc.ones || !ANIMATE_ON_TWOS ? frame : frame - (frame % 2); // animate on twos unless the scene says ones
 
   const shot: Shot = {
     cam: CAM.wide,
@@ -306,6 +306,7 @@ export const direct = (frame: number): Shot => {
         shot.pencil = { tip, angle: pAngle, roll: 0.6, where: "hand" };
       } else {
         shot.cam = CAM.faceBed;
+        shot.hideChair = true;
         const rs = T.redrawSmile;
         const rigNow = boyRig({ ...BED, posture, lean, headTilt: 0 });
         const start = rigNow.headToWorld(FRESH_CORNER[0]);

@@ -16,6 +16,9 @@ export const COLORS = {
 };
 export const GHOST_OPACITY = 0.35;
 
+/** Pose timing. false = every frame (smooth). true = poses update every 2nd frame (choppier, "on twos"). */
+export const ANIMATE_ON_TWOS = false;
+
 /** LINE BOIL = EMOTION. boil → jitter (± screen px) and hold (frames between re-seeds). Interpolated between rows. */
 export const BOIL_LEVELS = [
   { boil: 0.05, jitter: 0.3, hold: 8 }, // peace

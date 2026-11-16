@@ -3,7 +3,7 @@ import { COLORS } from "../scenes";
 import { Ink } from "../lib/ink";
 import { add, arc, bbox, clamp, dir, ik, lerpPt, mul, norm, rot, sub, type Pt } from "../lib/util";
 import { Erasable } from "./Erasable";
-import { SketchPath } from "./SketchPath";
+import { sharpD, SketchPath } from "./SketchPath";
 
 export type Mouth = "smile" | "flat" | "o" | "sad" | "calmSmile";
 
@@ -108,37 +108,42 @@ export const FRESH_CORNER: Pt[] = M([[4.2, 2.8], [8, 2.4], [11.2, 0], [12.6, -3.
 export const HS = 1.2;
 const sc = (pts: Pt[]): Pt[] => pts.map((q) => mul(q, HS));
 const FINGERS = [
-  { b: [5, -5.5] as Pt, ang: -52, len: 8.5, w: 5, curve: 0.14 }, // thumb
-  { b: [14, -4.6] as Pt, ang: -7, len: 9.5, w: 4.3, curve: -0.04 }, // index
-  { b: [15, -1.2] as Pt, ang: -1, len: 10.8, w: 4.3, curve: 0 }, // middle
-  { b: [14.6, 2.4] as Pt, ang: 5, len: 10, w: 4.1, curve: 0.04 }, // ring
-  { b: [13.2, 5.4] as Pt, ang: 12, len: 7.8, w: 3.8, curve: 0.08 }, // pinky
+  { b: [6, -4.2] as Pt, ang: -48, len: 11.5, w: 5.6, curve: 0.2, taper: 0.42 }, // thumb
+  { b: [13.4, -4.9] as Pt, ang: -8, len: 13, w: 4.7, curve: -0.05, taper: 0.5 }, // index
+  { b: [15, -1.6] as Pt, ang: -2, len: 14.6, w: 4.7, curve: 0, taper: 0.5 }, // middle
+  { b: [15, 2] as Pt, ang: 4, len: 13.2, w: 4.5, curve: 0.04, taper: 0.5 }, // ring
+  { b: [13.4, 5.3] as Pt, ang: 11, len: 10.4, w: 4.1, curve: 0.08, taper: 0.5 }, // pinky
 ];
 /** how each redrawn finger differs from the original */
 const FRESH_VARIANT = [
-  { len: 1.2, ang: 10, w: 1.1 },
-  { len: 0.84, ang: -9, w: 1.2 },
+  { len: 1.2, ang: 12, w: 1.1 },
+  { len: 0.82, ang: -9, w: 1.2 },
   { len: 1.14, ang: 7, w: 1.05 },
-  { len: 0.86, ang: -8, w: 1.25 },
-  { len: 1.3, ang: 11, w: 1.1 },
+  { len: 0.84, ang: -8, w: 1.25 },
+  { len: 1.3, ang: 12, w: 1.1 },
 ];
 const finger = (i: number, grip: number, fresh: boolean): Pt[] => {
   const f = FINGERS[i];
   const v = fresh ? FRESH_VARIANT[i] : { len: 1, ang: 0, w: 1 };
-  const ang = f.ang + v.ang + (i === 0 ? 40 : 46) * grip;
-  const len = f.len * v.len * (1 - 0.42 * grip);
+  const ang = f.ang + v.ang + (i === 0 ? 38 : 52) * grip;
+  const len = f.len * v.len * (1 - 0.4 * grip);
   const h = (f.w * v.w) / 2;
   const d = dir(ang);
   const n: Pt = [-d[1], d[0]];
-  // tapered, slightly curved, round-tipped
+  // one tapered, slightly curved leaf that starts inside the palm
   const at = (t: number, side: number): Pt => {
-    const bend = f.curve * len * t * t;
-    return add(f.b, add(mul(d, len * t), mul(n, side * h * (1 - 0.18 * t) + bend)));
+    const tt = Math.max(0, t);
+    const bend = f.curve * len * tt * tt;
+    return add(f.b, add(mul(d, len * t), mul(n, side * h * (1 - f.taper * Math.pow(tt, 1.4)) + bend)));
   };
-  return sc([at(-0.12, -1), at(0.45, -1), at(0.86, -0.82), at(1, 0), at(0.86, 0.82), at(0.45, 1), at(-0.12, 1)]);
+  return sc([at(-0.3, -1), at(0.3, -1), at(0.72, -1), at(0.95, -0.7), at(1.02, 0), at(0.95, 0.7), at(0.72, 1), at(0.3, 1), at(-0.3, 1)]);
 };
-const PALM: Pt[] = sc([[-1, -4.6], [5, -7], [12, -6.6], [16, -2], [15.6, 3.6], [11, 7.4], [4, 7], [-1, 4.8]]);
-const FRESH_PALM: Pt[] = sc([[-0.4, -4.2], [5.4, -7.8], [13, -7], [16.8, -1.6], [15.8, 4.4], [10.6, 8.2], [3.6, 7.4], [-1.4, 5.2]]);
+// the palm flows out of the wrist; its knuckle side is never inked, so palm and fingers read as one shape
+const PALM_TOP: Pt[] = sc([[-1, -4.2], [5, -5.6], [10, -6.8], [13.6, -7]]);
+const PALM_KNUCKLES: Pt[] = sc([[16, -2.4], [16.2, 2.6]]);
+const PALM_BOTTOM: Pt[] = sc([[13.6, 7.3], [9, 7.2], [4, 6], [-1, 4.4]]);
+const PALM: Pt[] = [...PALM_TOP, ...PALM_KNUCKLES, ...PALM_BOTTOM];
+const FRESH_PALM: Pt[] = sc([[-0.6, -4], [5.4, -6.6], [11, -7.8], [15.6, -6.4], [17.2, 0.2], [15.4, 6.6], [10, 8.4], [3.6, 6.8], [-1.4, 4.8]]);
 
 export const freshPalm = (): Pt[] => [...FRESH_PALM, FRESH_PALM[0]];
 export const freshFinger = (i: number): Pt[] => finger(i, 0, true);
@@ -155,25 +160,33 @@ const Hand: React.FC<{
 }> = ({ id, wrist, angle, grip, erased, redrawn }) => {
   const e = erased ?? INTACT;
   const r = redrawn ?? NOT_REDRAWN;
-  const order = [4, 3, 2, 1, 0];
+  const one = (i: number) => {
+    const pts = finger(i, grip, false);
+    return (
+      <Erasable key={i} id={`${id}-f${i}`} e={e.fingers[i]} box={bbox(pts, 1.2)}>
+        {() => <SketchPath pts={pts} seed={`${id}-f${i}`} fill={COLORS.bg} width={W * 0.95} />}
+      </Erasable>
+    );
+  };
   return (
     <g transform={`translate(${wrist[0]} ${wrist[1]}) rotate(${angle})`}>
+      {[4, 3, 2, 1].map(one)}
       <Erasable id={`${id}-palm`} e={e.palm} box={bbox(PALM, 1.5)}>
-        {() => <SketchPath pts={PALM} seed={`${id}-palm`} fill={COLORS.bg} width={W} />}
+        {(ghost) => (
+          <>
+            {ghost ? null : <path d={sharpD(PALM, true)} fill={COLORS.bg} />}
+            <SketchPath pts={PALM_TOP} seed={`${id}-palmT`} width={W} />
+            <SketchPath pts={PALM_BOTTOM} seed={`${id}-palmB`} width={W} />
+          </>
+        )}
       </Erasable>
-      {order.map((i) => {
-        const pts = finger(i, grip, false);
-        return (
-          <Erasable key={i} id={`${id}-f${i}`} e={e.fingers[i]} box={bbox(pts, 1.2)}>
-            {() => <SketchPath pts={pts} seed={`${id}-f${i}`} fill={COLORS.bg} width={W * 0.92} />}
-          </Erasable>
-        );
-      })}
+      {one(0)}
       {/* REDRAWN: new-line style, each finger a little different from the one he lost */}
-      <SketchPath pts={FRESH_PALM} closed fresh seed={`${id}-newpalm`} fill={COLORS.bg} width={W} draw={r.palm} />
-      {order.map((i) => (
-        <SketchPath key={i} pts={finger(i, grip, true)} fresh seed={`${id}-newf${i}`} fill={COLORS.bg} width={W * 0.92} draw={r.fingers[i]} />
+      {[4, 3, 2, 1].map((i) => (
+        <SketchPath key={i} pts={finger(i, grip, true)} fresh seed={`${id}-newf${i}`} fill={COLORS.bg} width={W * 0.95} draw={r.fingers[i]} />
       ))}
+      <SketchPath pts={FRESH_PALM} closed fresh seed={`${id}-newpalm`} fill={COLORS.bg} width={W} draw={r.palm} />
+      <SketchPath pts={finger(0, grip, true)} fresh seed={`${id}-newf0`} fill={COLORS.bg} width={W * 0.95} draw={r.fingers[0]} />
     </g>
   );
 };
@@ -258,7 +271,7 @@ export const Boy: React.FC<BoyProps> = (props) => {
       hand,
       el: (
         <g>
-          <SketchPath pts={tube(line, 13.5, 8)} seed={`${id}-arm${k}`} width={W} fill={COLORS.bg} double />
+          <SketchPath pts={tube(line, 13.5, 9.5)} seed={`${id}-arm${k}`} width={W} fill={COLORS.bg} double />
           {cuff ? <SketchPath pts={[add(cl, mul(nr, -7.4)), add(cl, mul(u, 1.5)), add(cl, mul(nr, 7.4))]} seed={`${id}-cuff${k}`} width={W * 0.9} /> : null}
         </g>
       ),
