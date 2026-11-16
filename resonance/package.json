@@ -1,0 +1,42 @@
+{
+  "name": "resonance-by-breezeog",
+  "private": true,
+  "version": "1.0.0",
+  "description": "RESONANCE by BreezeOg: a dawn-to-night cinematic montage of New York City built with Remotion and React Three Fiber on real OpenStreetMap data",
+  "scripts": {
+    "fetch": "node scripts/fetch-osm.mjs",
+    "build-city": "node scripts/build-city.mjs",
+    "studio": "remotion studio src/index.ts",
+    "preview": "node scripts/render.mjs preview",
+    "stills": "node scripts/render.mjs stills",
+    "render": "node scripts/render.mjs final",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@fontsource/inter": "5.3.0",
+    "@fontsource/syncopate": "5.3.0",
+    "@react-three/drei": "9.122.0",
+    "@react-three/fiber": "8.18.0",
+    "@react-three/postprocessing": "2.19.1",
+    "@remotion/bundler": "4.0.543",
+    "@remotion/cli": "4.0.543",
+    "@remotion/renderer": "4.0.543",
+    "@remotion/three": "4.0.543",
+    "earcut": "3.2.4",
+    "osmtogeojson": "3.0.0-beta.5",
+    "postprocessing": "6.39.6",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.543",
+    "seedrandom": "3.0.5",
+    "simplex-noise": "4.0.3",
+    "three": "0.170.0"
+  },
+  "devDependencies": {
+    "@types/earcut": "^3.0.0",
+    "@types/react": "^18.3.31",
+    "@types/seedrandom": "^3.0.8",
+    "@types/three": "^0.170.0",
+    "typescript": "^7.0.2"
+  }
+}
