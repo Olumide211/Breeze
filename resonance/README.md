@@ -54,7 +54,8 @@ Outputs:
 
 The original build used the software path (the build machine had 4 CPU cores and no GPU), so
 its 4K file is a 1080p render of the 3D film upscaled, with a native-4K title. The `NATIVE=1`
-path has not been run end to end. `out/` is not committed.
+path has not been run end to end. `out/` is not committed; `preview/resonance-preview.mp4` is a
+smaller 1080p copy (CRF 23) of that build.
 
 ## Layout
 
