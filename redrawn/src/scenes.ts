@@ -83,7 +83,7 @@ export const T = {
 
   // S5
   parentHandIn: { at: 180, dur: 8 },
-  crumple: { at: 188, dur: 8 },
+  crumple: { at: 189, dur: 7 },
   parentHandOut: { at: 198, dur: 8 },
   pencilDrop: 192,
   pencilFall: { at: 200, dur: 5 },
@@ -110,7 +110,8 @@ export const T = {
 
   // S10
   redrawPalm: { at: 374, dur: 7 },
-  redrawFingers: { at: 381, every: 5, dur: 5, order: [0, 1, 2, 3, 4] },
+  redrawFingers: { at: 381, every: 4, dur: 4, order: [0, 1, 2, 3, 4] },
+  flexNewHand: { at: 401, dur: 7 },
   faceCut: 408,
   redrawSmile: { at: 412, dur: 8 },
   calmSmile: 422,
@@ -118,6 +119,30 @@ export const T = {
   // S11
   freshDoodle: { at: 432, dur: 20 },
 };
+
+/** Acting accents. Blinks: frame each blink starts. Impacts: how hard each hit rocks him and shakes the camera. */
+export const BLINKS = [14, 38, 59, 100, 113, 127, 149, 208, 276, 292, 304, 330, 349, 360, 378, 396, 409, 444, 458];
+export const EYES_SHUT: [number, number, number][] = [
+  // [from, to, how shut 0..1]
+  [T.eraseSmile.at, T.eraseSmile.at + 4, 1],
+  [T.eraseEar.at, T.eraseEar.at + 3, 1],
+  [T.eraseHeadA.at, T.eraseHeadB.at + 4, 1],
+  [T.exhale.at + 4, T.exhale.at + 12, 1], // closes his eyes for the exhale
+  [T.calmSmile + 1, T.calmSmile + 5, 1], // happy squint
+];
+export const IMPACTS: { at: number; tilt: number; squash: number; hop: number; shake: number }[] = [
+  { at: T.eraseSmile.at, tilt: 16, squash: 0.14, hop: 0, shake: 5 },
+  { at: T.eraseEar.at, tilt: 13, squash: 0.1, hop: 0, shake: 3 },
+  { at: T.eraseHeadA.at, tilt: 11, squash: 0.09, hop: 0, shake: 3 },
+  { at: T.eraseHeadB.at, tilt: 10, squash: 0.09, hop: 0, shake: 3 },
+  { at: T.thinLines.at - 1, tilt: 14, squash: 0.12, hop: 0, shake: 4 },
+  { at: T.crumple.at, tilt: -12, squash: -0.16, hop: -9, shake: 9 }, // the parent hand lands
+  { at: T.crumble1, tilt: 3, squash: 0.03, hop: 0, shake: 2 }, // he holds
+  { at: T.crumble2, tilt: 3, squash: 0.03, hop: 0, shake: 2 },
+  { at: T.crumbleAll, tilt: 0, squash: 0, hop: 0, shake: 4 },
+];
+/** Slow camera push-in across a scene (fraction of extra zoom by the end). */
+export const PUSH_IN: Partial<Record<SceneId, number>> = { S3: 0.08, S6: 0.1, S7: 0.05, S8: 0.14, S10: 0.05 };
 
 /** Overall outline thickness of the Boy over time: [frame, lineWeight]. */
 export const LINE_WEIGHT_KEYS: [number, number][] = [

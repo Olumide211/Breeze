@@ -37,6 +37,14 @@ export type BoyProps = {
   browAngle?: number;
   browRaise?: number;
   mouth?: Mouth;
+  /** 0 open → 1 shut */
+  blink?: number;
+  /** head squash (+) / stretch (−), anchored at the neck */
+  squash?: number;
+  mouthScale?: number;
+  /** shin swing in degrees (near leg, far leg) */
+  legSwing?: number;
+  legSwingFar?: number;
   /** 0 upright → 1 hunched: lowers the head, rounds the shoulders */
   posture?: number;
   // body
@@ -235,11 +243,11 @@ export const Boy: React.FC<BoyProps> = (props) => {
   const hip: Pt = [props.x, props.y];
 
   // legs (seated, facing right): soft tubes with a rounded foot
-  const leg = (ox: number, oy: number, k: string) => {
+  const leg = (ox: number, oy: number, k: string, swing: number) => {
     const a: Pt = add(hip, [-2 + ox, -5 + oy]);
     const knee: Pt = add(hip, [44 + ox, -6 + oy]);
-    const ankle: Pt = add(hip, [45 + ox * 1.2, legDrop - 6]);
-    const foot: Pt[] = [[-5.5, -2], [2, -5], [13, -4.5], [20, 0], [19, 5], [-5.5, 5]].map((q) => add(ankle, q as Pt));
+    const ankle: Pt = add(knee, rot([1 + ox * 0.2, legDrop - oy], -swing));
+    const foot: Pt[] = [[-5.5, -2], [2, -5], [13, -4.5], [20, 0], [19, 5], [-5.5, 5]].map((q) => add(ankle, rot(q as Pt, -swing)));
     return (
       <g key={k}>
         <SketchPath pts={tube(limbLine(a, knee, ankle), 15, 10.5)} seed={`${id}-leg${k}`} width={W} fill={COLORS.bg} double />
@@ -295,9 +303,12 @@ export const Boy: React.FC<BoyProps> = (props) => {
   const eyes: { c: Pt; r: number }[] = [{ c: [-3.5, -3], r: eyeSize }, { c: [22.5, -3], r: eyeSize * 0.9 }];
   const po: Pt = [clamp(pupilOffset.x, -1, 1), clamp(pupilOffset.y, -1, 1)];
   const ps = pupilSize / 2.3;
+  const sq = props.squash ?? 0;
+  const blink = clamp(props.blink ?? 0);
+  const ms = props.mouthScale ?? 1;
   const earPts = arc(-R - 1, 6, 6.5, 9.5, 55, 305, 8);
   const head = (
-    <g transform={`translate(${rig.head[0]} ${rig.head[1]}) rotate(${rig.headAngle})`}>
+    <g transform={`translate(${rig.head[0]} ${rig.head[1]}) rotate(${rig.headAngle}) translate(0 ${R}) scale(${1 + sq * 0.7} ${1 - sq}) translate(0 ${-R})`}>
       <circle r={R - 0.5} fill={COLORS.bg} />
       <Erasable id={`${id}-ear`} e={erased.earRight} box={bbox(earPts, 2)}>
         {() => (
@@ -330,19 +341,31 @@ export const Boy: React.FC<BoyProps> = (props) => {
         const pc: Pt = [e.c[0] + po[0] * reachX, e.c[1] + po[1] * reachY];
         return (
           <g key={i}>
-            <SketchPath pts={arc(e.c[0], e.c[1], e.r, e.r, -80, 250, 10)} closed seed={`${id}-eye${i}`} fill={COLORS.white} width={W * 0.95} double />
-            <SketchPath pts={arc(pc[0], pc[1], prx, pry, 0, 320, 8)} closed seed={`${id}-pupil${i}`} fill={COLORS.ink} width={1} jitter={0.35} />
-            <circle cx={pc[0] - prx * 0.3} cy={pc[1] - pry * 0.45} r={0.9 * ps} fill={COLORS.white} />
+            {blink > 0.8 ? (
+              <SketchPath pts={arc(e.c[0], e.c[1] - e.r * 0.25, e.r, e.r * 0.55, 15, 165, 6)} seed={`${id}-lid${i}`} width={W} />
+            ) : (
+              <>
+                <SketchPath pts={arc(e.c[0], e.c[1] + e.r * 0.3 * blink, e.r, e.r * (1 - 0.8 * blink), -80, 250, 10)} closed seed={`${id}-eye${i}`} fill={COLORS.white} width={W * 0.95} double />
+                {blink < 0.5 ? (
+                  <>
+                    <SketchPath pts={arc(pc[0], pc[1], prx, pry, 0, 320, 8)} closed seed={`${id}-pupil${i}`} fill={COLORS.ink} width={1} jitter={0.35} />
+                    <circle cx={pc[0] - prx * 0.3} cy={pc[1] - pry * 0.45} r={0.9 * ps} fill={COLORS.white} />
+                  </>
+                ) : null}
+              </>
+            )}
             <SketchPath pts={[sub(bc, mul(bd, inner)), add(bc, [0, -1.2]), add(bc, mul(bd, inner))]} seed={`${id}-brow${i}`} width={W} />
           </g>
         );
       })}
       {/* mouth: main stroke + the erasable left corner */}
+      <g transform={`translate(${MOUTH_AT[0]} ${MOUTH_AT[1]}) scale(${ms}) translate(${-MOUTH_AT[0]} ${-MOUTH_AT[1]})`}>
       <SketchPath pts={MOUTH_MAIN[mouth]} seed={`${id}-mouth`} width={W * 1.05} />
       <Erasable id={`${id}-corner`} e={erased.smileCornerLeft} box={bbox(MOUTH_CORNER.smile, 2.5)}>
         {(ghost) => <SketchPath pts={ghost ? MOUTH_CORNER.smile : MOUTH_CORNER[mouth]} seed={`${id}-corner`} width={W * 1.05} />}
       </Erasable>
       <SketchPath pts={FRESH_CORNER} fresh seed={`${id}-newcorner`} width={W * 1.05} draw={redrawn.smileCornerLeft} />
+      </g>
     </g>
   );
 
@@ -350,8 +373,8 @@ export const Boy: React.FC<BoyProps> = (props) => {
     <Ink weight={lineWeight}>
       {layer !== "upper" ? (
         <g>
-          {leg(7, -3, "F")}
-          {leg(0, 0, "N")}
+          {leg(7, -3, "F", props.legSwingFar ?? 0)}
+          {leg(0, 0, "N", props.legSwing ?? 0)}
         </g>
       ) : null}
       {layer !== "legs" ? (

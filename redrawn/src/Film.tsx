@@ -2,7 +2,7 @@ import React from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { ANIMATE_ON_TWOS, BUBBLES, COLORS, DOOR_MOUTH, VIDEO } from "./scenes";
 import { FilmInk, sceneAt } from "./lib/ink";
-import { kf, type Pt } from "./lib/util";
+import { easeIn, kf, type Pt } from "./lib/util";
 import { direct, END_CARD_START } from "./direction";
 import { Boy } from "./components/Boy";
 import { Camera } from "./components/Camera";
@@ -21,15 +21,26 @@ const Bubbles: React.FC<{ frame: number }> = ({ frame }) => {
       {BUBBLES.map((b) => {
         const first = b.keys[0][0];
         if (frame < first) return null;
-        const at = (i: 1 | 2 | 3) => kf(Math.min(f, b.hit), b.keys.map((k) => [k[0], k[i]] as [number, number]));
+        // accelerate into the hit
+        const pos = (ff: number, i: 1 | 2 | 3) => kf(Math.min(ff, b.hit), b.keys.map((k) => [k[0], k[i]] as [number, number]), b.end === "fade" ? easeIn : undefined);
+        const at = (i: 1 | 2 | 3) => pos(f, i);
+        // stretch along the direction of travel, splat on impact
+        const vx = pos(f, 1) - pos(f - 1, 1), vy = pos(f, 2) - pos(f - 1, 2);
+        const speed = Math.hypot(vx, vy);
+        const ang = (Math.atan2(vy, vx) * 180) / Math.PI;
+        const since = frame - b.hit;
+        const st = since >= 0 && b.end === "fade" ? 1 - 0.3 * Math.exp(-0.5 * since) : 1 + Math.min(0.45, speed * 0.02);
+        const wrap = (el: React.ReactNode) => (
+          <g key={b.id} transform={`translate(${at(1)} ${at(2)}) rotate(${ang}) scale(${st} ${1 / st}) rotate(${-ang}) translate(${-at(1)} ${-at(2)})`}>{el}</g>
+        );
         // settled bubbles keep bobbing a little
         const bob: Pt = [Math.sin(f * 0.7 + first) * 3, Math.cos(f * 0.9 + first) * 3];
         const x = at(1) + bob[0], y = at(2) + bob[1], size = at(3);
         const t = frame - b.hit;
-        if (t < 0) return <ScribbleBubble key={b.id} x={x} y={y} size={size} tail={DOOR_MOUTH} seed={b.id} />;
+        if (t < 0) return wrap(<ScribbleBubble x={x} y={y} size={size} tail={DOOR_MOUTH} seed={b.id} />);
         if (b.end === "fade") {
           if (t >= 7) return null;
-          return <ScribbleBubble key={b.id} x={x} y={y} size={size * (1 + t * 0.04)} tail={DOOR_MOUTH} seed={b.id} opacity={1 - t / 7} />;
+          return wrap(<ScribbleBubble x={x} y={y} size={size * (1 + t * 0.04)} tail={DOOR_MOUTH} seed={b.id} opacity={1 - t / 7} />);
         }
         if (t > 60) return null;
         return <g key={b.id} opacity={kf(t, [[40, 1], [60, 0]])}><BubbleCrumble x={x} y={y} size={size} seed={b.id} t={t} floorY={ROOM.floorY - 2} /></g>;
@@ -63,7 +74,7 @@ export const Film: React.FC = () => {
             <Boy {...s.boy} layer={desk ? "upper" : "all"} />
             {s.pencil?.where === "hand" ? pencil : null}
             <Bubbles frame={frame} />
-            {s.parentHand ? <ParentHand {...s.parentHand} /> : null}
+            {s.parentHand ? <ParentHand {...s.parentHand} angle={62} /> : null}
           </Camera>
         </FilmInk>
       </svg>

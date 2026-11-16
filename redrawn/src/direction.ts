@@ -2,10 +2,10 @@
  * Direction: turns a frame number into everything the renderer needs (camera, poses, props).
  * Timings and boil come from scenes.ts; this file holds the acting.
  */
-import { ANIMATE_ON_TWOS, CAM, LINE_WEIGHT_KEYS, MONTAGE_POSTURE, SCENES, T } from "./scenes";
-import { sceneAt } from "./lib/ink";
+import { ANIMATE_ON_TWOS, BLINKS, CAM, EYES_SHUT, IMPACTS, LINE_WEIGHT_KEYS, PUSH_IN, MONTAGE_POSTURE, SCENES, T } from "./scenes";
+import { boilAt, sceneAt } from "./lib/ink";
 import { srnd } from "./lib/rand";
-import { add, bump, clamp, dir, easeOut, kf, kfPt, lerp, linear, mul, pointAt, prog, rot, sub, type Pt } from "./lib/util";
+import { add, bump, clamp, dir, easeOut, kf, kfPt, lerp, linear, spring, mul, pointAt, prog, rot, sub, type Pt } from "./lib/util";
 import { boyRig, FRESH_CORNER, MOUTH_AT, freshFinger, freshPalm, handToWorld, type BoyProps, type Erased, type Redrawn } from "./components/Boy";
 import { doodleTip, PAPER_CENTER } from "./components/Paper";
 import { ROOM } from "./components/Room";
@@ -121,7 +121,7 @@ export const direct = (frame: number): Shot => {
       const doodle = kf(f, [[48, 0.76], [64, 0.84]], linear);
       shot.paper!.doodle = doodle;
       holdRight(drawing(f, doodle, f < 64 ? 1 : 0));
-      const look = kf(f, [[58, 0], [64, 1]]);
+      const look = spring(prog(f, 58, 10));
       Object.assign(boy, {
         posture: 0.05, lean: 4 + 8 * doodle, mouth: "smile",
         pupilOffset: { x: lerp(0.55, -1, look), y: lerp(0.75, -0.05, look) },
@@ -135,7 +135,7 @@ export const direct = (frame: number): Shot => {
       holdRight(drawing(64, 0.84, 0));
       const hit = T.eraseSmile.at;
       const after = f >= hit + T.eraseSmile.dur + 2;
-      const touch = kf(f, [[T.touchMouth.at, 0], [T.touchMouth.at + T.touchMouth.dur, 1]]);
+      const touch = spring(prog(f, T.touchMouth.at, T.touchMouth.dur + 4));
       const rigNow = boyRig({ ...DESK, posture: 0.05, lean: 10 });
       const mouthWorld = rigNow.headToWorld([MOUTH_AT[0] + 12, MOUTH_AT[1]]);
       const lookBack = f >= 112;
@@ -170,7 +170,7 @@ export const direct = (frame: number): Shot => {
       const pan = kf(f, [[T.deskPan.at, 0], [T.deskPan.at + T.deskPan.dur, 1]]);
       shot.cam = { zoom: 2, x: lerp(CAM.desk.x, CAM.deskFloor.x, pan), y: lerp(CAM.desk.y, CAM.deskFloor.y, pan) };
       const inAt = T.parentHandIn.at, cr = T.crumple.at, out = T.parentHandOut.at;
-      const hp = kfPt(f, [[inAt, 430, 150], [inAt + T.parentHandIn.dur, 608, 334], [out, 608, 334], [out + T.parentHandOut.dur, 380, 110]]);
+      const hp = kfPt(f, [[inAt, 560, 40], [inAt + 5, 622, 258], [inAt + 7, 618, 248], [cr, 652, 322], [out, 652, 322], [out + T.parentHandOut.dur, 540, 20]]);
       shot.parentHand = {
         x: hp[0], y: hp[1],
         close: kf(f, [[cr - 1, 0], [cr + T.crumple.dur, 1], [out + 2, 1], [out + T.parentHandOut.dur, 0.5]]),
@@ -181,18 +181,18 @@ export const direct = (frame: number): Shot => {
         ball: kfPt(f, [[out, PAPER_CENTER[0], PAPER_CENTER[1]], [out + 6, BALL_REST[0], BALL_REST[1]]], easeOut),
       };
       const drop = T.pencilDrop;
-      const flinch = kf(f, [[inAt + 6, 0], [inAt + 10, 1], [out + 2, 1], [out + 10, 0]]);
+      const flinch = kf(f, [[cr - 1, 0], [cr + 1, 1], [out + 2, 1], [out + 10, 0]]);
       const sag = kf(f, [[out + 2, 0], [out + 12, 1]]);
       const pulled: Pt = [592, 352];
       const held = drawing(168, 1, 0);
-      const wrist = kfPt(f, [[inAt + 2, held.wrist[0], held.wrist[1]], [inAt + 8, pulled[0], pulled[1]], [out + 4, pulled[0], pulled[1]], [out + 12, 604, 376]]);
+      const wrist = kfPt(f, [[cr - 2, held.wrist[0], held.wrist[1]], [cr + 1, pulled[0], pulled[1]], [out + 4, pulled[0], pulled[1]], [out + 12, 604, 376]]);
       Object.assign(boy, {
         posture: 0.8 - 0.25 * flinch - 0.3 * sag, lean: 9 - 16 * flinch - 12 * sag, headTilt: 4 - 14 * flinch + 16 * sag,
         mouth: flinch > 0.5 && sag < 0.5 ? "o" : "sad",
         eyeSize: (5.6 + 2.4 * flinch * (1 - sag)) * 1.55, browAngle: 12, browRaise: 4 * flinch * (1 - sag),
         pupilOffset: sag > 0.3 ? { x: 0.7, y: 0.9 } : flinch > 0 ? { x: 0.9, y: 0.5 } : { x: 0.55, y: 0.8 },
         rightHand: wrist, rightHandAngle: lerp(DRAW_HAND, -4, kf(f, [[drop, 0], [out + 12, 1]])), rightGrip: kf(f, [[drop - 1, 1], [drop + 2, 0]]),
-        leftHand: kfPt(f, [[inAt + 4, LEFT_REST_DESK[0], LEFT_REST_DESK[1]], [inAt + 10, 584, 366], [out + 4, 584, 366], [out + 12, 548, 398]]),
+        leftHand: kfPt(f, [[cr - 2, LEFT_REST_DESK[0], LEFT_REST_DESK[1]], [cr + 1, 584, 358], [out + 4, 584, 366], [out + 12, 548, 398]]),
       });
       // the pencil: held → dropped on the desk → off the front edge → rolls under the desk
       const fall = T.pencilFall, roll = T.pencilRollAway;
@@ -253,7 +253,7 @@ export const direct = (frame: number): Shot => {
       const ret = T.pencilReturn;
       const restTip: Pt = [471, FLOOR_PENCIL_Y];
       const seen = kf(f, [[ret.at + 4, 0], [ret.at + 10, 1]]);
-      const reach = kf(f, [[T.reach.at, 0], [T.reach.at + T.reach.dur, 1], [T.grab + 1, 1], [372, 0.15]]);
+      const reach = kf(f, [[T.reach.at - 3, 0], [T.reach.at, -0.08], [T.reach.at + T.reach.dur, 1], [T.grab + 1, 1], [372, 0.15]]);
       const grabbed = f >= T.grab;
       const handAngle = lerp(30, 84, reach);
       const grabWrist = wristForTip(restTip, 84, 0);
@@ -299,7 +299,8 @@ export const direct = (frame: number): Shot => {
         const pAngle = -72;
         const hAngle = 105;
         Object.assign(boy, {
-          ...BED, posture: 0.1, lean: 2, headTilt: 14, mouth: "flat", eyeSize: (6.5) * 1.55, browAngle: -2, pupilOffset: { x: 0.8, y: 0.8 },
+          ...BED, posture: 0.1, lean: 2, headTilt: 14 + 2 * Math.sin(frame * 0.8), mouth: "flat", eyeSize: (6.5) * 1.55, browAngle: -7,
+          rightGrip: 0.75 * bump(frame, T.flexNewHand.at, T.flexNewHand.dur), pupilOffset: { x: 0.8, y: 0.8 },
           rightHand: wrist, rightHandAngle: wAngle,
           leftHand: wristForTip(tip, hAngle, pAngle), leftHandAngle: hAngle, leftInFront: false, leftGrip: 1,
         });
@@ -322,7 +323,7 @@ export const direct = (frame: number): Shot => {
         const pAngle = 62, hAngle = -122;
         Object.assign(boy, {
           ...BED, posture, lean, headTilt: 0, mouth: calm ? "calmSmile" : "flat",
-          eyeSize: (calm ? 6.8 : 6.5) * 1.55, browAngle: -3, browRaise: calm ? 1 : 0,
+          eyeSize: (calm ? 6.8 : 6.5) * 1.55, browAngle: -3, mouthScale: calm ? 0.7 + 0.45 * spring(prog(frame, T.calmSmile, 8)) : 1, browRaise: calm ? 1 : 0,
           pupilOffset: calm ? { x: 0.45, y: 0.15 } : { x: 0.8, y: 0.85 },
           rightHand: [BED.x + 34, BED.y - 12], rightHandAngle: 30,
           leftHand: wristForTip(tip, hAngle, pAngle), leftHandAngle: hAngle, leftInFront: true, leftGrip: 1,
@@ -342,7 +343,69 @@ export const direct = (frame: number): Shot => {
     default:
       break;
   }
+  applyLife(shot, frame, sc.id, (frame - sc.start) / (sc.end - sc.start));
   return shot;
+};
+
+/** The layer that keeps him alive: blinks, breath, impacts with squash and settle, trembling, swinging legs, camera moves. */
+const applyLife = (shot: Shot, frame: number, id: string, t: number) => {
+  const boy = shot.boy;
+  const plus = (k: "headTilt" | "squash" | "breath" | "eyeSize" | "browRaise" | "lean", v: number) => {
+    boy[k] = (boy[k] ?? (k === "eyeSize" ? 10.5 : 0)) + v;
+  };
+  // blinks
+  let blink = Math.max(0, ...BLINKS.map((b) => bump(frame, b - 1, 4)));
+  for (const [a, b, v] of EYES_SHUT) if (frame >= a && frame <= b) blink = Math.max(blink, v);
+  boy.blink = blink;
+  // breathing and a little head life
+  if (id !== "S8") plus("breath", 0.3 * (0.5 + 0.5 * Math.sin(frame * 0.45)));
+  plus("headTilt", 1.6 * Math.sin(frame * 0.45 + 1));
+  // impacts: rock, squash, hop, then settle; the camera shakes
+  let cx = 0, cy = 0;
+  for (const im of IMPACTS) {
+    const dt = frame - im.at;
+    if (dt < 0 || dt > 16) continue;
+    const e = Math.exp(-0.38 * dt) * Math.cos(1.05 * dt);
+    plus("headTilt", im.tilt * e);
+    plus("squash", im.squash * e);
+    plus("lean", im.tilt * 0.25 * e);
+    boy.y += im.hop * e;
+    if (dt >= 3) plus("eyeSize", 2.4 * Math.exp(-0.22 * (dt - 3))); // eyes pop open after the hit
+    if (dt >= 3 && dt < 14 && Math.abs(im.squash) > 0.08) boy.pupilSize = 1.7;
+    const sh = im.shake * Math.exp(-0.55 * dt);
+    cx += srnd(900 + im.at, frame) * sh;
+    cy += srnd(901 + im.at, frame) * sh;
+  }
+  // fear trembles
+  const trem = clamp((boilAt(frame) - 0.6) / 0.4);
+  if (trem > 0 && id !== "S6") {
+    plus("headTilt", srnd(71, frame) * 1.4 * trem);
+    boy.rightHand = add(boy.rightHand, [srnd(72, frame) * trem, srnd(73, frame) * trem]);
+    boy.leftHand = add(boy.leftHand, [srnd(74, frame) * trem, srnd(75, frame) * trem]);
+  }
+  // legs: a happy kid swings his feet; they freeze when the door opens, and come back at the end
+  if (id === "S1" || id === "S2") {
+    const amp = 13 * (1 - prog(frame, T.doorOpen.at + 1, 5));
+    boy.legSwing = amp * Math.sin(frame * 0.55);
+    boy.legSwingFar = amp * Math.sin(frame * 0.55 + 2.3);
+  } else if (id === "S11") {
+    const amp = 8 * prog(frame, 436, 12);
+    boy.legSwing = amp * Math.sin(frame * 0.4);
+    boy.legSwingFar = amp * Math.sin(frame * 0.4 + 2.3);
+  } else if (id === "S9") {
+    boy.legSwing = -9 * bump(frame, T.pencilReturn.at + T.pencilReturn.dur - 2, 6); // the pencil taps his foot
+  }
+  // S6: the hand jerks each time a finger goes
+  if (id === "S6") {
+    T.eraseFingers.order.forEach((_, i) => {
+      boy.rightHandAngle = (boy.rightHandAngle ?? 0) - 5 * bump(frame, T.eraseFingers.at + i * T.eraseFingers.every, 4);
+    });
+  }
+  // S8: after everything crumbles, his shoulders drop and he looks around
+  if (id === "S8" && frame >= T.crumbleAll + 3) boy.pupilOffset = { x: 0.7, y: -0.35 };
+  // camera: slow push-in, plus shake
+  const push = 1 + (PUSH_IN[id as keyof typeof PUSH_IN] ?? 0) * t;
+  shot.cam = { zoom: shot.cam.zoom * push, x: shot.cam.x + cx / shot.cam.zoom, y: shot.cam.y + cy / shot.cam.zoom };
 };
 
 export const END_CARD_START = SCENES[SCENES.length - 1].start;

@@ -8,6 +8,12 @@ export const ease = (t: number) => {
   return c * c * (3 - 2 * c);
 };
 export const easeOut = (t: number) => 1 - Math.pow(1 - clamp(t), 3);
+/** 0→1 with an overshoot and settle */
+export const spring = (t: number) => {
+  const c = clamp(t);
+  return c >= 1 ? 1 : 1 - Math.exp(-5.5 * c) * Math.cos(9 * c);
+};
+export const easeIn = (t: number) => Math.pow(clamp(t), 1.8);
 export const linear = (t: number) => clamp(t);
 
 /** Keyframe interpolation: keys = [[frame, value], ...] */
