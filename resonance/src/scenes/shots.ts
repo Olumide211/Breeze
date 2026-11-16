@@ -42,8 +42,12 @@ export const buildShots = (city: City) => {
 		const E = city.misc.sites.esb ?? P.esb;
 		const l = Math.hypot(T[0] - E[0], T[1] - E[1]);
 		const d: [number, number] = [(T[0] - E[0]) / l, (T[1] - E[1]) / l];
-		const H = [50, 47, 44, 42];
-		s.pos = [460, 400, 345, 295].map((k, i) => [T[0] + d[0] * k, H[i], T[1] + d[1] * k] as V3);
+		// skim the rooftops: clear the tallest roof in the flight corridor by a safe margin
+		let roof = 0;
+		for (let k = 250; k <= 520; k += 6) for (const off of [-14, 0, 14]) roof = Math.max(roof, city.heightAt(T[0] + d[0] * k - d[1] * off, T[1] + d[1] * k + d[0] * off, 6));
+		const base = Math.min(Math.max(roof + 9, 40), 82);
+		const H = [base + 5, base + 3, base + 1, base];
+		s.pos = [500, 440, 385, 335].map((k, i) => [T[0] + d[0] * k, H[i], T[1] + d[1] * k] as V3);
 		s.look = [0, 1, 2, 3].map((i) => [E[0], 250 + i * 6, E[1]] as V3);
 	}
 	// --- 04: orbit around the Chrysler crown ---
@@ -87,7 +91,8 @@ export const buildShots = (city: City) => {
 		const L = t1 - t0;
 		const pt = (t: number, side: number, h: number): V3 => [b.cx + d[0] * (t0 + t) + n[0] * side, y + h, b.cz + d[1] * (t0 + t) + n[1] * side];
 		hero.dir = d;
-		hero.figure = pt(L - 2.2, 1.2, 0);
+		const run0 = Math.min(L * 0.5, 16);
+		hero.figure = pt(Math.min(L - 1.5, L * 0.08 + run0 + 7.5), 1.5, 0);
 		hero.towers = [pt(L * 0.42, -6.5, 0), pt(L * 0.55, 7.5, 0), pt(L * 0.2, 5.0, 0)];
 		const run = Math.min(L * 0.5, 16);
 		s.pos = [pt(L * 0.08, 0.4, 3.3), pt(L * 0.08 + run * 0.35, 0.2, 2.9), pt(L * 0.08 + run * 0.7, 0.0, 2.6), pt(L * 0.08 + run, -0.2, 2.4)];

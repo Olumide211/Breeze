@@ -138,7 +138,9 @@ export class GradeEffect extends Effect {
 				// deterministic film grain keyed on pixel + frame number
 				vec2 gp = floor(uv * vec2(1920.0, 1080.0));
 				float g = gh(vec3(gp, uFrame)) + gh(vec3(gp + 17.0, uFrame + 3.0)) - 1.0;
-				c += g * uGrain * (0.6 + 0.4 * (1.0 - l));
+				// grain is added in perceptual space so it stays even from shadows to highlights
+				c = pow(max(c, 0.0), vec3(1.0 / 2.2)) + g * uGrain;
+				c = pow(max(c, 0.0), vec3(2.2));
 				c = mix(c, vec3(1.0), uFlash);
 				c *= uFade;
 				outputColor = vec4(max(c, 0.0), 1.0);
@@ -155,7 +157,7 @@ export class GradeEffect extends Effect {
 					['uFlash', new THREE.Uniform(0)],
 					['uFade', new THREE.Uniform(1)],
 					['uVignette', new THREE.Uniform(0.55)],
-					['uGrain', new THREE.Uniform(0.028)],
+					['uGrain', new THREE.Uniform(0.011)],
 				]),
 			},
 		);

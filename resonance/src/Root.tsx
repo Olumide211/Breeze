@@ -20,6 +20,8 @@ const GlProbe: React.FC = () => {
 export const Root: React.FC = () => (
 	<>
 		<Composition id="Resonance" component={Film} width={WIDTH} height={HEIGHT} fps={FPS} durationInFrames={DURATION} defaultProps={{subframes: 1}} />
+		{/* software-GL fallback: the 3D film at native HD, upscaled and titled by scripts/render.mjs */}
+		<Composition id="ResonanceHD" component={Film} width={1920} height={1080} fps={FPS} durationInFrames={DURATION} defaultProps={{subframes: 1, noTitle: true}} />
 		<Composition id="TitleOnly" component={TitleOnly} width={WIDTH} height={HEIGHT} fps={FPS} durationInFrames={DURATION - TITLE_START} />
 		<Composition id="GlProbe" component={GlProbe} width={320} height={180} fps={FPS} durationInFrames={1} />
 	</>

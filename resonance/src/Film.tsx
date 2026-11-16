@@ -15,9 +15,10 @@ import {World} from './scenes/world';
 import {DURATION, envAt, FPS, SHOTS, shotIndexAt} from './timeline';
 import {Title} from './Title';
 
-export type FilmProps = {subframes: number; debugCam?: number[] | null; prof?: boolean; hide?: string};
+export type FilmProps = {subframes: number; debugCam?: number[] | null; prof?: boolean; hide?: string; noTitle?: boolean};
 
-const Stage: React.FC<{world: World; frame: number; subframes: number}> = ({world, frame, subframes}) => {
+const Stage: React.FC<{world: World; frame: number; subframes: number; flags: string}> = ({world, frame, subframes, flags}) => {
+	const off = (k: string) => flags.split(',').includes(k);
 	const {gl} = useThree();
 	const composer = useRef<ComposerImpl>(null);
 	const accum = useMemo(() => new AccumulationPass(world), [world]);
@@ -73,7 +74,7 @@ const Stage: React.FC<{world: World; frame: number; subframes: number}> = ({worl
 		mblur.uniforms.get('uReproj')!.value.multiplyMatrices(mats.prev, mats.cur);
 		mblur.uniforms.get('uFrame')!.value = f;
 		const whip = (s0: typeof env.shot) => (s0.whipOut && s0.end - f / FPS < s0.whipOut) || (s0.whipIn && f / FPS - s0.start < s0.whipIn);
-		mblur.uniforms.get('uMax')!.value = ((globalThis as any).__NOMB ? 0 : 1) * (whip(env.shot) ? 0.14 : 0.011) * (subframes > 1 ? 0.35 : 1);
+		mblur.uniforms.get('uMax')!.value = ((globalThis as any).__NOMB ? 0 : 1) * (whip(env.shot) ? 0.14 : 0.008) * (subframes > 1 ? 0.35 : 1);
 		const cam = world.camera;
 		v.copy(env.sunDir).multiplyScalar(20000).add(cam.position);
 		sunMesh.position.copy(v);
@@ -121,20 +122,20 @@ const Stage: React.FC<{world: World; frame: number; subframes: number}> = ({worl
 
 	return (
 		<EffectComposer ref={composer} scene={world.scene} camera={world.camera} multisampling={0} frameBufferType={THREE.HalfFloatType} depthBuffer>
-			<primitive object={outline} dispose={null} />
-			<primitive object={mblur} dispose={null} />
+			{off('nooutline') ? <></> : <primitive object={outline} dispose={null} />}
+			{off('nomblur') ? <></> : <primitive object={mblur} dispose={null} />}
 			{useRays ? <GodRays sun={sunMesh} samples={36} density={0.94} decay={0.93} weight={0.34} exposure={0.36} clampMax={1} resolutionScale={0.4} blur /> : <></>}
 			<primitive object={flare} dispose={null} />
-			<Bloom ref={bloom} mipmapBlur luminanceThreshold={0.92} luminanceSmoothing={0.25} radius={0.82} levels={7} intensity={1} />
+			{off('nobloom') ? <></> : <Bloom ref={bloom} mipmapBlur luminanceThreshold={0.92} luminanceSmoothing={0.25} radius={0.82} levels={7} intensity={1} />}
 			{useDof ? <DepthOfField ref={dof} focusDistance={100} focusRange={60} bokehScale={1} resolutionScale={0.5} /> : <></>}
-			<ChromaticAberration offset={new THREE.Vector2(0.00055, 0.0004)} radialModulation modulationOffset={0.35} />
+			{off('noca') ? <></> : <ChromaticAberration offset={new THREE.Vector2(0.00055, 0.0004)} radialModulation modulationOffset={0.35} />}
 			<primitive object={grade} dispose={null} />
-			<SMAA />
+			{off('nosmaa') ? <></> : <SMAA />}
 		</EffectComposer>
 	);
 };
 
-export const Film: React.FC<FilmProps> = ({subframes, debugCam, prof, hide}) => {
+export const Film: React.FC<FilmProps> = ({subframes, debugCam, prof, hide, noTitle}) => {
 	(globalThis as any).__PROF = !!prof;
 	const frame = useCurrentFrame();
 	const {width, height} = useVideoConfig();
@@ -178,10 +179,10 @@ export const Film: React.FC<FilmProps> = ({subframes, debugCam, prof, hide}) => 
 		<AbsoluteFill style={{backgroundColor: '#000'}}>
 			{world ? (
 				<ThreeCanvas width={width} height={height} dpr={dpr} flat gl={{antialias: false, alpha: false, stencil: false, powerPreference: 'high-performance', preserveDrawingBuffer: true}}>
-					<Stage world={world} frame={frame} subframes={subframes} />
+					<Stage world={world} frame={frame} subframes={subframes} flags={hide || ''} />
 				</ThreeCanvas>
 			) : null}
-			<Title frame={frame} />
+			{noTitle ? null : <Title frame={frame} />}
 		</AbsoluteFill>
 	);
 };

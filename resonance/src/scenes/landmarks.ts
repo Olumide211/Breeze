@@ -193,7 +193,7 @@ const buildChryslerCrown = (city: City) => {
 	const [cx, cz] = city.misc.sites.chrysler ?? P.chrysler;
 	const pos: number[] = [], nor: number[] = [], uv: number[] = [], idx: number[] = [];
 	const y0 = 232, H = 52, hw0 = 16.5, rings = 26;
-	const hw = (k: number) => hw0 * Math.pow(Math.max(0, 1 - k), 0.8) * (1 - 0.12 * Math.sin(k * Math.PI)) + 0.8 * (1 - k) + 0.6;
+	const hw = (k: number) => hw0 * Math.pow(Math.max(0, 1 - k), 0.55) * (1 - 0.22 * k) + 0.7 * (1 - k) + 0.5;
 	const c = Math.cos(GA), s = Math.sin(GA);
 	let n = 0;
 	for (let f = 0; f < 4; f++) {
@@ -239,24 +239,25 @@ const buildChryslerCrown = (city: City) => {
 				vec3 V = normalize(uCamPos - vW);
 				vec2 p = vUv;
 				float rib = 0.0, win = 0.0, seam = 0.0;
-				// seven terraced arches, each ringed with triangular windows
+				// seven terraced arches following the crown's silhouette, each ringed with triangular windows
 				for (int k = 0; k < 7; k++) {
 					float fk = float(k);
-					float c = fk * 0.122;
-					float r = 0.97 - fk * 0.128;
-					vec2 q = vec2(p.x, (p.y - c) * 0.78);
+					float c = fk * 0.105;
+					float wk = pow(1.0 - c, 0.55) * (1.0 - 0.22 * c) * 0.98;
+					float hk = 0.31 - fk * 0.012;
+					vec2 q = vec2(p.x / wk, (p.y - c) / hk);
 					float d = length(q);
-					float inside = r - d;
-					float t = inside / 0.115;
-					if (q.y > -0.02 && t > 0.0 && t < 1.0) {
-						float ang = atan(q.x, max(q.y, 1e-4));
-						float nW = 9.0 - fk;
+					float inside = 1.0 - d;
+					float t = inside / 0.24;
+					if (q.y > 0.0 && t > 0.0 && t < 1.0) {
+						float ang = atan(q.x, q.y);
+						float nW = 8.0 - fk * 0.7;
 						float a = fract((ang / 3.14159 + 0.5) * nW);
-						float tri = step(abs(a - 0.5) * 2.0, (1.0 - t) * 0.78) * step(0.1, t);
+						float tri = step(abs(a - 0.5) * 2.0, (1.0 - t) * 0.72) * step(0.12, t);
 						win = max(win, tri);
-						seam = max(seam, 1.0 - smoothstep(0.0, 0.05, abs(a - 0.5) * 2.0 - 0.94));
+						seam = max(seam, 1.0 - smoothstep(0.0, 0.06, 1.0 - abs(a - 0.5) * 2.0));
 					}
-					rib = max(rib, 1.0 - smoothstep(0.004, 0.016, abs(inside)));
+					if (q.y > -0.05) rib = max(rib, 1.0 - smoothstep(0.012, 0.05, abs(inside)));
 				}
 				// radial sunburst seams above the arches
 				vec3 R = reflect(-V, N);

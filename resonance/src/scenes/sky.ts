@@ -131,7 +131,7 @@ export const makeSkyDome = () => {
 					cc += vec3(0.5, 0.26, 0.34) * uNight * 0.22 * (1.0 - d.y);
 					float horizon = smoothstep(0.015, 0.2, d.y);
 					cc = mix(mix(uSkyHor, cc, 0.45), cc, horizon);
-					col = mix(col, cc, dens * smoothstep(0.004, 0.09, d.y) * 0.96);
+					col = mix(col, cc, dens * smoothstep(0.05, 0.42, d.y) * 0.9);
 					// high cirrus streaks
 					float ci = texture2D(uNoise, uv * vec2(0.22, 1.3) + vec2(0.6, 0.2) - uCloudOffset * 0.5).b;
 					float cirrus = smoothstep(0.52, 0.9, ci) * smoothstep(0.05, 0.4, d.y) * 0.32 * (1.0 - dens);

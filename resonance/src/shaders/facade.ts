@@ -224,16 +224,16 @@ void main() {
 		float rf = hash11(cell.y * 3.7 + seed * 131.0);
 		bool office = kind > 1.5 && kind < 3.5;
 		float rr = office ? mix(rw, rf, 0.65) : rw;
-		float litFrac = ground ? 0.85 : office ? 0.5 : kind > 3.5 ? 0.4 : 0.42;
+		float litFrac = ground ? 0.85 : office ? 0.36 : kind > 3.5 ? 0.4 : 0.42;
 		litFrac *= 0.75 + 0.5 * r3.z;
 		// windows switch on one by one; whole buildings join in waves (blue hour)
 		float thr = mix(rr, r3.y, 0.3) / litFrac;
 		float lit = smoothstep(thr, thr + 0.04, uNight * 1.04);
 		vec3 lcol = rw < 0.55 ? vec3(1.0, 0.72, 0.38) : rw < 0.8 ? vec3(1.0, 0.86, 0.62) : rw < 0.93 ? vec3(0.72, 0.84, 1.0) : vec3(1.0, 0.5, 0.75);
-		if (office) lcol = mix(vec3(0.8, 0.9, 1.0), vec3(1.0, 0.9, 0.7), step(0.6, rf));
+		if (office) { lcol = mix(vec3(0.8, 0.9, 1.0), vec3(1.0, 0.9, 0.7), step(0.6, rf)); }
 		// very slow, very subtle TV-like breathing on a few windows (deterministic, no strobing)
 		float flick = 1.0 + 0.06 * sin(uTime * 1.7 + rw * 40.0) * step(0.9, fract(rw * 7.3));
-		float lum = (1.6 + 2.2 * fract(rw * 13.7)) * flick;
+		float lum = (1.6 + 2.2 * fract(rw * 13.7)) * flick * (office ? 0.62 : 1.0);
 
 		vec3 R = reflect(-V, N);
 		// tiny per-pane tilt so sun glints sparkle pane by pane
@@ -331,7 +331,7 @@ void main() {
 		// (only per-building constants here: per-window hashes would shimmer when minified)
 		vec3 avgCol = office ? vec3(0.88, 0.92, 1.0) : vec3(1.0, 0.78, 0.5);
 		float avgLit = sat((uNight * 1.04 * litFrac - 0.3 * r3.y) / 0.7);
-		vec3 avgWin = mix(vec3(0.03), skyR, fres) + avgCol * 2.6 * 0.55 * avgLit;
+		vec3 avgWin = mix(vec3(0.03), skyR, fres) + avgCol * (office ? 0.6 : 1.05) * avgLit;
 		vec3 avg = mix(wallLit, avgWin, winCover * (ground ? 0.0 : 1.0));
 		col = mix(avg, detailed, detail);
 

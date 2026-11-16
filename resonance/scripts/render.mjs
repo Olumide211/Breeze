@@ -94,13 +94,17 @@ if (mode === 'stills') {
 		log(`preview shot ${i + 1} -> ${path.relative(ROOT, output)} (${((performance.now() - t0) / 1000).toFixed(0)} s)`);
 	}
 } else if (mode === 'final') {
-	// Resumable chunked render: each chunk is a ProRes 4444 segment; segments are then
-	// concatenated losslessly into the master, from which both H.264 deliverables are made.
-	const scale = env.SCALE ? Number(env.SCALE) : 1;
-	const inputProps = {subframes: SUB ?? 8};
-	const composition = await compFor(inputProps);
+	// Resumable chunked render. Each chunk is a ProRes 4444 segment; segments are concatenated
+	// losslessly, the natively-4K title is composited on top, and both H.264 deliverables are
+	// encoded from the resulting ProRes 4444 master.
+	//   NATIVE=1  -> render the 3D film at native 3840x2160 (GPU machines; add SUBFRAMES=8)
+	//   default   -> software-GL path: 3D at 1920x1080, lanczos upscale to 4K, 4K title overlay
+	const native = !!env.NATIVE;
+	const id = native ? 'Resonance' : 'ResonanceHD';
+	const inputProps = {subframes: SUB ?? (native ? 8 : 1), noTitle: true};
+	const composition = await selectComposition({serveUrl, id, inputProps, chromiumOptions, timeoutInMilliseconds});
 	const total = composition.durationInFrames;
-	const CHUNK = Number(env.CHUNK || 120);
+	const CHUNK = Number(env.CHUNK || 60);
 	const segDir = path.join(OUT, 'segments');
 	fs.mkdirSync(segDir, {recursive: true});
 	const from = Number(env.FROM || 0), to = Number(env.TO || total);
@@ -110,23 +114,32 @@ if (mode === 'stills') {
 		const output = path.join(segDir, `seg-${String(a).padStart(5, '0')}.mov`);
 		segs.push(output);
 		if (a < from || a >= to) continue;
-		if (fs.existsSync(output)) { log(`segment ${a}-${b} exists, skipping`); continue; }
+		if (fs.existsSync(output)) continue;
 		const t0 = performance.now();
 		const tmp = output.replace('.mov', '.part.mov');
-		await renderMedia({serveUrl, composition, inputProps, codec: 'prores', proResProfile: '4444', pixelFormat: 'yuv444p10le', imageFormat: 'png', scale, frameRange: [a, b], outputLocation: tmp, concurrency: Number(env.CONCURRENCY || 1), chromiumOptions, timeoutInMilliseconds, muted: true, enforceAudioTrack: false, onBrowserLog});
+		await renderMedia({serveUrl, composition, inputProps, codec: 'prores', proResProfile: '4444', pixelFormat: 'yuv444p10le', imageFormat: 'png', frameRange: [a, b], outputLocation: tmp, concurrency: 1, chromiumOptions, timeoutInMilliseconds, muted: true, enforceAudioTrack: false, onBrowserLog});
 		fs.renameSync(tmp, output);
 		log(`segment ${a}-${b} done in ${((performance.now() - t0) / 60000).toFixed(1)} min`);
 	}
 	if (segs.every((s) => fs.existsSync(s)) && !env.NO_ENCODE) {
+		const ff = (a) => execFileSync('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-y', ...a], {stdio: 'inherit'});
 		const list = path.join(segDir, 'list.txt');
 		fs.writeFileSync(list, segs.map((s) => `file '${s}'`).join('\n'));
+		const film = path.join(OUT, 'film-3d.mov');
+		log('concatenating segments...');
+		ff(['-f', 'concat', '-safe', '0', '-i', list, '-c', 'copy', '-an', film]);
+		log('rendering the title natively at 4K (with alpha)...');
+		const titleComp = await selectComposition({serveUrl, id: 'TitleOnly', chromiumOptions, timeoutInMilliseconds});
+		const title = path.join(OUT, 'title-4k.mov');
+		await renderMedia({serveUrl, composition: titleComp, codec: 'prores', proResProfile: '4444', pixelFormat: 'yuva444p10le', imageFormat: 'png', outputLocation: title, concurrency: 2, chromiumOptions, timeoutInMilliseconds, muted: true, enforceAudioTrack: false});
+		const titleStart = (total - titleComp.durationInFrames) / FPS;
 		const master = path.join(OUT, 'resonance-master-prores4444.mov');
-		const ff = (a) => execFileSync('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-y', ...a], {stdio: 'inherit'});
-		log('concatenating ProRes 4444 master...');
-		ff(['-f', 'concat', '-safe', '0', '-i', list, '-c', 'copy', '-an', master]);
+		log('compositing the ProRes 4444 master (3840x2160)...');
+		const up = native ? 'null' : 'scale=3840:2160:flags=lanczos,unsharp=5:5:0.35:5:5:0.0';
+		ff(['-i', film, '-itsoffset', String(titleStart), '-i', title, '-filter_complex', `[0:v]${up}[bg];[bg][1:v]overlay=0:0:eof_action=pass:format=auto,format=yuv444p10le[v]`, '-map', '[v]', '-r', '60', '-c:v', 'prores_ks', '-profile:v', '4444', '-pix_fmt', 'yuv444p10le', '-vendor', 'apl0', '-an', master]);
 		const x264 = ['-c:v', 'libx264', '-preset', 'slow', '-crf', '16', '-pix_fmt', 'yuv420p', '-colorspace', 'bt709', '-color_primaries', 'bt709', '-color_trc', 'bt709', '-movflags', '+faststart', '-an', '-r', '60'];
 		log('encoding out/resonance-4k.mp4 ...');
-		ff(['-i', master, '-vf', 'scale=3840:2160:flags=lanczos', ...x264, path.join(OUT, 'resonance-4k.mp4')]);
+		ff(['-i', master, ...x264, path.join(OUT, 'resonance-4k.mp4')]);
 		log('encoding out/resonance-1080p.mp4 ...');
 		ff(['-i', master, '-vf', 'scale=1920:1080:flags=lanczos', ...x264, path.join(OUT, 'resonance-1080p.mp4')]);
 		log('done');

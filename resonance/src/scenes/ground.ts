@@ -41,7 +41,7 @@ export const makeGround = (city: City) => {
 				float curb = smoothstep(0.38, 0.47, m.b) * (1.0 - road);
 				float park = smoothstep(0.4, 0.6, m.g) * (1.0 - road);
 				// sidewalk slabs
-				vec3 walk = vec3(0.21, 0.205, 0.195) * (0.85 + 0.25 * n1);
+				vec3 walk = vec3(0.15, 0.146, 0.14) * (0.85 + 0.25 * n1);
 				vec2 slab = abs(fract(vW.xz * mat2(0.875, 0.485, -0.485, 0.875) / 1.5) - 0.5);
 				walk *= 1.0 - 0.16 * nearD * (1.0 - smoothstep(0.0, 0.04, min(slab.x, slab.y)));
 				walk = mix(walk, walk * 0.62, curb);
@@ -63,7 +63,7 @@ export const makeGround = (city: City) => {
 				vec2 lp = abs(fract(gp / vec2(34.0, 34.0)) - 0.5);
 				float pools = exp(-dot(lp, lp) * 26.0);
 				float nearRoad = smoothstep(0.2, 0.5, m.b);
-				col += alb * uNight * vec3(1.0, 0.62, 0.3) * (0.55 + 2.6 * pools) * nearRoad;
+				col += alb * uNight * vec3(1.0, 0.62, 0.3) * (0.55 + 2.6 * pools) * nearRoad * (1.0 + 2.5 * smoothstep(400.0, 1500.0, dist));
 				col += alb * uNight * vec3(0.12, 0.1, 0.16);
 				if (outside > 0.5) {
 					// distant borough lights

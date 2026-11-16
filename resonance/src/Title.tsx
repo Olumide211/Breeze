@@ -63,15 +63,15 @@ export const Title: React.FC<{frame: number}> = ({frame}) => {
 				})}
 			</div>
 			<div style={{position: 'absolute', top: `${1080 * k + 190 * k}px`, width: '100%', textAlign: 'center', fontFamily: 'Inter, sans-serif'}}>
-				<div style={{overflow: 'hidden', height: 110 * k}}>
-					<div style={{transform: `translateY(${(1 - credit) * 110 * k}px)`, opacity: credit, fontSize: 62 * k, fontWeight: 500, letterSpacing: `${0.34 + 0.3 * (1 - credit)}em`, textShadow: `0 0 ${24 * k}px rgba(0,0,30,0.9)`}}>
-						<span style={{opacity: 0.72, fontWeight: 400, fontSize: 44 * k, textTransform: 'uppercase'}}>Edited by</span>
+				<div style={{overflow: 'hidden', height: 130 * k}}>
+					<div style={{transform: `translateY(${(1 - credit) * 110 * k}px)`, opacity: credit, fontSize: 84 * k, fontWeight: 500, letterSpacing: `${0.34 + 0.3 * (1 - credit)}em`, textShadow: `0 0 ${24 * k}px rgba(0,0,30,0.9)`}}>
+						<span style={{opacity: 0.72, fontWeight: 400, fontSize: 58 * k, textTransform: 'uppercase'}}>Edited by</span>
 						<span style={{marginLeft: '0.5em'}}>BreezeOg</span>
 					</div>
 				</div>
-				<div style={{margin: `${18 * k}px auto 0`, width: 420 * k * credit, height: Math.max(1, 2 * k), background: 'linear-gradient(90deg, rgba(53,224,255,0), #35e0ff, #ff4fa3, rgba(255,79,163,0))'}} />
+				<div style={{margin: `${18 * k}px auto 0`, width: 620 * k * credit, height: Math.max(1, 2 * k), background: 'linear-gradient(90deg, rgba(53,224,255,0), #35e0ff, #ff4fa3, rgba(255,79,163,0))'}} />
 			</div>
-			<div style={{position: 'absolute', bottom: 110 * k, width: '100%', textAlign: 'center', fontFamily: 'Inter, sans-serif', fontWeight: 400, fontSize: 30 * k, letterSpacing: '0.16em', opacity: 0.78 * osm, textShadow: `0 0 ${14 * k}px rgba(0,0,20,0.95)`}}>
+			<div style={{position: 'absolute', bottom: 110 * k, width: '100%', textAlign: 'center', fontFamily: 'Inter, sans-serif', fontWeight: 400, fontSize: 40 * k, letterSpacing: '0.16em', opacity: 0.78 * osm, textShadow: `0 0 ${14 * k}px rgba(0,0,20,0.95)`}}>
 				City data © OpenStreetMap contributors
 			</div>
 		</AbsoluteFill>
