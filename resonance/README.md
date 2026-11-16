@@ -63,13 +63,14 @@ smaller 1080p copy (CRF 23) of that build.
 data/raw/            cached Overpass tiles (42 bbox tiles: buildings, roads, parks, water, bridges)
 public/city/         compact projected city: building footprints + heights, road chains, land/park/road mask
 scripts/             fetch-osm.mjs, build-city.mjs, render.mjs (stills / preview / final), map.mjs (QA map)
-src/timeline.ts      shot list, Catmull-Rom camera paths, dawn -> night colour script
+src/timeline.ts      shot list, Catmull-Rom camera paths, dawn -> night colour script, on-screen credits
 src/city/            data loading, footprint extrusion (per-tile merge), procedural modelling toolkit, prop models
 src/shaders/         shared sky/fog/shadow/anime-ramp GLSL, deferred facade shader, prop material
 src/scenes/          world orchestration, sky + clouds, ground + water, shadows + reflections, landmarks,
                      props, traffic, birds / aircraft / ferries, rain / steam / mist / billboards, shot builders
 src/post/            sub-frame accumulation pass, outline, lens flare + light leaks, motion blur, ACES grade
 src/Film.tsx         the Remotion composition (ThreeCanvas + @react-three/postprocessing chain)
+src/Credits.tsx      per-shot credits (small tracked role line over the name), cut with their shots
 src/Title.tsx        "RESONANCE" title + "Edited by BreezeOg" credit
 ```
 
@@ -92,8 +93,16 @@ src/Title.tsx        "RESONANCE" title + "Edited by BreezeOg" credit
   with wakes, rain, manhole steam and river mist are analytic functions of time.
 * **Look.** One `timeOfDay` value drives sun / moon, sky gradient, clouds, fog, window lighting and
   the grade. Shading is a soft two-band ramp with coloured shadows, rim light and depth outlines.
-  Post: HDR bloom, god rays, lens flare, light leaks, chromatic aberration, ACES tone map, per-shot
-  grade, grain, vignette and SMAA.
+  Post: HDR bloom, god rays, lens flare, light leaks, depth-reprojection motion blur, chromatic
+  aberration, ACES tone map, per-shot grade, grain, vignette and SMAA.
+* **Camera.** Each shot has a tuned Catmull-Rom path through the real city. The film uses the
+  calm cut: a shot holds one framing of its path (`calm: [u, span]` in `src/timeline.ts`) and
+  drifts through a short stretch of it at constant speed, shots change on hard cuts, and the life
+  in the frame comes from traffic, water, birds, clouds, rain and the changing light. Removing a
+  shot's `calm` entry restores the full fly-through of that path.
+* **Credits.** Four credits sit on their shots for the whole shot and cut with it; the title card
+  closes the film. They are rendered as 4K stills with alpha and laid over the film by
+  `scripts/render.mjs` (`node scripts/render.mjs credits` renders just those and a quick test).
 * **Stability.** Level of detail and prop sets are chosen once per shot. Sun shadows are two nested
   static maps per shot. Facades are shaded deferred (G-buffer, then one facade pass per pixel).
   Distant facades fade from individual windows to a per-building average so nothing shimmers; the
