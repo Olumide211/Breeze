@@ -55,6 +55,37 @@ const onBrowserLog = (l) => {
 };
 const compFor = async (inputProps) => selectComposition({serveUrl, id: 'Resonance', inputProps, chromiumOptions, timeoutInMilliseconds});
 
+// The on-screen credits as 4K stills with alpha, plus the seconds each one is on screen.
+const renderCredits = async () => {
+	const comp = await selectComposition({serveUrl, id: 'CreditOnly', chromiumOptions, timeoutInMilliseconds});
+	const windows = (comp.props ?? comp.defaultProps).windows;
+	const dir = path.join(OUT, 'credits');
+	fs.mkdirSync(dir, {recursive: true});
+	const out = [];
+	for (let i = 0; i < windows.length; i++) {
+		const file = path.join(dir, `credit-${i}.png`);
+		await renderStill({serveUrl, composition: comp, frame: i, output: file, imageFormat: 'png', chromiumOptions, timeoutInMilliseconds});
+		out.push({file, start: windows[i][0], end: windows[i][1]});
+	}
+	return out;
+};
+// ffmpeg inputs + filter chain that hold each credit over its shot and cut it with the shot.
+// The first input index used is `first`; the chain reads [inLabel] and ends in [outLabel].
+const creditGraph = (credits, first, inLabel, outLabel) => {
+	const inputs = [];
+	const parts = [];
+	let cur = inLabel;
+	credits.forEach((c, i) => {
+		inputs.push('-loop', '1', '-framerate', String(FPS), '-t', String(c.end - c.start), '-itsoffset', String(c.start), '-i', c.file);
+		// the film fades in over its first 0.9 s; a credit on that shot fades in with it
+		const fade = c.start < 0.9 ? `,fade=t=in:st=${c.start}:d=0.9:alpha=1` : '';
+		const next = i === credits.length - 1 ? outLabel : `cr${i}`;
+		parts.push(`[${first + i}:v]format=rgba${fade}[c${i}]`, `[${cur}][c${i}]overlay=0:0:eof_action=pass:format=auto:enable='between(t,${c.start},${c.end - 0.5 / FPS})'[${next}]`);
+		cur = next;
+	});
+	return {inputs, graph: parts.join(';')};
+};
+
 if (mode === 'stills') {
 	const inputProps = {subframes: SUB ?? 4, hide: env.HIDE || '', debugCam: env.DEBUGCAM ? env.DEBUGCAM.split(',').map(Number) : null};
 	const composition = await compFor(inputProps);
@@ -133,10 +164,13 @@ if (mode === 'stills') {
 		const title = path.join(OUT, 'title-4k.mov');
 		await renderMedia({serveUrl, composition: titleComp, codec: 'prores', proResProfile: '4444', pixelFormat: 'yuva444p10le', imageFormat: 'png', outputLocation: title, concurrency: 2, chromiumOptions, timeoutInMilliseconds, muted: true, enforceAudioTrack: false});
 		const titleStart = (total - titleComp.durationInFrames) / FPS;
+		log('rendering the credits natively at 4K (with alpha)...');
+		const credits = await renderCredits();
+		const cg = creditGraph(credits, 2, 'bg', 'cred');
 		const master = path.join(OUT, 'resonance-master-prores4444.mov');
 		log('compositing the ProRes 4444 master (3840x2160)...');
 		const up = native ? 'null' : 'scale=3840:2160:flags=lanczos,unsharp=5:5:0.35:5:5:0.0';
-		ff(['-i', film, '-itsoffset', String(titleStart), '-i', title, '-filter_complex', `[0:v]${up}[bg];[bg][1:v]overlay=0:0:eof_action=pass:format=auto,format=yuv444p10le[v]`, '-map', '[v]', '-r', '60', '-c:v', 'prores_ks', '-profile:v', '4444', '-pix_fmt', 'yuv444p10le', '-vendor', 'apl0', '-an', master]);
+		ff(['-i', film, '-itsoffset', String(titleStart), '-i', title, ...cg.inputs, '-filter_complex', `[0:v]${up}[bg];${cg.graph};[cred][1:v]overlay=0:0:eof_action=pass:format=auto,format=yuv444p10le[v]`, '-map', '[v]', '-r', '60', '-c:v', 'prores_ks', '-profile:v', '4444', '-pix_fmt', 'yuv444p10le', '-vendor', 'apl0', '-an', master]);
 		const x264 = ['-c:v', 'libx264', '-preset', 'slow', '-crf', '16', '-pix_fmt', 'yuv420p', '-colorspace', 'bt709', '-color_primaries', 'bt709', '-color_trc', 'bt709', '-movflags', '+faststart', '-an', '-r', '60'];
 		log('encoding out/resonance-4k.mp4 ...');
 		ff(['-i', master, ...x264, path.join(OUT, 'resonance-4k.mp4')]);
@@ -146,6 +180,16 @@ if (mode === 'stills') {
 	} else {
 		log('not all segments present yet; run again to continue');
 	}
+} else if (mode === 'credits') {
+	// QA: render the credit stills and lay them over out/film-3d.mov at 960x540 -> out/qa/credits-test.mp4
+	const credits = await renderCredits();
+	const cg = creditGraph(credits, 1, 'bg', 'cred');
+	const film = path.join(OUT, 'film-3d.mov');
+	if (fs.existsSync(film)) {
+		const graph = `[0:v]scale=3840:2160:flags=fast_bilinear[bg];${cg.graph};[cred]scale=960:540[v]`;
+		execFileSync('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-y', '-t', args[0] || '17', '-i', film, ...cg.inputs, '-filter_complex', graph, '-map', '[v]', '-r', '60', '-t', args[0] || '17', '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '14', '-an', path.join(OUT, 'qa', 'credits-test.mp4')], {stdio: 'inherit'});
+	}
+	log('credits rendered');
 } else {
 	console.error('unknown mode', mode);
 	process.exit(1);

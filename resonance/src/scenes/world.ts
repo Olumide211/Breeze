@@ -6,7 +6,7 @@ import {buildTiles, type Tile} from '../city/buildings';
 import type {City} from '../city/data';
 import {makeFacadeMaterial, makeGBufferMaterial} from '../shaders/facade';
 import {U} from '../shaders/common';
-import {cameraAt, envAt, FPS, getPath, SHOTS, type CamState, type Env, type Shot} from '../timeline';
+import {cameraAt, envAt, FPS, getPath, pathU, SHOTS, type CamState, type Env, type Shot} from '../timeline';
 export type WorldLike = {renderView(renderer: THREE.WebGLRenderer, camera: THREE.Camera, target: THREE.WebGLRenderTarget, id: string): void};
 import {makeGround, makeWater} from './ground';
 import {Reflection, Shadows} from './lighting';
@@ -89,7 +89,7 @@ export class World {
 		const out: PathSample[] = [];
 		const v = new THREE.Vector3();
 		for (let i = 0; i <= 60; i++) {
-			p.pos.getPointAt(i / 60, v);
+			p.pos.getPointAt(pathU(shot, i / 60), v);
 			out.push({x: v.x, y: v.y, z: v.z});
 		}
 		return out;

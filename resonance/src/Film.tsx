@@ -8,6 +8,7 @@ import * as THREE from 'three';
 import {loadCity} from './city/data';
 import {clamp, smooth} from './lib/rng';
 import {AccumulationPass} from './post/accum';
+import {Credits} from './Credits';
 import {FlareEffect, GradeEffect, MotionBlurEffect, OutlineEffect} from './post/effects';
 import {buildShots} from './scenes/shots';
 import {addSystems} from './scenes/systems';
@@ -144,7 +145,7 @@ export const Film: React.FC<FilmProps> = ({subframes, debugCam, prof, hide, noTi
 	useEffect(() => {
 		let dead = false;
 		(async () => {
-			await Promise.all([document.fonts.load('700 100px Syncopate'), document.fonts.load('500 40px Inter'), document.fonts.load('400 40px Inter')]);
+			await Promise.all([document.fonts.load('700 100px Syncopate'), document.fonts.load('500 40px Inter'), document.fonts.load('400 40px Inter'), document.fonts.load('500 40px Montserrat'), document.fonts.load('700 40px Montserrat')]);
 			await document.fonts.ready;
 			const city = await loadCity();
 			buildShots(city);
@@ -182,6 +183,7 @@ export const Film: React.FC<FilmProps> = ({subframes, debugCam, prof, hide, noTi
 					<Stage world={world} frame={frame} subframes={subframes} flags={hide || ''} />
 				</ThreeCanvas>
 			) : null}
+			{noTitle ? null : <Credits frame={frame} />}
 			{noTitle ? null : <Title frame={frame} />}
 		</AbsoluteFill>
 	);

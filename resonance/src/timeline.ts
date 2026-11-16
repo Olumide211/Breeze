@@ -25,6 +25,9 @@ export type Shot = {
 	look: V3[];
 	fov: [number, number];
 	ease?: number; // 0 = linear travel, 1 = full ease in/out
+	// Calm cut: hold one framing of the tuned path and drift slowly through it.
+	// [u of the hero framing along the path, share of the path travelled during the shot]
+	calm?: [number, number];
 	roll?: [number, number];
 	sunAz?: [number, number]; // degrees clockwise from north, overrides the colour script
 	sunEl?: [number, number];
@@ -65,7 +68,7 @@ export const P = {
 // The camera paths below were tuned against the real OSM layout during the QA loop.
 export const SHOTS: Shot[] = [
 	{
-		id: '01-dawn', start: 0, end: 5, tod: [0.0, 0.075],
+		id: '01-dawn', start: 0, end: 5, tod: [0.0, 0.075], calm: [0.32, 0.1],
 		// rising off the East River, Brooklyn Bridge towers against the sunrise
 		pos: [[-1302, 3.5, 4612], [-1296, 13, 4613], [-1287, 27, 4616], [-1276, 41, 4620]],
 		look: [[-900, 34, 4690], [-900, 42, 4692], [-900, 50, 4695], [-900, 57, 4698]],
@@ -75,7 +78,7 @@ export const SHOTS: Shot[] = [
 		grade: G(1.12, 1.04, [0.012, 0.0, 0.03], [1.04, 0.98, 1.0], 1.15, 0.5, 1.0),
 	},
 	{
-		id: '02-dumbo', start: 5, end: 10, tod: [0.16, 0.2],
+		id: '02-dumbo', start: 5, end: 10, tod: [0.16, 0.2], calm: [0.5, 0.12],
 		// low glide up Washington Street, Manhattan Bridge framing the Empire State
 		pos: [], look: [], // on the Empire State -> bridge tower line, see buildShots()
 		fov: [13.5, 11.5], ease: 0.2,
@@ -84,36 +87,34 @@ export const SHOTS: Shot[] = [
 		grade: G(1.14, 1.05, [0.0, 0.005, 0.015], [1.02, 1.0, 0.98], 0.9, 0.25, 1.0),
 	},
 	{
-		id: '03-fifth', start: 10, end: 16, tod: [0.3, 0.34],
+		id: '03-fifth', start: 10, end: 16, tod: [0.3, 0.34], calm: [0.74, 0.012],
 		// filled in by buildFifthAvenuePath() from the real 5th Avenue centreline
 		pos: [], look: [],
 		fov: [62, 58], ease: 0.0,
 		near: 0.8, far: 30000, shadowRange: 2200, lodNear: 420, propRange: 520, cloudCover: 0.34,
 		focus: [400, 400], dof: 0.0,
 		grade: G(1.2, 1.06, [0.0, 0.004, 0.012], [1.0, 1.0, 1.02], 0.8, 0.12, 1.0),
-		whipOut: 0.22,
 	},
 	{
-		id: '04-chrysler', start: 16, end: 21, tod: [0.4, 0.44],
+		id: '04-chrysler', start: 16, end: 21, tod: [0.4, 0.44], calm: [0.42, 0.05],
 		pos: [], look: [], // orbit generated in buildShots()
 		fov: [34, 32], ease: 0.0,
 		near: 2, far: 40000, shadowRange: 3000, lodNear: 500, propRange: 500, cloudCover: 0.3,
 		focus: [230, 230], dof: 0.0, sunAz: [150, 153], sunEl: [52, 50],
 		grade: G(1.22, 1.05, [0.0, 0.003, 0.012], [1.0, 1.0, 1.03], 0.95, 0.15, 1.0),
-		whipIn: 0.22,
 	},
 	{
-		id: '05-park', start: 21, end: 26, tod: [0.565, 0.6],
+		id: '05-park', start: 21, end: 26, tod: [0.565, 0.6], calm: [0.61, 0.05],
 		// over Central Park's autumn canopy toward Billionaires' Row
 		pos: [[1560, 150, -3520], [1420, 132, -3260], [1270, 118, -2990], [1130, 108, -2740]],
 		look: [[640, 180, -1700], [640, 185, -1700], [650, 190, -1700], [660, 196, -1700]],
 		fov: [44, 40], ease: 0.15, sunAz: [248, 250], sunEl: [10.5, 8.5],
 		near: 2, far: 40000, shadowRange: 3500, lodNear: 500, propRange: 900, cloudCover: 0.4,
 		focus: [900, 800], dof: 0.0,
-		grade: G(1.18, 1.06, [0.02, 0.006, 0.0], [1.06, 1.0, 0.94], 1.2, 0.6, 1.0), flashIn: 0.2,
+		grade: G(1.18, 1.06, [0.02, 0.006, 0.0], [1.06, 1.0, 0.94], 1.2, 0.6, 1.0),
 	},
 	{
-		id: '06-rooftop', start: 26, end: 31, tod: [0.645, 0.69],
+		id: '06-rooftop', start: 26, end: 31, tod: [0.645, 0.69], calm: [0.72, 0.15],
 		pos: [], look: [], // placed on a real rooftop by buildShots()
 		fov: [40, 36], ease: 0.3, sunAz: [257, 258], sunEl: [4.6, 1.2],
 		near: 0.4, far: 40000, shadowRange: 1600, lodNear: 500, propRange: 600, cloudCover: 0.4,
@@ -121,7 +122,7 @@ export const SHOTS: Shot[] = [
 		grade: G(1.16, 1.08, [0.03, 0.004, 0.012], [1.08, 0.98, 0.92], 1.35, 0.8, 1.0),
 	},
 	{
-		id: '07-bluehour', start: 31, end: 36, tod: [0.715, 0.86],
+		id: '07-bluehour', start: 31, end: 36, tod: [0.715, 0.86], calm: [0.5, 0.06],
 		// wide skyline time-lapse from across the East River
 		pos: [[1900, 12, 1250], [1882, 16, 1100], [1864, 20, 950], [1846, 24, 800]],
 		look: [[250, 140, 150], [250, 145, 100], [250, 150, 50], [250, 155, 0]],
@@ -131,16 +132,15 @@ export const SHOTS: Shot[] = [
 		grade: G(1.2, 1.05, [0.0, 0.004, 0.03], [0.98, 1.0, 1.06], 1.25, 0.2, 1.0),
 	},
 	{
-		id: '08-timessquare', start: 36, end: 42, tod: [0.93, 0.94],
+		id: '08-timessquare', start: 36, end: 42, tod: [0.93, 0.94], calm: [0.865, 0.015],
 		pos: [], look: [], // dive generated in buildShots()
 		fov: [52, 46], ease: 0.35,
 		near: 0.4, far: 20000, shadowRange: 0, lodNear: 520, propRange: 620, reflect: true, rain: 1, wet: 1, fogMul: 2.2, cloudCover: 0.58,
 		focus: [260, 45], dof: 0.0,
 		grade: G(1.25, 1.08, [0.012, 0.0, 0.03], [1.02, 0.98, 1.06], 1.5, 0.35, 1.05),
-		flashIn: 0.18,
 	},
 	{
-		id: '09-aerial', start: 42, end: 48, tod: [0.96, 1.0],
+		id: '09-aerial', start: 42, end: 48, tod: [0.96, 1.0], calm: [0.28, 0.05],
 		pos: [[-700, 300, 2300], [-560, 520, 1900], [-380, 820, 1380], [-160, 1180, 760], [60, 1500, 200]],
 		look: [[-1500, 200, 3600], [-1560, 180, 3650], [-1640, 150, 3700], [-1700, 120, 3740], [-1760, 90, 3780]],
 		fov: [42, 46], ease: 0.3,
@@ -151,6 +151,20 @@ export const SHOTS: Shot[] = [
 ];
 
 export const TITLE_START = 45.6 * FPS; // title overlays the tail of the aerial
+
+// On-screen credits: one per shot, held for the whole shot and cut with it.
+// x / y are the centre of the two-line block as a fraction of the frame.
+export type Credit = {shot: string; role: string; name: string; x: number; y: number};
+export const CREDITS: Credit[] = [
+	{shot: '01-dawn', role: 'Created by', name: 'BreezeOg', x: 0.25, y: 0.76},
+	{shot: '03-fifth', role: 'Concept and design', name: 'BreezeOg', x: 0.18, y: 0.42},
+	{shot: '05-park', role: '3D animator', name: 'BreezeOg', x: 0.74, y: 0.8},
+	{shot: '07-bluehour', role: 'Storyline', name: 'BreezeOg', x: 0.26, y: 0.8},
+];
+export const creditWindow = (c: Credit): [number, number] => {
+	const s = SHOTS.find((x) => x.id === c.shot)!;
+	return [s.start, s.end];
+};
 
 export const shotIndexAt = (frame: number): number => {
 	const s = frame / FPS;
@@ -181,11 +195,15 @@ export const resetPaths = () => paths.clear();
 export type CamState = {pos: THREE.Vector3; look: THREE.Vector3; fov: number; roll: number};
 const easeU = (u: number, k: number) => lerp(u, u * u * (3 - 2 * u), k);
 
+// Position along the tuned path at shot progress u0 (0..1). A calm shot travels at constant speed
+// through a short stretch of the path centred on its hero framing, so nothing accelerates on screen.
+export const pathU = (shot: Shot, u0: number) => (shot.calm ? clamp(shot.calm[0] + (u0 - 0.5) * shot.calm[1]) : u0);
+
 export const cameraAt = (frame: number, out?: CamState): CamState => {
 	const si = shotIndexAt(frame);
 	const shot = SHOTS[si];
 	const u0 = clamp((frame / FPS - shot.start) / (shot.end - shot.start));
-	const u = easeU(u0, shot.ease ?? 0.2);
+	const u = shot.calm ? pathU(shot, u0) : easeU(u0, shot.ease ?? 0.2);
 	const path = getPath(shot);
 	const o = out ?? {pos: new THREE.Vector3(), look: new THREE.Vector3(), fov: 40, roll: 0};
 	path.pos.getPointAt(u, o.pos);
