@@ -147,6 +147,7 @@ export class World {
 		U.uFog.value = env.fog;
 		U.uMist.value = env.mist;
 		U.uNight.value = env.night;
+		U.uFarGrid.value = env.shot.farGrid ?? 0;
 		U.uStars.value = env.stars;
 		U.uSunUp.value = env.sunUp;
 		U.uWet.value = env.wet;

@@ -331,7 +331,23 @@ void main() {
 		// (only per-building constants here: per-window hashes would shimmer when minified)
 		vec3 avgCol = office ? vec3(0.88, 0.92, 1.0) : vec3(1.0, 0.78, 0.5);
 		float avgLit = sat((uNight * 1.04 * litFrac - 0.3 * r3.y) / 0.7);
-		vec3 avgWin = mix(vec3(0.03), skyR, fres) + avgCol * (office ? 0.6 : 1.05) * avgLit;
+		float avgDots = 1.0;
+		if (uFarGrid > 0.5 && !ground) {
+			// aerial night views: instead of a flat average, keep a light pattern whose blocks are
+			// sized to stay several pixels wide (two octaves cross-faded, so nothing pops or shimmers)
+			float lv = max(log2(max(fw, 1e-4) * 4.0), 0.0);
+			float l0 = floor(lv);
+			float s0 = exp2(l0);
+			float pb = clamp(avgLit * 0.85, 0.14, 0.5);
+			vec2 q0 = cuv / s0, q1 = q0 * 0.5;
+			vec2 m0 = smoothstep(0.0, 0.34, fract(q0)) * smoothstep(1.0, 0.66, fract(q0));
+			vec2 m1 = smoothstep(0.0, 0.34, fract(q1)) * smoothstep(1.0, 0.66, fract(q1));
+			float b0 = l0 < 0.5 ? lit / max(avgLit, 0.1) : step(1.0 - pb, hash21(floor(q0) + seed * 311.0 + l0 * 17.0)) / pb;
+			float b1 = step(1.0 - pb, hash21(floor(q1) + seed * 311.0 + (l0 + 1.0) * 17.0)) / pb;
+			float dots = mix(b0 * m0.x * m0.y, b1 * m1.x * m1.y, lv - l0) / 0.44;
+			avgDots = mix(min(dots, 7.0), 1.0, smoothstep(3.6, 5.2, lv));
+		}
+		vec3 avgWin = mix(vec3(0.03), skyR, fres) * mix(1.0, 0.45, uFarGrid) + avgCol * (office ? 0.6 : 1.05) * avgLit * avgDots;
 		vec3 avg = mix(wallLit, avgWin, winCover * (ground ? 0.0 : 1.0));
 		col = mix(avg, detailed, detail);
 

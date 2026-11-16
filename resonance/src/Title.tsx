@@ -15,7 +15,7 @@ export const Title: React.FC<{frame: number}> = ({frame}) => {
 	const k = width / 3840;
 	const t = (frame - TITLE_START) / FPS; // seconds since the title began
 	if (t < 0) return null;
-	const out = 1 - clamp((t - 2.0) / 0.34);
+	const out = 1 - clamp((t - 2.04) / 0.32);
 	const pulse = Math.exp(-Math.pow((t - 0.95) / 0.22, 2)); // glow pulse once the word has landed
 	// travelling waveform behind the word: a burst that settles into a hairline
 	const W = 2600, H = 420, N = 180;
@@ -28,8 +28,9 @@ export const Title: React.FC<{frame: number}> = ({frame}) => {
 		d += `${i ? 'L' : 'M'}${(x * W).toFixed(1)},${(front > 0 ? y : H / 2).toFixed(1)}`;
 	}
 	const lineIn = ease(t / 0.9);
-	const credit = ease((t - 1.0) / 0.45);
-	const osm = ease((t - 1.3) / 0.4);
+	// both credit lines are fully on screen for about a second before the fade
+	const credit = ease((t - 0.62) / 0.45);
+	const osm = ease((t - 0.8) / 0.4);
 	return (
 		<AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', opacity: out, color: '#fff'}}>
 			<div style={{position: 'absolute', top: `${1080 * k - (H / 2) * k - 40 * k}px`, left: '50%', width: W * k, height: H * k, transform: 'translateX(-50%)', opacity: 0.85 * (1 - 0.55 * clamp((t - 0.9) / 0.5))}}>

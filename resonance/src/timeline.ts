@@ -38,6 +38,7 @@ export type Shot = {
 	wet?: number;
 	mist?: number;
 	fogMul?: number;
+	farGrid?: number; // 1 = distant night facades keep a coarse stable light pattern instead of a flat average
 	cloudCover?: number;
 	focus?: [number, number]; // focus distance metres
 	dof?: number; // bokeh scale
@@ -143,7 +144,7 @@ export const SHOTS: Shot[] = [
 		pos: [[-700, 300, 2300], [-560, 520, 1900], [-380, 820, 1380], [-160, 1180, 760], [60, 1500, 200]],
 		look: [[-1500, 200, 3600], [-1560, 180, 3650], [-1640, 150, 3700], [-1700, 120, 3740], [-1760, 90, 3780]],
 		fov: [42, 46], ease: 0.3,
-		near: 5, far: 50000, shadowRange: 0, lodNear: 0, propRange: 0, reflect: false, cloudCover: 0.3, fogMul: 0.8,
+		near: 5, far: 50000, shadowRange: 0, lodNear: 0, propRange: 0, reflect: false, cloudCover: 0.3, fogMul: 0.8, farGrid: 1,
 		focus: [3000, 3000], dof: 0.0,
 		grade: G(1.22, 1.06, [0.004, 0.0, 0.03], [1.0, 1.0, 1.08], 1.3, 0.2, 1.05),
 	},

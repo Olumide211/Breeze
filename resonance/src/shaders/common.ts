@@ -25,6 +25,7 @@ export const U = {
 	uFog: {value: 1e-4},
 	uMist: {value: 0},
 	uNight: {value: 0},
+	uFarGrid: {value: 0},
 	uStars: {value: 0},
 	uSunUp: {value: 1},
 	uWet: {value: 0},
@@ -66,6 +67,7 @@ uniform vec3 uWaterCol;
 uniform float uFog;
 uniform float uMist;
 uniform float uNight;
+uniform float uFarGrid;
 uniform float uStars;
 uniform float uSunUp;
 uniform float uWet;
