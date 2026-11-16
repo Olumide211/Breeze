@@ -52,8 +52,9 @@ Outputs:
   depth-reprojection motion blur, then lanczos-upscaled to 4K. The title sequence is rendered
   natively at 4K with alpha and composited on top, so the typography is pixel-sharp.
 
-The files shipped in `out/` from the original build were made with the software path (the
-build machine had 4 CPU cores and no GPU).
+The original build used the software path (the build machine had 4 CPU cores and no GPU), so
+its 4K file is a 1080p render of the 3D film upscaled, with a native-4K title. The `NATIVE=1`
+path has not been run end to end. `out/` is not committed.
 
 ## Layout
 
@@ -94,6 +95,8 @@ src/Title.tsx        "RESONANCE" title + "Edited by BreezeOg" credit
   grade, grain, vignette and SMAA.
 * **Stability.** Level of detail and prop sets are chosen once per shot. Sun shadows are two nested
   static maps per shot. Facades are shaded deferred (G-buffer, then one facade pass per pixel).
+  Distant facades fade from individual windows to a per-building average so nothing shimmers; the
+  night aerial instead keeps a coarse light pattern whose blocks stay several pixels wide.
   `delayRender` holds the first frame until the city, fonts and lookup textures are ready.
 
 ## Credits
