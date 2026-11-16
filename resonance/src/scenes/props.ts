@@ -214,7 +214,7 @@ export const makeProps = (world: World): System => {
 					if (!inRing(x, z, b) || edgeDist(x, z, b) < margin) continue;
 					if (isHero) {
 						const lat = -(x - b.cx) * hero.dir[1] + (z - b.cz) * hero.dir[0];
-						if (Math.abs(lat) < 11) continue;
+						if (Math.abs(lat) < 12) continue;
 					}
 					return [x, z];
 				}

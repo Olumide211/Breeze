@@ -272,6 +272,8 @@ export const makeClouds = (atlas: THREE.Texture, specs: CloudSpec[]) => {
 				// darker flat bases, bright crowns
 				col *= mix(0.78, 1.08, smoothstep(0.0, 0.6, nxy.y * 0.5 + 0.5));
 				vec3 V = normalize(vW - uCamPos);
+				// upright sprites would read as slabs when seen from steeply above or below
+				a *= 1.0 - smoothstep(0.5, 0.82, abs(V.y));
 				float back = pow(max(dot(V, uSunDir), 0.0), 6.0);
 				col += uSkyGlow * back * (1.0 - t.b * 0.8) * 1.4 * uSunUp; // silver lining
 				col += vec3(0.5, 0.25, 0.32) * uNight * 0.16 * (1.0 - nxy.y * 0.5 - 0.5);

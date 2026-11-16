@@ -68,9 +68,9 @@ const Stage: React.FC<{world: World; frame: number; subframes: number; flags: st
 		world.size.copy(size);
 		world.update(f + mid);
 		// reprojection matrix: this frame's clip space -> where it was half a frame earlier
-		const sameShot = shotIndexAt(Math.max(0, f - 0.5)) === env.shotIndex;
+		const sameShot = shotIndexAt(Math.max(0, f + mid - 0.36)) === env.shotIndex;
 		world.viewProjAt(f + mid, mats.cur).invert();
-		world.viewProjAt(sameShot ? f + mid - 0.5 : f + mid, mats.prev);
+		world.viewProjAt(sameShot ? f + mid - 0.36 : f + mid, mats.prev); // ~130 degree shutter
 		mblur.uniforms.get('uReproj')!.value.multiplyMatrices(mats.prev, mats.cur);
 		mblur.uniforms.get('uFrame')!.value = f;
 		const whip = (s0: typeof env.shot) => (s0.whipOut && s0.end - f / FPS < s0.whipOut) || (s0.whipIn && f / FPS - s0.start < s0.whipIn);

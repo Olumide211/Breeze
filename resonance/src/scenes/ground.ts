@@ -96,7 +96,7 @@ export const makeGround = (city: City) => {
 				gl_FragColor = vec4(col, 1.0);
 			}`,
 	});
-	const mesh = new THREE.Mesh(new THREE.PlaneGeometry(90000, 90000).rotateX(-Math.PI / 2), mat);
+	const mesh = new THREE.Mesh(new THREE.PlaneGeometry(90000, 90000, 150, 150).rotateX(-Math.PI / 2), mat);
 	mesh.frustumCulled = false;
 	return mesh;
 };
@@ -118,6 +118,8 @@ export const makeWater = (city: City, waterN: THREE.Texture) => {
 			uniform sampler2D uWaterN;
 			varying vec3 vW;
 			void main() {
+				vec2 muv0 = (vW.xz - uMaskRect.xy) / uMaskRect.zw;
+				if (texture2D(uMask, clamp(muv0, 0.001, 0.999)).r > 0.6) discard;
 				vec3 V = normalize(uCamPos - vW);
 				float dist = length(uCamPos - vW);
 				vec2 p = vW.xz;
@@ -158,8 +160,8 @@ export const makeWater = (city: City, waterN: THREE.Texture) => {
 				gl_FragColor = vec4(col, 1.0);
 			}`,
 	});
-	const mesh = new THREE.Mesh(new THREE.PlaneGeometry(90000, 90000).rotateX(-Math.PI / 2), mat);
-	mesh.position.y = -0.7;
+	const mesh = new THREE.Mesh(new THREE.PlaneGeometry(90000, 90000, 150, 150).rotateX(-Math.PI / 2), mat);
+	mesh.position.y = -1.2;
 	mesh.frustumCulled = false;
 	return mesh;
 };

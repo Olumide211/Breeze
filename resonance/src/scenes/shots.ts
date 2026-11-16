@@ -66,37 +66,73 @@ export const buildShots = (city: City) => {
 	// --- 06: rooftop push past water towers to a lone figure ---
 	{
 		const s = byId['06-rooftop'];
-		// find a broad pre-war roof east of the Empire State with an open view to the west
-		let best: Building | null = null, bestScore = -1e9;
-		for (const b of city.buildings) {
-			if (b.minH > 1 || b.kind > 1 || b.h < 46 || b.h > 80 || b.area < 700 || b.area > 3000) continue;
-			if (b.cx < 380 || b.cx > 1150 || b.cz < -150 || b.cz > 650) continue;
-			let block = 0;
-			for (const o of city.near(b.cx - 120, b.cz + 30, 130)) if (o !== b && o.h > b.h + 2) block += o.h - b.h;
-			const score = -block + b.area * 0.01 + hs(b.seed, 5) * 3;
-			if (score > bestScore) { bestScore = score; best = b; }
-		}
-		hero.roof = best;
-		const b = best!;
-		const y = b.roofY;
 		// push along the sunset direction (sun azimuth ~257 degrees)
 		const d: [number, number] = [-0.974, 0.225];
 		const n: [number, number] = [-d[1], d[0]];
-		const ext = (dir: [number, number]) => {
-			let mn = 1e9, mx = -1e9;
-			for (let i = 0; i < b.n; i++) { const t = (b.ring[i * 2] - b.cx) * dir[0] + (b.ring[i * 2 + 1] - b.cz) * dir[1]; mn = Math.min(mn, t); mx = Math.max(mx, t); }
-			return [mn, mx];
+		const inRing = (b: Building, x: number, z: number) => {
+			let inside = false;
+			for (let i = 0, j = b.n - 1; i < b.n; j = i++) {
+				const xi = b.ring[i * 2], zi = b.ring[i * 2 + 1], xj = b.ring[j * 2], zj = b.ring[j * 2 + 1];
+				if (zi > z !== zj > z && x < ((xj - xi) * (z - zi)) / (zj - zi) + xi) inside = !inside;
+			}
+			return inside;
 		};
-		const [t0, t1] = ext(d);
-		const L = t1 - t0;
-		const pt = (t: number, side: number, h: number): V3 => [b.cx + d[0] * (t0 + t) + n[0] * side, y + h, b.cz + d[1] * (t0 + t) + n[1] * side];
-		hero.dir = d;
-		const run0 = Math.min(L * 0.5, 16);
-		hero.figure = pt(Math.min(L - 1.5, L * 0.08 + run0 + 7.5), 1.5, 0);
-		hero.towers = [pt(L * 0.42, -6.5, 0), pt(L * 0.55, 7.5, 0), pt(L * 0.2, 5.0, 0)];
-		const run = Math.min(L * 0.5, 16);
-		s.pos = [pt(L * 0.08, 0.4, 3.3), pt(L * 0.08 + run * 0.35, 0.2, 2.9), pt(L * 0.08 + run * 0.7, 0.0, 2.6), pt(L * 0.08 + run, -0.2, 2.4)];
-		s.look = [pt(L + 60, 3, 4), pt(L + 60, 2.5, 3.6), pt(L + 60, 2, 3.2), pt(L + 60, 1.6, 3.0)];
+		// A usable roof has a clear strip (17 m wide) of solid roof running along the push direction,
+		// ending at the roof edge that faces the sunset: camera, water towers and figure all stand on it.
+		let HALF = 8.5;
+		const strip = (b: Building): [number, number] | null => {
+			const ok = (t: number) => {
+				for (let l = -HALF; l <= HALF; l += 2.125) if (!inRing(b, b.cx + d[0] * t + n[0] * l, b.cz + d[1] * t + n[1] * l)) return false;
+				return true;
+			};
+			let best: [number, number] | null = null;
+			let start: number | null = null;
+			for (let t = -b.r; t <= b.r + 0.5; t += 0.5) {
+				const o = t <= b.r && ok(t);
+				if (o && start === null) start = t;
+				if (!o && start !== null) {
+					if (!best || t - 0.5 - start > best[1] - best[0]) best = [start, t - 0.5];
+					start = null;
+				}
+			}
+			return best;
+		};
+		let best: Building | null = null, bestScore = -1e9, bestStrip: [number, number] = [0, 0];
+		// relax the strip width / region step by step until a real roof qualifies
+		for (const [half, minLen, grow] of [[8.5, 24, 0], [7, 22, 0], [6, 20, 200], [5.5, 18, 500]] as const) {
+			HALF = half;
+			for (const b of city.buildings) {
+				if (b.minH > 1 || b.kind > 1 || b.h < 40 || b.h > 90 || b.area < 500 || b.area > 6000) continue;
+				if (b.cx < 380 - grow || b.cx > 1250 + grow || b.cz < -250 - grow || b.cz > 750 + grow) continue;
+				const st = strip(b);
+				if (!st || st[1] - st[0] < minLen) continue;
+				// the far end of the strip must be the real roof edge with open air beyond it
+				const ex = b.cx + d[0] * (st[1] + 6), ez = b.cz + d[1] * (st[1] + 6);
+				if (city.heightAt(ex, ez, 2) > b.h - 6) continue;
+				let block = 0;
+				for (const o of city.near(b.cx + d[0] * 130, b.cz + d[1] * 130, 140)) if (o !== b && o.h > b.h + 2) block += o.h - b.h;
+				const score = -block + Math.min(st[1] - st[0], 40) * 2 + hs(b.seed, 5) * 3;
+				if (score > bestScore) { bestScore = score; best = b; bestStrip = st; }
+			}
+			if (best) break;
+		}
+		console.warn(`[hero roof] ${best ? `h=${best.h.toFixed(0)} m, strip ${(bestStrip[1] - bestStrip[0]).toFixed(0)} m x ${HALF * 2} m, score ${bestScore.toFixed(0)}` : 'none found'}`);
+		hero.roof = best;
+		if (best) {
+			const b = best;
+			const y = b.roofY;
+			const [t0, t1] = bestStrip;
+			const L = t1 - t0;
+			const pt = (t: number, side: number, h: number): V3 => [b.cx + d[0] * (t0 + t) + n[0] * side, y + h, b.cz + d[1] * (t0 + t) + n[1] * side];
+			hero.dir = d;
+			const run = Math.min(L * 0.5, 15);
+			const startT = Math.max(1.5, L - run - 13);
+			hero.figure = pt(L - 1.3, 1.3, 0);
+			const off = HALF - 2.4;
+			hero.towers = [pt(startT + run * 0.5, -off - 0.4, 0), pt(startT + run + 4.5, off + 0.2, 0)];
+			s.pos = [pt(startT, 0.5, 3.2), pt(startT + run * 0.35, 0.3, 2.9), pt(startT + run * 0.7, 0.1, 2.7), pt(startT + run, -0.1, 2.5)];
+			s.look = [pt(L + 70, 2.4, 5), pt(L + 70, 2.0, 4.4), pt(L + 70, 1.6, 3.8), pt(L + 70, 1.3, 3.4)];
+		}
 	}
 	// --- 08: dive into Times Square ---
 	{

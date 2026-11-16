@@ -23,7 +23,7 @@ const SHOT_TIMES = [0, 5, 10, 16, 21, 26, 31, 36, 42, 48];
 const log = (...a) => console.log(new Date().toISOString().slice(11, 19), ...a);
 
 const getBundle = async () => {
-	const dir = path.join(OUT, '.bundle');
+	const dir = path.join(OUT, env.BUNDLE_DIR || '.bundle');
 	if (env.REUSE_BUNDLE && fs.existsSync(path.join(dir, 'index.html'))) return dir;
 	log('bundling...');
 	return bundle({entryPoint: path.join(ROOT, 'src/index.ts'), outDir: dir, publicDir: path.join(ROOT, 'public')});
@@ -51,12 +51,12 @@ log(`GL renderer: ${gl}`);
 const chromiumOptions = {gl, enableMultiProcessOnLinux: true};
 const timeoutInMilliseconds = 900000;
 const onBrowserLog = (l) => {
-	if (/collision|error|warn|perf/i.test(l.text) && !/GPU stall|GL_CLOSE_PATH|willReadFrequently|Automatic fallback/i.test(l.text)) console.log('  [browser]', l.text.slice(0, /Shader Error/.test(l.text) ? 3500 : 400));
+	if (/collision|error|warn|perf|hero roof/i.test(l.text) && !/GPU stall|GL_CLOSE_PATH|willReadFrequently|Automatic fallback/i.test(l.text)) console.log('  [browser]', l.text.slice(0, /Shader Error/.test(l.text) ? 3500 : 400));
 };
 const compFor = async (inputProps) => selectComposition({serveUrl, id: 'Resonance', inputProps, chromiumOptions, timeoutInMilliseconds});
 
 if (mode === 'stills') {
-	const inputProps = {subframes: SUB ?? 4, debugCam: env.DEBUGCAM ? env.DEBUGCAM.split(',').map(Number) : null};
+	const inputProps = {subframes: SUB ?? 4, hide: env.HIDE || '', debugCam: env.DEBUGCAM ? env.DEBUGCAM.split(',').map(Number) : null};
 	const composition = await compFor(inputProps);
 	const scale = env.SCALE ? Number(env.SCALE) : 0.25;
 	const dir = path.join(OUT, env.QADIR || 'qa');
