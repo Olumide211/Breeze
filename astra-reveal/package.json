@@ -1,0 +1,29 @@
+{
+  "name": "astra-reveal",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "studio": "remotion studio",
+    "render": "remotion render AstraReveal out/astra.mp4 --codec=h264 --crf=14 --pixel-format=yuv420p",
+    "render:prores": "remotion render AstraReveal out/astra.mov --codec=prores --prores-profile=4444 --pixel-format=yuva444p10le --image-format=png"
+  },
+  "dependencies": {
+    "@react-three/fiber": "^8.18.0",
+    "@remotion/cli": "^4.0.544",
+    "@remotion/fonts": "^4.0.544",
+    "@remotion/motion-blur": "^4.0.544",
+    "@remotion/three": "^4.0.544",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.544",
+    "three": "^0.169.0"
+  },
+  "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "@types/react": "^18.3.31",
+    "@types/three": "^0.187.0",
+    "heroicons": "^2.2.0",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}
