@@ -1,6 +1,7 @@
 import React, {useLayoutEffect, useMemo, useRef} from 'react';
 import {AbsoluteFill, random, useCurrentFrame} from 'remotion';
-import {COLORS, DURATION, F, FPS, H, STAR_RGB, W, seg, smoothstep} from '../timeline';
+import {useLayout} from '../layout';
+import {COLORS, DURATION, F, FPS, STAR_RGB, seg, smoothstep} from '../timeline';
 
 // Deep-space field: arrives with the burst. Before that the frame is pure black.
 const spaceIn = (f: number) => smoothstep(0, 1, seg(f, F.burst, F.burst + 30));
@@ -26,14 +27,15 @@ export const SpaceBackground: React.FC = () => {
 
 type Star = {x: number; y: number; d: number; size: number; period: number; phase: number; col: readonly number[]; halo: boolean};
 
-const STARS = 1600;
 
 export const StarField: React.FC = () => {
   const f = useCurrentFrame();
+  const L = useLayout();
+  const {W, H} = L;
   const ref = useRef<HTMLCanvasElement>(null);
   const stars = useMemo<Star[]>(() => {
     const out: Star[] = [];
-    for (let i = 0; i < STARS; i++) {
+    for (let i = 0; i < L.stars; i++) {
       const r = (k: string) => random(`astra-field-${i}-${k}`);
       const u = r('c');
       const size = 0.6 + 1.2 * Math.pow(r('s'), 2.2);
@@ -49,7 +51,7 @@ export const StarField: React.FC = () => {
       });
     }
     return out;
-  }, []);
+  }, [L]);
 
   useLayoutEffect(() => {
     const ctx = ref.current!.getContext('2d')!;
@@ -75,7 +77,7 @@ export const StarField: React.FC = () => {
       ctx.arc(x, y, s.size / 2, 0, Math.PI * 2);
       ctx.fill();
     }
-  }, [f, stars]);
+  }, [f, stars, W, H]);
 
   return <canvas ref={ref} width={W} height={H} style={{position: 'absolute', inset: 0}} />;
 };
@@ -97,6 +99,7 @@ export const Vignette: React.FC = () => {
 // 1.5% monochrome grain, new pattern every frame (seeded per frame).
 export const Grain: React.FC = () => {
   const f = useCurrentFrame();
+  const {W, H} = useLayout();
   const ref = useRef<HTMLCanvasElement>(null);
   useLayoutEffect(() => {
     const ctx = ref.current!.getContext('2d')!;
@@ -119,6 +122,6 @@ export const Grain: React.FC = () => {
       d[i + 3] = Math.abs(n) * 0.015 * 2 * 255;
     }
     ctx.putImageData(img, 0, 0);
-  }, [f]);
+  }, [f, W, H]);
   return <canvas ref={ref} width={W} height={H} style={{position: 'absolute', inset: 0}} />;
 };

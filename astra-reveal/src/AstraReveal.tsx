@@ -1,9 +1,10 @@
-// Title constants live in ./title.ts (TITLE_LEFT / TITLE_RIGHT).
+// Title constants live in ./title.ts (TITLE_LEFT / TITLE_RIGHT / TAGLINE).
 export {TITLE_LEFT, TITLE_RIGHT} from './title';
 import React from 'react';
 import {AbsoluteFill, useCurrentFrame} from 'remotion';
 import {CameraMotionBlur} from '@remotion/motion-blur';
 import './fonts';
+import {Layout, LayoutContext, SQUARE, VERTICAL} from './layout';
 import {F} from './timeline';
 import {Blossom} from './scenes/Blossom';
 import {MessageBox} from './scenes/MessageBox';
@@ -15,10 +16,10 @@ import {GalaxyIcons} from './galaxy/GalaxyIcons';
 import {FxLayer} from './galaxy/FxLayer';
 import {arrivalFrame} from './galaxy/icons';
 
-export const AstraReveal: React.FC = () => {
+const Film: React.FC = () => {
   const f = useCurrentFrame();
   const galaxyOn = f >= F.galaxy - 2;
-  // motion blur only during the collapse (the burst has its own sample-based blur)
+  // motion blur on the collapse (the burst has its own sample-based blur)
   const fastIcons = f >= F.collapse && f <= arrivalFrame(5) + 1;
   return (
     <AbsoluteFill style={{background: '#000'}}>
@@ -44,3 +45,12 @@ export const AstraReveal: React.FC = () => {
     </AbsoluteFill>
   );
 };
+
+const withLayout = (L: Layout): React.FC => () => (
+  <LayoutContext.Provider value={L}>
+    <Film />
+  </LayoutContext.Provider>
+);
+
+export const AstraReveal = withLayout(VERTICAL);
+export const AstraSquare = withLayout(SQUARE);

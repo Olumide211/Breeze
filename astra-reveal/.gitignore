@@ -1,5 +1,6 @@
 node_modules
 out/*
-!out/astra.mp4
+!out/astra-9x16.mp4
+!out/astra-1x1.mp4
 !out/stills
 .DS_Store

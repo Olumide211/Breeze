@@ -1,14 +1,6 @@
 import {Matrix4, PerspectiveCamera, Vector4} from 'three';
-import {
-  DOT,
-  F,
-  H,
-  W,
-  easeInOutCubic,
-  easeOutCubic,
-  lerp,
-  seg,
-} from '../timeline';
+import type {Layout} from '../layout';
+import {F, easeInOutCubic, easeOutCubic, lerp, seg} from '../timeline';
 
 // The galaxy lives in its own XY plane (radius ~1). It is spun about its normal,
 // tilted about X (top edge away from camera), then projected by a fixed-FOV camera
@@ -16,12 +8,12 @@ import {
 // The same maths drives the WebGL points (as uniforms) and the DOM/canvas layers.
 
 export const FOV = 30;
-export const FOCAL_PX = H / 2 / Math.tan(((FOV / 2) * Math.PI) / 180);
-// Distances giving ~900px and ~860px face-on diameter.
-export const DIST_WIDE = (2 * FOCAL_PX) / 900;
-export const DIST_HERO = (2 * FOCAL_PX) / 860;
-export const DIST_CLOSE = 2.4;
-export const REF_DIST = DIST_HERO; // point sizes are authored in px at this distance
+const focalPx = (L: Layout) => L.H / 2 / Math.tan(((FOV / 2) * Math.PI) / 180);
+// distance that gives a face-on diameter of `d` px (galaxy radius = 1)
+const distFor = (L: Layout, d: number) => (2 * focalPx(L)) / d;
+export const refDist = (L: Layout) => distFor(L, L.galaxy.diamHero);
+// star sizes are authored in px for an 860px galaxy; scale for smaller cuts
+export const sizeMul = (L: Layout) => L.galaxy.diamHero / 860;
 
 // Log-spiral arms: theta = phase - ln(r / R0) / B
 export const R0 = 0.05;
@@ -32,14 +24,11 @@ const DEG = Math.PI / 180;
 // Clockwise spin rate (radians/frame): constant, then slows to a crawl for the hero.
 const OMEGA = 0.2 * DEG;
 const OMEGA_CRAWL = 0.035 * DEG;
-const omegaAt = (f: number) =>
-  lerp(OMEGA, OMEGA_CRAWL, easeInOutCubic(seg(f, F.settle, 620)));
+const omegaAt = (f: number) => lerp(OMEGA, OMEGA_CRAWL, easeInOutCubic(seg(f, F.settle, 620)));
 
 const spinCache: number[] = [];
 export const spinAt = (f: number) => {
-  // integral of omega from formation start to f (frame-exact, cached)
   if (f <= F.galaxy) return 0;
-  const whole = Math.floor(f);
   if (spinCache.length === 0) {
     let acc = 0;
     for (let k = 0; k <= 800; k++) {
@@ -47,38 +36,42 @@ export const spinAt = (f: number) => {
       if (k >= F.galaxy) acc += omegaAt(k);
     }
   }
-  const frac = f - whole;
-  return spinCache[whole] + frac * omegaAt(whole);
+  const whole = Math.floor(f);
+  return spinCache[whole] + (f - whole) * omegaAt(whole);
 };
 
 export type GalaxyState = {
   dist: number;
   tilt: number; // radians from face-on
-  rot: number; // radians, applied to galaxy angle (negative = clockwise on screen)
-  cx: number; // screen centre px
+  rot: number; // radians added to every star angle (decreasing = clockwise on screen)
+  cx: number;
   cy: number;
 };
 
-export const galaxyState = (f: number): GalaxyState => {
+export const galaxyState = (f: number, L: Layout): GalaxyState => {
+  const wide = distFor(L, L.galaxy.diamWide);
   const pull = easeOutCubic(seg(f, F.galaxy, 486));
-  let dist = lerp(DIST_CLOSE, DIST_WIDE, pull);
-  dist = lerp(dist, DIST_HERO, easeInOutCubic(seg(f, F.settle, 620)));
+  let dist = lerp(wide * 0.3, wide, pull); // dolly back from close to the core
+  dist = lerp(dist, refDist(L), easeInOutCubic(seg(f, F.settle, 620)));
 
   const tilt = lerp(58, 25, easeInOutCubic(seg(f, F.settle, 620))) * DEG;
 
-  const move = easeInOutCubic(seg(f, F.galaxy, 470));
-  let cx = lerp(DOT.x, W / 2, move);
-  let cy = lerp(DOT.y, H / 2, move);
-  cy = lerp(cy, 900, easeInOutCubic(seg(f, F.settle, 620)));
+  const settle = easeInOutCubic(seg(f, F.settle, 620));
+  const cx = lerp(L.galaxy.form.x, L.galaxy.hero.x, settle);
+  const cy = lerp(L.galaxy.form.y, L.galaxy.hero.y, settle);
 
-  // the stars arrive with extra angular momentum that bleeds off (swirl in)
+  // stars arrive with extra angular momentum that bleeds off (swirl in)
   const swirl = 1.5 * (1 - easeOutCubic(seg(f, F.galaxy, 500)));
-  const rot = -spinAt(f) + swirl;
-  return {dist, tilt, rot, cx, cy};
+  return {dist, tilt, rot: -spinAt(f) + swirl, cx, cy};
 };
 
-const cam = new PerspectiveCamera(FOV, W / H, 0.05, 100);
-export const viewProjFor = (s: GalaxyState) => {
+const cams = new Map<string, PerspectiveCamera>();
+export const viewProjFor = (s: GalaxyState, L: Layout) => {
+  let cam = cams.get(L.id);
+  if (!cam) {
+    cam = new PerspectiveCamera(FOV, L.W / L.H, 0.02, 100);
+    cams.set(L.id, cam);
+  }
   cam.position.set(0, 0, s.dist);
   cam.lookAt(0, 0, 0);
   cam.updateMatrixWorld();
@@ -86,12 +79,11 @@ export const viewProjFor = (s: GalaxyState) => {
   return new Matrix4().multiplyMatrices(cam.projectionMatrix, cam.matrixWorldInverse);
 };
 
-export const offsetNdc = (s: GalaxyState): [number, number] => [
-  (s.cx - W / 2) / (W / 2),
-  -(s.cy - H / 2) / (H / 2),
+export const offsetNdc = (s: GalaxyState, L: Layout): [number, number] => [
+  (s.cx - L.W / 2) / (L.W / 2),
+  -(s.cy - L.H / 2) / (L.H / 2),
 ];
 
-// Tilt a point already in the (spun) galaxy plane.
 export const tiltPoint = (x: number, y: number, z: number, tilt: number) => {
   const c = Math.cos(tilt);
   const s = Math.sin(tilt);
@@ -105,29 +97,26 @@ export const projectWorld = (
   wz: number,
   s: GalaxyState,
   vp: Matrix4,
+  L: Layout,
 ) => {
   v4.set(wx, wy, wz, 1).applyMatrix4(vp);
-  const [ox, oy] = offsetNdc(s);
+  const [ox, oy] = offsetNdc(s, L);
   const ndcX = v4.x / v4.w + ox;
   const ndcY = v4.y / v4.w + oy;
   return {
-    x: ((ndcX + 1) / 2) * W,
-    y: ((1 - ndcY) / 2) * H,
+    x: ((ndcX + 1) / 2) * L.W,
+    y: ((1 - ndcY) / 2) * L.H,
     depth: v4.w,
-    scale: REF_DIST / v4.w,
+    scale: refDist(L) / v4.w,
   };
 };
 
-// Position of a point that sits on arm `phase` at final radius r, honouring the
-// unwinding formation (same formula as the vertex shader).
 export const formation = (f: number, delay: number, dur: number) => {
   const p = Math.min(1, Math.max(0, (f - F.galaxy - delay) / dur));
   return {p, e: 1 - Math.pow(1 - p, 3)};
 };
 
-export const armTheta = (phase: number, r: number) =>
-  phase - Math.log(Math.max(r, R0) / R0) / B;
+export const armTheta = (phase: number, r: number) => phase - Math.log(Math.max(r, R0) / R0) / B;
 
-export const formationDelay = (r: number, jitter: number) =>
-  34 * Math.pow(r, 0.9) + 4 * jitter;
+export const formationDelay = (r: number, jitter: number) => 34 * Math.pow(r, 0.9) + 4 * jitter;
 export const formationDur = (jitter: number) => 30 + 12 * jitter;

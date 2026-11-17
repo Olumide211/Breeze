@@ -1,15 +1,17 @@
 import React from 'react';
 import {Img, staticFile, useCurrentFrame} from 'remotion';
 import {BLOSSOM_DATA_URI} from '../blossomSvg';
-import {F, H, W, easeInOutCubic, easeOutQuart, lerp, seg, smoothstep} from '../timeline';
+import {useLayout} from '../layout';
+import {F, easeInOutCubic, easeOutQuart, lerp, seg, smoothstep} from '../timeline';
 
 export const BLOSSOM_SRC = staticFile('astra-assets/logos/openai-blossom-white.svg');
 
-const SIZE = 220;
 
 // The official mark, untouched: it only scales uniformly, fades, and is masked by light.
 export const Blossom: React.FC = () => {
   const f = useCurrentFrame();
+  const L = useLayout();
+  const SIZE = L.blossom.size;
   if (f < F.blossomIn || f > F.boxOpen) return null;
 
   const inT = easeOutQuart(seg(f, F.blossomIn, 60));
@@ -45,8 +47,8 @@ export const Blossom: React.FC = () => {
     <div
       style={{
         position: 'absolute',
-        left: W / 2 - SIZE / 2,
-        top: H / 2 - SIZE / 2,
+        left: L.blossom.cx - SIZE / 2,
+        top: L.blossom.cy - SIZE / 2,
         width: SIZE,
         height: SIZE,
         transform: `scale(${scale})`,

@@ -1,18 +1,13 @@
 import React, {useMemo} from 'react';
 import {useCurrentFrame} from 'remotion';
 import {ThreeCanvas} from '@remotion/three';
-import {
-  AdditiveBlending,
-  BufferAttribute,
-  BufferGeometry,
-  ShaderMaterial,
-  Vector2,
-} from 'three';
-import {F, H, W} from '../timeline';
-import {B, R0, REF_DIST, galaxyState, offsetNdc, viewProjFor} from './camera';
-import {GALAXY_COUNT, getGalaxy} from './galaxyData';
+import {AdditiveBlending, BufferAttribute, BufferGeometry, ShaderMaterial, Vector2} from 'three';
+import {useLayout} from '../layout';
+import {F} from '../timeline';
+import {B, R0, galaxyState, offsetNdc, refDist, sizeMul, viewProjFor} from './camera';
+import {GALAXY_COUNT, GalaxyBuffers, getGalaxy} from './galaxyData';
 
-const vertex = /* glsl */ `
+const common = /* glsl */ `
   attribute float aR;
   attribute float aTheta;
   attribute float aZ;
@@ -21,7 +16,7 @@ const vertex = /* glsl */ `
   attribute float aDur;
   attribute float aSize;
   attribute float aBright;
-  attribute float aHalo;
+  attribute float aSpike;
   attribute float aTw;
   attribute vec3 aColor;
 
@@ -32,17 +27,14 @@ const vertex = /* glsl */ `
   uniform mat4 uViewProj;
   uniform vec2 uOffset;
   uniform float uRefDist;
+  uniform float uSizeMul;
   uniform float uAlpha;
   uniform float uR0;
   uniform float uB;
 
-  varying vec3 vColor;
-  varying float vAlpha;
-  varying float vHalo;
-  varying float vDisc;
+  float formP() { return clamp((uFrame - uStart - aDelay) / aDur, 0.0, 1.0); }
 
-  void main() {
-    float p = clamp((uFrame - uStart - aDelay) / aDur, 0.0, 1.0);
+  vec4 place(float p) {
     float e = 1.0 - pow(1.0 - p, 3.0);
     float r = aR * e;
     float th;
@@ -59,45 +51,85 @@ const vertex = /* glsl */ `
     vec3 wp = vec3(lp.x, lp.y * ct + lp.z * st, -lp.y * st + lp.z * ct);
     vec4 clip = uViewProj * vec4(wp, 1.0);
     clip.xy += uOffset * clip.w;
-    gl_Position = clip;
-
-    float disc = aSize * uRefDist / clip.w;
-    float sprite = disc * (aHalo > 0.0 ? 2.6 : 1.5);
-    float energy = 1.0;
-    if (sprite < 1.5) { energy = (sprite * sprite) / 2.25; sprite = 1.5; }
-    gl_PointSize = min(sprite, 72.0);
-
-    float twinkle = 0.88 + 0.12 * sin(uFrame * (0.05 + 0.06 * aTw) + aTw * 40.0);
-    vColor = aColor;
-    vAlpha = aBright * twinkle * energy * smoothstep(0.0, 0.2, p) * uAlpha;
-    vHalo = aHalo;
-    vDisc = aHalo > 0.0 ? 1.0 / 2.6 : 1.0 / 1.5;
+    return clip;
   }
 `;
 
-const fragment = /* glsl */ `
+const starVertex = /* glsl */ `
+  ${common}
   varying vec3 vColor;
   varying float vAlpha;
-  varying float vHalo;
   varying float vDisc;
+  varying float vSpike;
+  void main() {
+    float p = formP();
+    vec4 clip = place(p);
+    gl_Position = clip;
+    float disc = aSize * uRefDist / clip.w * uSizeMul;
+    // sprite holds the disc plus its bloom (and spikes for the brightest 2%)
+    float mul = aSpike > 0.0 ? 6.0 : (aSize > 1.4 ? 2.4 : 1.6);
+    float sprite = disc * mul;
+    float energy = 1.0;
+    if (disc < 1.0) { energy = disc * disc; disc = 1.0; sprite = max(sprite, 1.6); }
+    sprite = max(sprite, 1.6);
+    gl_PointSize = min(sprite, 80.0);
+    float twinkle = 0.86 + 0.14 * sin(uFrame * (0.05 + 0.06 * aTw) + aTw * 40.0);
+    vColor = aColor;
+    vAlpha = aBright * twinkle * energy * smoothstep(0.0, 0.2, p) * uAlpha;
+    vDisc = min(1.0, disc / gl_PointSize);
+    vSpike = aSpike;
+  }
+`;
+
+const starFragment = /* glsl */ `
+  varying vec3 vColor;
+  varying float vAlpha;
+  varying float vDisc;
+  varying float vSpike;
   void main() {
     vec2 c = gl_PointCoord * 2.0 - 1.0;
     float d = length(c);
     if (d > 1.0) discard;
-    // crisp-edged disc (like the hero's dots) ...
-    float disc = 1.0 - smoothstep(vDisc * 0.62, vDisc, d);
-    // ... plus a soft, low-strength bloom halo on brighter stars only
-    float halo = vHalo * 0.28 * exp(-d * d * 7.0);
-    float a = (disc + halo) * vAlpha;
-    // alpha 0: pure light, composited additively over the space layer (never darkens it)
+    float disc = 1.0 - smoothstep(vDisc * 0.55, vDisc, d);
+    // soft, low-strength bloom (large radius, low strength)
+    float halo = 0.22 * exp(-d * d / (vDisc * vDisc * 2.2));
+    // thin four-point spikes
+    float sx = exp(-abs(c.y) / (vDisc * 0.07)) * pow(1.0 - abs(c.x), 2.0);
+    float sy = exp(-abs(c.x) / (vDisc * 0.07)) * pow(1.0 - abs(c.y), 2.0);
+    float spikes = vSpike * 0.7 * (sx + sy);
+    float a = (disc + halo + spikes) * vAlpha;
+    // alpha 0: pure light, composited additively (never darkens the space below)
     gl_FragColor = vec4(vColor * a, 0.0);
   }
 `;
 
-const makeMaterial = () =>
+// Blurred density haze: a subset of stars drawn as wide, faint #87b8de gaussians.
+const hazeVertex = /* glsl */ `
+  ${common}
+  varying float vAlpha;
+  void main() {
+    float p = formP();
+    vec4 clip = place(p);
+    gl_Position = clip;
+    gl_PointSize = min(30.0 * uRefDist / clip.w * uSizeMul, 90.0);
+    vAlpha = smoothstep(0.0, 0.5, p) * uAlpha;
+  }
+`;
+const hazeFragment = /* glsl */ `
+  varying float vAlpha;
+  void main() {
+    vec2 c = gl_PointCoord * 2.0 - 1.0;
+    float d2 = dot(c, c);
+    if (d2 > 1.0) discard;
+    float a = exp(-d2 * 4.0) * 0.018 * vAlpha;
+    gl_FragColor = vec4(vec3(0.529, 0.722, 0.871) * a, 0.0);
+  }
+`;
+
+const makeMaterial = (haze: boolean) =>
   new ShaderMaterial({
-    vertexShader: vertex,
-    fragmentShader: fragment,
+    vertexShader: haze ? hazeVertex : starVertex,
+    fragmentShader: haze ? hazeFragment : starFragment,
     transparent: true,
     depthWrite: false,
     depthTest: false,
@@ -110,68 +142,89 @@ const makeMaterial = () =>
       uTilt: {value: 0},
       uViewProj: {value: null},
       uOffset: {value: new Vector2()},
-      uRefDist: {value: REF_DIST},
+      uRefDist: {value: 1},
+      uSizeMul: {value: 1},
       uAlpha: {value: 1},
       uR0: {value: R0},
       uB: {value: B},
     },
   });
 
-// Sample-based motion blur for the fast moment: render sub-frame copies at 1/N strength.
+const buildGeometry = (g: GalaxyBuffers, stride: number) => {
+  const n = Math.floor(GALAXY_COUNT / stride);
+  const pick = (src: Float32Array, k: number) => {
+    if (stride === 1) return src;
+    const out = new Float32Array(n * k);
+    for (let i = 0; i < n; i++) for (let j = 0; j < k; j++) out[i * k + j] = src[i * stride * k + j];
+    return out;
+  };
+  const geo = new BufferGeometry();
+  geo.setAttribute('position', new BufferAttribute(new Float32Array(n * 3), 3));
+  geo.setAttribute('aR', new BufferAttribute(pick(g.r, 1), 1));
+  geo.setAttribute('aTheta', new BufferAttribute(pick(g.theta, 1), 1));
+  geo.setAttribute('aZ', new BufferAttribute(pick(g.z, 1), 1));
+  geo.setAttribute('aArm', new BufferAttribute(pick(g.arm, 1), 1));
+  geo.setAttribute('aDelay', new BufferAttribute(pick(g.delay, 1), 1));
+  geo.setAttribute('aDur', new BufferAttribute(pick(g.dur, 1), 1));
+  geo.setAttribute('aSize', new BufferAttribute(pick(g.size, 1), 1));
+  geo.setAttribute('aBright', new BufferAttribute(pick(g.bright, 1), 1));
+  geo.setAttribute('aSpike', new BufferAttribute(pick(g.spike, 1), 1));
+  geo.setAttribute('aTw', new BufferAttribute(pick(g.tw, 1), 1));
+  geo.setAttribute('aColor', new BufferAttribute(pick(g.color, 3), 3));
+  return geo;
+};
+
+// Sample-based motion blur for the burst: sub-frame copies at 1/N strength.
 const isFast = (f: number) => f >= F.galaxy - 2 && f < F.galaxy + 14;
 const SAMPLES = 6;
 const SHUTTER = 0.5; // 180 degrees
+const HAZE_STRENGTH = 0.35;
 
 export const GalaxyPoints: React.FC = () => {
   const frame = useCurrentFrame();
+  const L = useLayout();
 
-  const geometry = useMemo(() => {
+  const {stars, haze} = useMemo(() => {
     const g = getGalaxy();
-    const geo = new BufferGeometry();
-    geo.setAttribute('position', new BufferAttribute(new Float32Array(GALAXY_COUNT * 3), 3));
-    geo.setAttribute('aR', new BufferAttribute(g.r, 1));
-    geo.setAttribute('aTheta', new BufferAttribute(g.theta, 1));
-    geo.setAttribute('aZ', new BufferAttribute(g.z, 1));
-    geo.setAttribute('aArm', new BufferAttribute(g.arm, 1));
-    geo.setAttribute('aDelay', new BufferAttribute(g.delay, 1));
-    geo.setAttribute('aDur', new BufferAttribute(g.dur, 1));
-    geo.setAttribute('aSize', new BufferAttribute(g.size, 1));
-    geo.setAttribute('aBright', new BufferAttribute(g.bright, 1));
-    geo.setAttribute('aHalo', new BufferAttribute(g.halo, 1));
-    geo.setAttribute('aTw', new BufferAttribute(g.tw, 1));
-    geo.setAttribute('aColor', new BufferAttribute(g.color, 3));
-    return geo;
+    return {stars: buildGeometry(g, 1), haze: buildGeometry(g, 4)};
   }, []);
-
-  const materials = useMemo(() => Array.from({length: SAMPLES}, makeMaterial), []);
+  const starMats = useMemo(() => Array.from({length: SAMPLES}, () => makeMaterial(false)), []);
+  const hazeMat = useMemo(() => makeMaterial(true), []);
 
   const fast = isFast(frame);
   const n = fast ? SAMPLES : 1;
-  for (let k = 0; k < SAMPLES; k++) {
-    const t = fast ? frame - SHUTTER / 2 + (SHUTTER * k) / (SAMPLES - 1) : frame;
-    const s = galaxyState(t);
-    const u = materials[k].uniforms;
+  const setUniforms = (m: ShaderMaterial, t: number, alpha: number) => {
+    const s = galaxyState(t, L);
+    const u = m.uniforms;
     u.uFrame.value = t;
     u.uRot.value = s.rot;
     u.uTilt.value = s.tilt;
-    u.uViewProj.value = viewProjFor(s);
-    const [ox, oy] = offsetNdc(s);
+    u.uViewProj.value = viewProjFor(s, L);
+    const [ox, oy] = offsetNdc(s, L);
     (u.uOffset.value as Vector2).set(ox, oy);
-    u.uAlpha.value = 1 / n;
+    u.uRefDist.value = refDist(L);
+    u.uSizeMul.value = sizeMul(L);
+    u.uAlpha.value = alpha;
+  };
+  for (let k = 0; k < n; k++) {
+    const t = fast ? frame - SHUTTER / 2 + (SHUTTER * k) / (SAMPLES - 1) : frame;
+    setUniforms(starMats[k], t, 1 / n);
   }
+  setUniforms(hazeMat, frame, HAZE_STRENGTH * 2.6);
 
   return (
     <ThreeCanvas
-      width={W}
-      height={H}
+      width={L.W}
+      height={L.H}
       linear
       flat
       dpr={1}
       gl={{antialias: false, alpha: true, premultipliedAlpha: true}}
       style={{position: 'absolute', inset: 0}}
     >
-      {materials.slice(0, n).map((m, k) => (
-        <points key={k} geometry={geometry} material={m} frustumCulled={false} />
+      <points geometry={haze} material={hazeMat} frustumCulled={false} />
+      {starMats.slice(0, n).map((m, k) => (
+        <points key={k} geometry={stars} material={m} frustumCulled={false} />
       ))}
     </ThreeCanvas>
   );

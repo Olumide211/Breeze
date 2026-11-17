@@ -1,8 +1,6 @@
 // Shared timing, easing and palette. Every value is a pure function of the frame,
-// so each render is frame-identical.
+// so each render is frame-identical. Per-format positions live in layout.ts.
 
-export const W = 1080;
-export const H = 1920;
 export const FPS = 60;
 export const DURATION = 720;
 
@@ -36,53 +34,27 @@ export const easeInOutCubic = (t: number) =>
 export const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4);
 export const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
 export const easeInCubic = (t: number) => t * t * t;
-export const easeInQuart = (t: number) => t * t * t * t;
 export const smoothstep = (a: number, b: number, x: number) => {
   const t = clamp01((x - a) / (b - a));
   return t * t * (3 - 2 * t);
 };
 
-// ---- Layout (px) --------------------------------------------------------
+// ---- ChatGPT message box (px, measured from the mobile app; same in both cuts) ----
 export const BOX = {
   w: 877,
   h: 144,
-  cy: 1420,
-  left: (W - 877) / 2,
+  rowH: 48, // extra height per wrapped line
   plusX: 44,
   textX: 150,
   micCx: 652,
   btnCx: 795,
   btn: 94,
 };
+// Text may run up to here (box-relative) before it wraps: clear of the mic.
+export const TEXT_MAX_W = 612 - BOX.textX;
 
-// Typed text clips before the mic so it never runs under it (single-line input).
-export const TEXT_CLIP_RIGHT = 612; // from box left edge
-export const TEXT_CLIP_W = TEXT_CLIP_RIGHT - BOX.textX;
-
-export const BUBBLE = {
-  right: 990,
-  padX: 34,
-  padY: 24,
-  lineH: 52,
-  radius: 36,
-  cy: BOX.cy - 220,
-};
-
-export const DOT = {x: 99, y: 1314, size: 18};
-
-// Title layout. The spec asked for cap top 300 / baseline 1520, which would push the
-// end-card blossom (40px above the caps) and the tagline out of the 260–1560 safe area,
-// so both words move in by the same amount and stay symmetric around the galaxy (y 900).
-export const TITLE = {
-  size: 150,
-  leftX: 90,
-  capTop: 360,
-  rightX: 990,
-  baseline: 1460,
-  // Inter Display SemiBold metrics at 150px (measured): ascent 145, descent 36, cap 111.
-  baselineInLineBox: 129.5,
-  capHeight: 111,
-};
+export const BUBBLE = {padX: 34, padY: 24, lineH: 52, radius: 36};
+export const DOT_SIZE = 18;
 
 // ---- Scene markers -------------------------------------------------------
 export const F = {
@@ -96,6 +68,8 @@ export const F = {
   send: 312,
   lift: 318,
   dot: 342,
+  dotGlide: 356, // the thinking dot glides to the birth point …
+  dotGlideEnd: 380, // … and arrives just before the burst
   spark: 372,
   burst: 384,
   galaxy: 396, // star formation start (dot erupts)
