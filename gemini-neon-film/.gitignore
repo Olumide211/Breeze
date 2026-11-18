@@ -1,0 +1,6 @@
+node_modules
+out
+stills
+# duplicates of public/gemini-neon-assets (unzipped pack + the zip itself)
+/gemini-neon-assets/
+/gemini-neon-assets.zip

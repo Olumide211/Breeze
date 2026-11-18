@@ -1,0 +1,33 @@
+{
+  "name": "gemini-neon-film",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Gemini 4 Neon — 12s launch film (Remotion)",
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "render:vertical": "remotion render src/index.ts NeonVertical out/neon-9x16.mp4 --codec=h264 --crf=14 --pixel-format=yuv420p --gl=swangle",
+    "render:square": "remotion render src/index.ts NeonSquare out/neon-1x1.mp4 --codec=h264 --crf=14 --pixel-format=yuv420p --gl=swangle",
+    "render": "npm run render:vertical && npm run render:square"
+  },
+  "dependencies": {
+    "@react-three/fiber": "^9.8.2",
+    "@remotion/cli": "^4.0.545",
+    "@remotion/fonts": "^4.0.545",
+    "@remotion/layout-utils": "^4.0.545",
+    "@remotion/motion-blur": "^4.0.545",
+    "@remotion/three": "^4.0.545",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "remotion": "^4.0.545",
+    "three": "^0.187.0"
+  },
+  "devDependencies": {
+    "@remotion/bundler": "^4.0.545",
+    "@remotion/renderer": "^4.0.545",
+    "@types/react": "^19.3.0",
+    "@types/three": "^0.187.0",
+    "opentype.js": "^2.0.0",
+    "typescript": "^7.0.2",
+    "wawoff2": "^2.0.1"
+  }
+}
