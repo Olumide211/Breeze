@@ -9,6 +9,7 @@
  */
 export const BG_UNIFORMS = /* glsl */ `
 uniform vec2 uRes;
+uniform float uDpr;
 uniform float uTime;
 uniform float uNavyRise;
 uniform float uNavyAmt;
@@ -104,7 +105,7 @@ export const BG_FRAG = /* glsl */ `
 ${BG_UNIFORMS}
 ${BG_GLSL}
 void main() {
-  vec2 p = vec2(gl_FragCoord.x, uRes.y - gl_FragCoord.y);
+  vec2 p = vec2(gl_FragCoord.x, uRes.y * uDpr - gl_FragCoord.y) / uDpr;
   gl_FragColor = vec4(bgColor(p), 1.0);
 }
 `;
@@ -148,7 +149,7 @@ varying vec2 vUv;
 ${BG_GLSL}
 ${SWEEP_GLSL}
 void main() {
-  vec2 p = vec2(gl_FragCoord.x, uRes.y - gl_FragCoord.y);
+  vec2 p = vec2(gl_FragCoord.x, uRes.y * uDpr - gl_FragCoord.y) / uDpr;
   vec3 n = normalize(vNormalV);
   float ndv = clamp(abs(n.z), 0.0, 1.0);
   float edge = 1.0 - ndv;
@@ -215,7 +216,7 @@ varying vec2 vUv;
 ${BG_GLSL}
 ${SWEEP_GLSL}
 void main() {
-  vec2 p = vec2(gl_FragCoord.x, uRes.y - gl_FragCoord.y);
+  vec2 p = vec2(gl_FragCoord.x, uRes.y * uDpr - gl_FragCoord.y) / uDpr;
   vec3 n = normalize(vNormalV);
   float ndv = clamp(abs(n.z), 0.0, 1.0);
   vec3 base = vec3(0.10, 0.12, 0.16);

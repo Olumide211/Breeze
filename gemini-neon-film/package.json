@@ -7,7 +7,8 @@
     "studio": "remotion studio src/index.ts",
     "render:vertical": "remotion render src/index.ts NeonVertical out/neon-9x16.mp4 --codec=h264 --crf=14 --pixel-format=yuv420p --gl=swangle",
     "render:square": "remotion render src/index.ts NeonSquare out/neon-1x1.mp4 --codec=h264 --crf=14 --pixel-format=yuv420p --gl=swangle",
-    "render": "npm run render:vertical && npm run render:square"
+    "render": "npm run render:vertical && npm run render:square",
+    "render:4k": "remotion render src/index.ts NeonVertical out/neon-9x16-4k.mp4 --scale=2 --codec=h264 --crf=14 --pixel-format=yuv420p --gl=swangle && remotion render src/index.ts NeonSquare out/neon-1x1-4k.mp4 --scale=2 --codec=h264 --crf=14 --pixel-format=yuv420p --gl=swangle"
   },
   "dependencies": {
     "@react-three/fiber": "^9.8.2",

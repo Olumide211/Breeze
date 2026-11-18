@@ -19,6 +19,7 @@ export const bgState = (f: number) => ({
 
 const makeUniforms = (L: Layout) => ({
 	uRes: {value: new THREE.Vector2(L.W, L.H)},
+	uDpr: {value: typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1},
 	uTime: {value: 0},
 	uNavyRise: {value: 0},
 	uNavyAmt: {value: 0},
@@ -127,7 +128,7 @@ export const World: React.FC<{L: Layout}> = ({L}) => {
 			orthographic
 			linear
 			flat
-			dpr={1}
+			dpr={typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1}
 			camera={{position: [0, 0, 1000], zoom: 1, near: 1, far: 5000}}
 			gl={{antialias: true, preserveDrawingBuffer: true}}
 			style={{position: 'absolute', left: 0, top: 0}}
